@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import static icu.nescar.armee.jet.annotation.msg.req.AdditionalField.*;
+
 /**
  *
  * @author Charles Song

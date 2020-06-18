@@ -1,6 +1,6 @@
 package icu.nescar.armee.jet.mata;
 
-import io.github.hylexus.jt.annotation.msg.req.slice.SlicedFrom;
+import icu.nescar.armee.jet.annotation.msg.req.slice.SlicedFrom;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
