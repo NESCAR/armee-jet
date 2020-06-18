@@ -12,4 +12,12 @@
     <artifactId>jet-support</artifactId>
     <packaging>jar</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>icu.nescar.armee</groupId>
+            <artifactId>jet-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

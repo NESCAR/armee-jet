@@ -1,6 +1,8 @@
 package icu.nescar.armee.jet.command;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.thavam.util.concurrent.blockingMap.BlockingHashMap;
 import org.thavam.util.concurrent.blockingMap.BlockingMap;
 
@@ -12,6 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 public class CommandWaitingPool {
+//    private static final Logger log = LoggerFactory.getLogger(CommandWaitingPool.class);
     private static final CommandWaitingPool instance = new CommandWaitingPool();
 
     public static CommandWaitingPool getInstance() {

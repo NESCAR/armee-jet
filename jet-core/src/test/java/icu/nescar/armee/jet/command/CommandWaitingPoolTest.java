@@ -19,7 +19,7 @@ public class CommandWaitingPoolTest {
         CommandWaitingPool waitingPool = CommandWaitingPool.getInstance();
         final Jt808CommandKey commandKey = Jt808CommandKey.of(BuiltinJt808MsgType.CLIENT_AUTH, "123");
 
-        int timeout = 5;
+        int timeout = 6;
         putKeyFromOtherThread(waitingPool, commandKey, timeout);
 
         long start = System.currentTimeMillis();
