@@ -3,8 +3,9 @@ package icu.nescar.armee.jet.annotation;
 import java.lang.annotation.*;
 
 /**
- * @author hylexus
- * Created At 2019-08-28 12:16 上午
+ *
+ * @author Charles Song
+ * @date 2020-6-19
  */
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

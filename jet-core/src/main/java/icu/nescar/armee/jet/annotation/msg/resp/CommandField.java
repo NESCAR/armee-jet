@@ -5,6 +5,11 @@ import icu.nescar.armee.jet.data.converter.resp.entity.RespMsgFieldConverter;
 
 import java.lang.annotation.*;
 
+/**
+ *
+ * @author Charles Song
+ * @date 2020-6-19
+ */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
