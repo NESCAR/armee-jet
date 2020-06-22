@@ -21,6 +21,9 @@ import static icu.nescar.armee.jet.annotation.msg.req.slice.SlicedFrom.DEFAULT_B
 public class SlicedFromDecoder {
     /**
      * 一次性处理当前instance的所有被 {@link SlicedFrom} 标记的Field
+     * @param instance 实例
+     * @throws InstantiationException 实例化错误
+     * @throws IllegalAccessException 非法访问
      */
     public void processAllSlicedFromField(@NonNull Object instance) throws InstantiationException, IllegalAccessException {
         Class<?> cls = instance.getClass();

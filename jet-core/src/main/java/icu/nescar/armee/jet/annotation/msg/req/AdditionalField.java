@@ -28,16 +28,19 @@ public @interface AdditionalField {
 
     /**
      * @see BasicField#startIndex()
+     * @return 开始下标
      */
     int startIndex();
 
     /**
      * @see BasicField#length()
+     * @return 长度
      */
     int length() default 0;
 
     /**
      * @see BasicField#byteCountMethod()
+     * @return byte计数方法
      */
     String byteCountMethod() default "";
 

@@ -32,7 +32,7 @@ public @interface BasicField {
      * 3. {@link #byteCountMethod()}
      *
      * @return 该字段的字节数
-     * @see MsgDataType#getByteCount()
+     *
      */
     int length() default 0;
 

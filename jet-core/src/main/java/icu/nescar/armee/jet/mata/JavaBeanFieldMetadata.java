@@ -46,6 +46,9 @@ public class JavaBeanFieldMetadata {
     /**
      * @param instance        当前field对应的实例
      * @param createNewIfNull 当值为空时，新创建field对应类型的实例返回
+     * @return 域
+     * @throws IllegalAccessException 非法访问
+     * @throws InstantiationException 实例化错误
      */
     public Object getFieldValue(Object instance, boolean createNewIfNull)
             throws IllegalAccessException, InstantiationException {

@@ -9,7 +9,7 @@ import java.util.Set;
 public interface DataTypeConverter<S, T> {
 
     /**
-     * source ==> target
+     * source 到 target
      *
      * @param sourceType     source type
      * @param targetType     target type
