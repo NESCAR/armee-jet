@@ -6,7 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * 可转化的元数据
+ * 可转化的元数据<br/>
+ * 自动添加toString，equals和hashCode方法
  * @author Charles Song
  * @date 2020-6-23
  */
@@ -46,7 +47,7 @@ public class ConvertibleMetadata {
 
     /**
      * JT808的消息类型元数据
-     * @param sourceDataType 源数据类型
+     * @param sourceDataType 源数据类型，如WORD、DWORD等
      * @param targetType 目标类型
      * @return 消息类型元数据
      */

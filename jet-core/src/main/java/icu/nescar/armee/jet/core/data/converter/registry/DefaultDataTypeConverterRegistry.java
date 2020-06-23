@@ -8,18 +8,27 @@ import lombok.NonNull;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
+
 /**
- * @author hylexus
- * Created At 2019-10-28 7:52 下午
+ * 默认数据类型转化器登记
+ * @author Charles Song
+ * @date 2020-6-23
  */
 public class DefaultDataTypeConverterRegistry implements DataTypeConverterRegistry {
 
+    /**
+     * 转化器映射
+     */
     private final Map<ConvertibleMetadata, DataTypeConverter<?, ?>> converterMap = new ConcurrentHashMap<>();
 
     public DefaultDataTypeConverterRegistry() {
         registerDefaultConverter(this);
     }
 
+    /**
+     * 默认转化器登录
+     * @param registry 登记器
+     */
     static void registerDefaultConverter(DefaultDataTypeConverterRegistry registry) {
 
         registry.registerConverter(new ByteArrayToIntegerDataTypeConverter());
