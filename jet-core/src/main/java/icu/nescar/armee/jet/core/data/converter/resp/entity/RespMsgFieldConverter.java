@@ -1,8 +1,8 @@
 package icu.nescar.armee.jet.core.data.converter.resp.entity;
 
 /**
- * @author hylexus
- * Created At 2020-03-11 21:27 下午
+ * @author Charles Song
+ * @date 2020-6-23
  */
 public interface RespMsgFieldConverter {
 
