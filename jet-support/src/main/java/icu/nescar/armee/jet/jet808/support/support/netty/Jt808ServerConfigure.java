@@ -25,7 +25,7 @@ import static icu.nescar.armee.jet.config.JtProtocolConstant.*;
  * @author hylexus
  * Created At 2019-08-27 16:53
  */
-
+//配置类
 @Slf4j
 public class Jt808ServerConfigure {
 

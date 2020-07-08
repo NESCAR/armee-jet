@@ -31,7 +31,9 @@ import static io.netty.util.ReferenceCountUtil.release;
  */
 
 @Slf4j(topic = "jt-808.channel.handler.adapter")
+//sharable 标记说明这个实例可以被多个channel共享
 @ChannelHandler.Sharable
+//inbound这个类用来接收入站事件和数据
 public class Jt808ChannelHandlerAdapter extends ChannelInboundHandlerAdapter {
 
     private final Decoder decoder;
