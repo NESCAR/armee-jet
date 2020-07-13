@@ -1,0 +1,18 @@
+package icu.nescar.armee.jet.data.converter.resp.entity;
+
+/**
+ * @author Charles Song
+ * @date 2020-6-23
+ */
+public interface RespMsgFieldConverter {
+
+    byte[] convert(Object object);
+
+    class NoOpsConverter implements RespMsgFieldConverter {
+
+        @Override
+        public byte[] convert(Object object) {
+            return new byte[0];
+        }
+    }
+}
