@@ -12,6 +12,7 @@
         <module>jet-core</module>
         <module>jet-support</module>
         <module>jt-spring</module>
+        <module>jet808-samples-customized</module>
     </modules>
 
     <properties>
