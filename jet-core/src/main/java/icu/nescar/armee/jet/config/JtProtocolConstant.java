@@ -3,12 +3,22 @@ package icu.nescar.armee.jet.config;
 import java.nio.charset.Charset;
 
 /**
- * @author hylexus
- * createdAt 2019/1/24
+ * JT标准常量
+ * @author Charles Song
+ * @date 2020-6-23
  **/
 public interface JtProtocolConstant {
+    /**
+     * String类型编码方式
+     */
     Charset JT_808_STRING_ENCODING = Charset.forName("GBK");
+    /**
+     * 消息分隔符
+     */
     int PACKAGE_DELIMITER = 0x7E;
+    /**
+     * 最大消息长度
+     */
     int MAX_PACKAGE_LENGTH = 1024;
 
     String BEAN_NAME_JT808_REQ_MSG_QUEUE = "jt808RequestMsgQueue";

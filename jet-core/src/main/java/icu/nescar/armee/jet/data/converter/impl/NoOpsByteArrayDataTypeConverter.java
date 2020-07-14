@@ -9,11 +9,19 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * @author hylexus
- * Created At 2019-10-28 10:27 下午
+ * 字节数组的子数组
+ * @author Charles Song
+ * @date 2020-6-23
  */
 public class NoOpsByteArrayDataTypeConverter implements Jt808MsgDataTypeConverter<byte[]> {
 
+    /**
+     * 字符数组截取子数组
+     * @param bytes 字符数组
+     * @param start 开始下标
+     * @param length 长度
+     * @return 子字节数组
+     */
     @Override
     public byte[] convert(byte[] bytes, int start, int length) {
         if (start == 0 && length == bytes.length) {

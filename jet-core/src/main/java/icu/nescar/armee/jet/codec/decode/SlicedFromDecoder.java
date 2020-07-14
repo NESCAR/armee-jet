@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
-import static icu.nescar.armee.jet.annotation.msg.req.slice.SlicedFrom.DEFAULT_BIT_INDEX;
-
 
 /**
  * @author hylexus
@@ -21,6 +19,9 @@ import static icu.nescar.armee.jet.annotation.msg.req.slice.SlicedFrom.DEFAULT_B
 public class SlicedFromDecoder {
     /**
      * 一次性处理当前instance的所有被 {@link SlicedFrom} 标记的Field
+     * @param instance 实例
+     * @throws InstantiationException 实例化错误
+     * @throws IllegalAccessException 非法访问
      */
     public void processAllSlicedFromField(@NonNull Object instance) throws InstantiationException, IllegalAccessException {
         Class<?> cls = instance.getClass();
@@ -54,11 +55,11 @@ public class SlicedFromDecoder {
     }
 
     private void setFieldValue(Object instance, JavaBeanFieldMetadata fieldMetadata, SlicedFrom annotation, int intValue) throws IllegalAccessException {
-        if (annotation.bitIndex() != DEFAULT_BIT_INDEX) {
+        if (annotation.bitIndex() != SlicedFrom.DEFAULT_BIT_INDEX) {
             int sliceValue = Numbers.getBitAt(intValue, annotation.bitIndex());
             setValue(instance, fieldMetadata, sliceValue);
         } else {
-            if (annotation.startBitIndex() == DEFAULT_BIT_INDEX || annotation.endBitIndex() == DEFAULT_BIT_INDEX) {
+            if (annotation.startBitIndex() == SlicedFrom.DEFAULT_BIT_INDEX || annotation.endBitIndex() == SlicedFrom.DEFAULT_BIT_INDEX) {
                 log.error("SliceFrom.startBitIndex() or SliceFrom.endBitIndex() is null, skip @SliceFrom processing on {}", fieldMetadata.getField());
                 return;
             }

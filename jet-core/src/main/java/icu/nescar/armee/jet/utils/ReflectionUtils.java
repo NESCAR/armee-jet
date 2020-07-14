@@ -1,5 +1,6 @@
 package icu.nescar.armee.jet.utils;
 
+import icu.nescar.armee.jet.config.JtProtocolConstant;
 import icu.nescar.armee.jet.data.MsgDataType;
 import icu.nescar.armee.jet.mata.JavaBeanFieldMetadata;
 import io.github.hylexus.oaks.utils.BcdOps;
@@ -9,7 +10,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import static icu.nescar.armee.jet.config.JtProtocolConstant.JT_808_STRING_ENCODING;
 import static io.github.hylexus.oaks.utils.IntBitOps.intFromBytes;
 
 
@@ -88,7 +88,7 @@ public class ReflectionUtils {
                 break;
             }
             case STRING: {
-                value = new String(Bytes.subSequence(bytes, startIndex, length), JT_808_STRING_ENCODING);
+                value = new String(Bytes.subSequence(bytes, startIndex, length), JtProtocolConstant.JT_808_STRING_ENCODING);
                 break;
             }
             default:

@@ -10,8 +10,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author hylexus
- * Created At 2019-09-28 9:07 下午
+ *
+ * @author Charles Song
+ * @date 2020-6-19
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -27,16 +28,19 @@ public @interface AdditionalField {
 
     /**
      * @see BasicField#startIndex()
+     * @return 开始下标
      */
     int startIndex();
 
     /**
      * @see BasicField#length()
+     * @return 长度
      */
     int length() default 0;
 
     /**
      * @see BasicField#byteCountMethod()
+     * @return byte计数方法
      */
     String byteCountMethod() default "";
 

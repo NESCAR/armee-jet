@@ -1,8 +1,8 @@
 package icu.nescar.armee.jet.data.converter.req.entity;
 
 /**
- * @author hylexus
- * Created At 2019-09-18 10:02 下午
+ * @author Charles Song
+ * @date 2020-6-23
  */
 @FunctionalInterface
 public interface ReqMsgFieldConverter<T> {

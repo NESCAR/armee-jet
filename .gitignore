@@ -27,3 +27,9 @@ target/
 
 # idea
 .idea/
+
+# iml
+*.iml
+
+# mac
+.DS_Store

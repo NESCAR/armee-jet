@@ -16,8 +16,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import static icu.nescar.armee.jet.annotation.msg.req.AdditionalField.ROOT_GROUP_MSG_ID;
-
 /**
  * @author hylexus
  * Created At 2019-09-28 11:41 下午
@@ -37,7 +35,7 @@ public class AdditionalFieldDecoder {
         Map<Integer, AdditionalFieldInfo> typeMapping = getTypeMapping(fieldMetadata, annotation);
 
         AdditionalFieldInfo rootGroupInfo = typeMapping.values().stream()
-                .filter(e -> e.getGroupMsgId() == ROOT_GROUP_MSG_ID)
+                .filter(e -> e.getGroupMsgId() == AdditionalField.ROOT_GROUP_MSG_ID)
                 .findFirst().orElseGet(() -> {
                     log.debug("Use DEFAULT_ROOT_GROUP");
                     return AdditionalFieldInfo.DEFAULT_ROOT_GROUP;
@@ -45,7 +43,7 @@ public class AdditionalFieldDecoder {
 
         List<AdditionalItemEntity> result = new ArrayList<>();
         parseExtraMsg(result, typeMapping, bytes, startIndex, totalLength,
-                rootGroupInfo.getByteCountOfMsgId(), rootGroupInfo.getByteCountOfContentLength(), ROOT_GROUP_MSG_ID);
+                rootGroupInfo.getByteCountOfMsgId(), rootGroupInfo.getByteCountOfContentLength(), AdditionalField.ROOT_GROUP_MSG_ID);
 
         fieldMetadata.setFieldValue(instance, result);
 
@@ -102,7 +100,7 @@ public class AdditionalFieldDecoder {
             result.add(additionalItemEntity);
 
             AdditionalFieldInfo groupInfo;
-            if (msgId != ROOT_GROUP_MSG_ID
+            if (msgId != AdditionalField.ROOT_GROUP_MSG_ID
                     && (groupInfo = groupMapping.get(msgId)) != null
                     && groupInfo.isNestedAdditionalField()) {
 

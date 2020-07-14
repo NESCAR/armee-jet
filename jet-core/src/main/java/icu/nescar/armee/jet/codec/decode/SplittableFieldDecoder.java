@@ -3,8 +3,8 @@ package icu.nescar.armee.jet.codec.decode;
 import icu.nescar.armee.jet.annotation.msg.req.slice.SplittableField;
 import icu.nescar.armee.jet.mata.JavaBeanFieldMetadata;
 import icu.nescar.armee.jet.mata.JavaBeanMetadata;
-import icu.nescar.armee.jet.utils.JavaBeanMetadataUtils;
 import icu.nescar.armee.jet.utils.ReflectionUtils;
+import icu.nescar.armee.jet.utils.JavaBeanMetadataUtils;
 import io.github.hylexus.oaks.utils.Numbers;
 import lombok.extern.slf4j.Slf4j;
 

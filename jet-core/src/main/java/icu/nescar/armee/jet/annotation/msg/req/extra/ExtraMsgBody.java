@@ -3,8 +3,9 @@ package icu.nescar.armee.jet.annotation.msg.req.extra;
 import java.lang.annotation.*;
 
 /**
- * @author hylexus
- * Created At 2019-10-01 8:39 下午
+ *
+ * @author Charles Song
+ * @date 2020-6-19
  * @see ExtraField
  */
 @Target({ElementType.TYPE})
