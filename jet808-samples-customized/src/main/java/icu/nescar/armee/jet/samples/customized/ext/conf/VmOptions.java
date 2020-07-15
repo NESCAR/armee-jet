@@ -10,6 +10,7 @@ package icu.nescar.armee.jet.samples.customized.ext.conf;
  *     mysql.user=root
  *     mysql.psw=Root123456@
  *     mysql.auth.table=client
+ *     validator.pool.core-num=10
  *     快速使用
  *     -Dauth.by=mysql -Dmysql.url=mysql://mysql:3306/test -Djdbc.driver=com.mysql.cj.jdbc.Driver -Dmysql.user=root -Dmysql.psw=Root123456@ -Dmysql.auth.table=client
  * </pre>
@@ -20,6 +21,10 @@ public class VmOptions {
      * 采用哪种存储方式来验证设备信息
      */
     public static final String AUTH_BY = "auth.by";
+    /**
+     * 验证器的核心连接数
+     */
+    public static final String AUTH_VALIDATOR_POOL_CORE_NUM = "validator.pool.core-num";
     /**
      * 目前支持的设备信息存储方式
      */
@@ -54,14 +59,7 @@ public class VmOptions {
      * auth信息存放的表名称
      */
     public static final String MYSQL_AUTH_TABLE = "mysql.auth.table";
-    /**
-     * 终端ID在TABLE中的字段名称
-     */
-    public static final String MYSQL_AUTH_TABLE_SEGMENT_TERMINAL_ID = "terminal_id";
-    /**
-     * 终端在TABLE中的密码名称
-     */
-    public static final String MYSQL_AUTH_TABLE_SEGMENT_PASSWORD = "password";
+
 
     /**
      * 查询是否支持该DB

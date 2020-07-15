@@ -14,13 +14,10 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Jt808ServerSampleCustomizedApplication.class)
-//@EnableAutoConfiguration
 public class TestTerminalInfoDao {
-//    @Autowired
-//    TerminalInfoDao terminalInfoDao;
     @Before
     public void init() {
-        System.out.println("开始测试-----------------");
+        System.out.println("TerminalInfoDao 开始测试-----------------");
     }
     @Test
     public void testFindTerminal() {
@@ -40,6 +37,6 @@ public class TestTerminalInfoDao {
     }
     @After
     public void after() {
-        System.out.println("测试结束-----------------");
+        System.out.println("TerminalInfoDao 测试结束-----------------");
     }
 }

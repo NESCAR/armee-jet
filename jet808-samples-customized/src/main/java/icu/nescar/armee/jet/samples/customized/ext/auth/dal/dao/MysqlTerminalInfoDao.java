@@ -1,6 +1,7 @@
 package icu.nescar.armee.jet.samples.customized.ext.auth.dal.dao;
 
 import icu.nescar.armee.jet.samples.customized.ext.auth.dal.domain.TerminalInfo;
+import icu.nescar.armee.jet.samples.customized.ext.conf.ConfArguments;
 import icu.nescar.armee.jet.samples.customized.ext.conf.VmOptions;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -28,22 +29,20 @@ public class MysqlTerminalInfoDao implements TerminalInfoDao {
     }
     @Override
     public List<TerminalInfo> findTerminal(String terminalId, String password) {
+
         String table = System.getProperty(VmOptions.MYSQL_AUTH_TABLE);
-        String terminalIdSeg = VmOptions.MYSQL_AUTH_TABLE_SEGMENT_TERMINAL_ID;
-        String pswSeg = VmOptions.MYSQL_AUTH_TABLE_SEGMENT_PASSWORD;
+        String terminalIdSeg = ConfArguments.MYSQL_AUTH_TABLE_SEGMENT_TERMINAL_ID;
+        String pswSeg = ConfArguments.MYSQL_AUTH_TABLE_SEGMENT_PASSWORD;
+        List<TerminalInfo> list = new ArrayList<>();
         if (table == null) {
             log.error("Lack SQL Table");
-            return null;
+            return list;
         }
         String sql = String.format("select * from %s where %s=\"%s\" and %s=\"%s\"",
                 table, terminalIdSeg, terminalId, pswSeg, password);
         try {
             ResultSet set = stmt.executeQuery(sql);
-            List<TerminalInfo> list = null;
             while (set.next()) {
-                if (list == null) {
-                    list = new ArrayList<>();
-                }
                 String id = set.getString(terminalIdSeg);
                 String psw = set.getString(pswSeg);
                 TerminalInfo info = new TerminalInfo();
@@ -55,27 +54,24 @@ public class MysqlTerminalInfoDao implements TerminalInfoDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return list;
     }
 
     @Override
     public List<TerminalInfo> findLimitTerminal(String terminalId, String password, int limit) {
         String table = System.getProperty(VmOptions.MYSQL_AUTH_TABLE);
-        String terminalIdSeg = VmOptions.MYSQL_AUTH_TABLE_SEGMENT_TERMINAL_ID;
-        String pswSeg = VmOptions.MYSQL_AUTH_TABLE_SEGMENT_PASSWORD;
+        String terminalIdSeg = ConfArguments.MYSQL_AUTH_TABLE_SEGMENT_TERMINAL_ID;
+        String pswSeg = ConfArguments.MYSQL_AUTH_TABLE_SEGMENT_PASSWORD;
+        List<TerminalInfo> list = new ArrayList<>();
         if (table == null) {
             log.error("Lack SQL Table");
-            return null;
+            return list;
         }
         String sql = String.format("select * from %s where %s=\"%s\" and %s=\"%s\" limit %d",
                  table, terminalIdSeg, terminalId, pswSeg, password, limit);
         try {
             ResultSet set = stmt.executeQuery(sql);
-            List<TerminalInfo> list = null;
             while (set.next()) {
-                if (list == null) {
-                    list = new ArrayList<>();
-                }
                 String id = set.getString(terminalIdSeg);
                 String psw = set.getString(pswSeg);
                 TerminalInfo info = new TerminalInfo();
@@ -87,7 +83,7 @@ public class MysqlTerminalInfoDao implements TerminalInfoDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return list;
     }
 
     /**

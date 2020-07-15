@@ -8,7 +8,18 @@ import lombok.Getter;
  */
 @Getter
 public enum AuthDb {
-    MYSQL("MySQL", "mysql");
+    /**
+     * 存储在MySQL
+     */
+    MYSQL("MySQL", "mysql"),
+    /**
+     * 存储在MongoDB
+     */
+    MONGODB("MongoDB", "mongodb"),
+    /**
+     * 存储在文件中
+     */
+    FILE("File", "file");
 
     private final String desc;
     private final String name;
