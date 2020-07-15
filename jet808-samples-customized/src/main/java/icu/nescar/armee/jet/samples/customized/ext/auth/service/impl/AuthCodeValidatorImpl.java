@@ -31,7 +31,7 @@ public class AuthCodeValidatorImpl implements AuthCodeValidatorService {
         String db = System.getProperty(VmOptions.AUTH_BY);
         int poolCore = Integer.parseInt(System.getProperty(VmOptions.AUTH_VALIDATOR_POOL_CORE_NUM));
         daos = new LinkedBlockingQueue<>(poolCore);
-        smph = new Semaphore(daos.size());
+        smph = new Semaphore(poolCore);
         try {
             for (;poolCore > 0;poolCore--) {
                 daos.add(TerminalInfoDaoFactory.createTerminalInfoDao(db));
