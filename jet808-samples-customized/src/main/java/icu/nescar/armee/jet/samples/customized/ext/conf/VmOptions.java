@@ -3,7 +3,7 @@ package icu.nescar.armee.jet.samples.customized.ext.conf;
 /**
  * 配置中心
  * <pre>
- *     距离
+ *     举例
  *     auth.by=mysql
  *     mysql.url=mysql://mysql:3306/test
  *     jdbc.driver=com.mysql.cj.jdbc.Driver
@@ -12,7 +12,7 @@ package icu.nescar.armee.jet.samples.customized.ext.conf;
  *     mysql.auth.table=client
  *     validator.pool.core-num=10
  *     快速使用
- *     -Dauth.by=mysql -Dmysql.url=mysql://mysql:3306/test -Djdbc.driver=com.mysql.cj.jdbc.Driver -Dmysql.user=root -Dmysql.psw=Root123456@ -Dmysql.auth.table=client
+ *     -Dauth.by=mysql -Dmysql.url=mysql://mysql:3306/test -Djdbc.driver=com.mysql.cj.jdbc.Driver -Dmysql.user=root -Dmysql.psw=Root123456@ -Dmysql.auth.table=client -Dvalidator.pool.core-num=10
  * </pre>
  * @author neyzoter
  */

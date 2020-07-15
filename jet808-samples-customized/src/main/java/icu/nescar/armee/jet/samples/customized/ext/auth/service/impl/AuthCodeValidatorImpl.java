@@ -43,11 +43,17 @@ public class AuthCodeValidatorImpl implements AuthCodeValidatorService {
     }
     @Override
     public boolean validateAuthCode(Session session, RequestMsgMetadata requestMsgMetadata, BuiltinAuthRequestMsgBody builtinAuthRequestMsgBody) {
+        TerminalInfoDao dao = null;
+        // semaphore是否成功获取
+        boolean smphAcquired = false;
         try {
             // 阻塞获取资源
             smph.acquire();
+            // 成功获取smph
+            smphAcquired = true;
             // 从阻塞队列中获取dao资源
-            TerminalInfoDao dao = daos.poll();
+            // 注意和获取smph的先后关系
+            dao = daos.poll();
             if (dao == null) {
                 throw new Exception("Dao Is Null");
             }
@@ -59,7 +65,16 @@ public class AuthCodeValidatorImpl implements AuthCodeValidatorService {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            smph.release();
+            // 如果dao成功获取，则需要重新加入到队列中
+            // 注意和释放smph的先后关系
+            if (dao != null) {
+                // 将使用完的dao重新放入队列中
+                daos.add(dao);
+            }
+            // 如果smph成功获取，则需要释放
+            if (smphAcquired) {
+                smph.release();
+            }
         }
         return false;
     }
