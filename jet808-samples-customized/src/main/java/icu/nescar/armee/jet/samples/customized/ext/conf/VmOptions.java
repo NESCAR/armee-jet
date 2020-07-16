@@ -11,12 +11,22 @@ package icu.nescar.armee.jet.samples.customized.ext.conf;
  *     mysql.psw=Root123456@
  *     mysql.auth.table=client
  *     validator.pool.core-num=10
+ *     kafka.server.url=23.11.11.11 或者 kafka
+ *     kafka.server.port=9092
+ *
  *     快速使用
  *     -Dauth.by=mysql -Dmysql.url=mysql://mysql:3306/test -Djdbc.driver=com.mysql.cj.jdbc.Driver -Dmysql.user=root -Dmysql.psw=Root123456@ -Dmysql.auth.table=client -Dvalidator.pool.core-num=10
+ *     -Dkafka.server.url=kafka-1 kafka.server.port=9092
  * </pre>
  * @author neyzoter
  */
 public class VmOptions {
+    /**
+     * 节点的ID，可以是任意字符串。需要保证每个节点唯一。
+     */
+    public static final String BROKER_ID = "broker.id";
+
+    // 以下是设备验证方式的配置，比如MySQL
     /**
      * 采用哪种存储方式来验证设备信息
      */
@@ -59,6 +69,20 @@ public class VmOptions {
      * auth信息存放的表名称
      */
     public static final String MYSQL_AUTH_TABLE = "mysql.auth.table";
+
+    // 以下是消息生产对象的配置，比如配置成Kafka
+    /**
+     * 生产方向：kafka
+     */
+    public static final String PRODUCE_TO = "produce.to";
+    /**
+     * Kafka服务器地址
+     */
+    public static final String KAFKA_SERVER_URL = "kafka.server.url";
+    /**
+     * Kakfa服务器端口
+     */
+    public static final String KAFKA_SERVER_PORT = "kafka.server.port";
 
 
     /**
