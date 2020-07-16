@@ -15,6 +15,7 @@ package icu.nescar.armee.jet.samples.customized.ext.conf;
  *     kafka.server.port=9092
  *
  *     快速使用
+ *     -Dbroker.id=1
  *     -Dauth.by=mysql -Dmysql.url=mysql://mysql:3306/test -Djdbc.driver=com.mysql.cj.jdbc.Driver -Dmysql.user=root -Dmysql.psw=Root123456@ -Dmysql.auth.table=client -Dvalidator.pool.core-num=10
  *     -Dkafka.server.url=kafka-1 kafka.server.port=9092
  * </pre>
@@ -72,7 +73,7 @@ public class VmOptions {
 
     // 以下是消息生产对象的配置，比如配置成Kafka
     /**
-     * 生产方向：kafka
+     * 生产方向，比如kafka
      */
     public static final String PRODUCE_TO = "produce.to";
     /**

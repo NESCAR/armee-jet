@@ -17,4 +17,14 @@ public class KafkaMsgKey implements Serializable {
     private static final long serialVersionUID = 8445397571181027199L;
     private String terminalId;
     private int msgId;
+
+    /**
+     *
+     * @param tid 终端ID
+     * @param mid 消息ID
+     */
+    public KafkaMsgKey(String tid, int mid){
+        terminalId = tid;
+        msgId = mid;
+    }
 }

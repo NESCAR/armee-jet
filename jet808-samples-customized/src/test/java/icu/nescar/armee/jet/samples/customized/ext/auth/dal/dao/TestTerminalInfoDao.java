@@ -1,19 +1,13 @@
 package icu.nescar.armee.jet.samples.customized.ext.auth.dal.dao;
 
-import icu.nescar.armee.jet.samples.customized.Jt808ServerSampleCustomizedApplication;
 import icu.nescar.armee.jet.samples.customized.ext.auth.dal.domain.TerminalInfo;
 import icu.nescar.armee.jet.samples.customized.ext.conf.VmOptions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = Jt808ServerSampleCustomizedApplication.class)
 public class TestTerminalInfoDao {
     @Before
     public void init() {
