@@ -17,7 +17,7 @@ package icu.nescar.armee.jet.samples.customized.ext.conf;
  *     快速使用
  *     -Dbroker.id=1
  *     -Dauth.by=mysql -Dmysql.url=mysql://mysql:3306/test -Djdbc.driver=com.mysql.cj.jdbc.Driver -Dmysql.user=root -Dmysql.psw=Root123456@ -Dmysql.auth.table=client -Dvalidator.pool.core-num=10
- *     -Dkafka.server.url=kafka-1 kafka.server.port=9092
+ *     -Dproduce.to=kafka -Dkafka.server.url=kafka-1 kafka.server.port=9092
  * </pre>
  * @author neyzoter
  */
@@ -77,6 +77,10 @@ public class VmOptions {
      */
     public static final String PRODUCE_TO = "produce.to";
     /**
+     * 支持的生产者类型
+     */
+    public static final ProducerType[] PRODUCER_TO_SUPPORT = {ProducerType.KAFKA};
+    /**
      * Kafka服务器地址
      */
     public static final String KAFKA_SERVER_URL = "kafka.server.url";
@@ -114,6 +118,23 @@ public class VmOptions {
             String name = authDb.getName();
             if (name.toLowerCase().equals(db.toLowerCase())) {
                 return authDb;
+            }
+        }
+        return null;
+    }
+    /**
+     * 查询支持的生产者
+     * @param producer 生产者类型
+     * @return {@link ProducerType}
+     */
+    public static ProducerType findProducerSupported(String producer){
+        if (producer == null) {
+            return null;
+        }
+        for (ProducerType type : PRODUCER_TO_SUPPORT) {
+            String name = type.getName();
+            if (name.toLowerCase().equals(producer.toLowerCase())) {
+                return type;
             }
         }
         return null;

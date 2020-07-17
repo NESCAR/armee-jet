@@ -39,7 +39,6 @@ public class AuthCodeValidatorImpl implements AuthCodeValidatorService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
     @Override
     public boolean validateAuthCode(Session session, RequestMsgMetadata requestMsgMetadata, BuiltinAuthRequestMsgBody builtinAuthRequestMsgBody) {

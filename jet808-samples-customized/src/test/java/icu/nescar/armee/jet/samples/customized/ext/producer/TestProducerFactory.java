@@ -1,31 +1,26 @@
-package icu.nescar.armee.jet.samples.customized.ext.producer.kafka;
+package icu.nescar.armee.jet.samples.customized.ext.producer;
 
 import icu.nescar.armee.jet.samples.customized.ext.conf.ConfArguments;
-import icu.nescar.armee.jet.samples.customized.ext.producer.MsgKey;
-import icu.nescar.armee.jet.samples.customized.ext.producer.Producer;
 import icu.nescar.armee.jet.samples.customized.ext.producer.kafka.msg.KafkaMsgKey;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 测试Kafka
+ * 测试ProducerFactory
  * @author neyzoter
  */
-public class TestKafkaProducer {
+public class TestProducerFactory {
     @Before
     public void init() {
         System.out.println("KafkaProducer 开始测试-----------------");
     }
     @Test
-    public void testKafkaProducer(){
-        Producer<KafkaMsgKey, Object> implSync = new KafkaProducerImpl<>(ConfArguments.KAFKA_TOPIC_DATA, false);
-        Producer<KafkaMsgKey, Object> implAsync = new KafkaProducerImpl<>(ConfArguments.KAFKA_TOPIC_DATA, true);
+    public void testProducerFactory(){
+        Producer<MsgKey, Object> producer = ProducerFactory.createVmSetedProducer(ConfArguments.KAFKA_TOPIC_DATA, false);
         KafkaMsgKey key = new KafkaMsgKey("client1", 0x8001);
         String msg = "Msg Sended!";
-        implAsync.send(key, msg);
-        implSync.send(key, msg);
-
+        producer.send(key, msg);
     }
     @After
     public void after() {
