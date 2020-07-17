@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="icu.nescar.armee.jet.samples.customized.ext.auth.dal.dao.TerminalInfoDao">
+<mapper namespace="TerminalInfoDao">
     <!--return object-->
     <!--ResultMap使用方法：https://blog.csdn.net/bear_wr/article/details/52383840-->
-    <resultMap id="BaseResultMap" type="icu.nescar.armee.jet.samples.customized.ext.auth.dal.domain.TerminalInfo">
+    <resultMap id="BaseResultMap" type="TerminalInfo">
         <result column="terminal_id" property="terminalId" />
         <result column="password" property="password" />
     </resultMap>
