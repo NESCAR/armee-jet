@@ -10,7 +10,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class TerminalInfoDaoFactory {
-    public static TerminalInfoDao createTerminalInfoDao(String dao) throws Exception{
+    /**
+     * 创建终端信息查询接口
+     * @param dao 查询数据库，比如mysql
+     * @return 终端信息查询接口
+     * @throws Exception 创建异常
+     */
+    public static TerminalInfoDao createTerminalInfoDao(String dao) throws Exception {
         AuthDb authDb = VmOptions.findDbSupported(dao);
         if (authDb == null) {
             return null;

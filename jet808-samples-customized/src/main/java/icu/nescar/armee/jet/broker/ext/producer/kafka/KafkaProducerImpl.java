@@ -16,6 +16,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Kafka生产者
+ * <pre>
+ *     kafka cmd : ./bin/kafka-console-consumer.sh --bootstrap-server=localhost:9092 --topic=Data --group=123
+ * </pre>
  * @author neyzoter
  */
 @Slf4j
@@ -79,8 +82,8 @@ public class KafkaProducerImpl<K extends MsgKey, V> implements Producer<K, V> {
         staticLock.lock();
         try {
             // TODO 将Kakfka的参数设计为可配置
-            url = System.getProperty(VmOptions.KAFKA_SERVER_URL);
-            port = System.getProperty(VmOptions.KAFKA_SERVER_PORT);
+            url = System.getProperty(VmOptions.KAFKA_PRODUCER_SERVER_URL);
+            port = System.getProperty(VmOptions.KAFKA_PRODUCER_SERVER_PORT);
             broker = System.getProperty(VmOptions.BROKER_ID);
             // 判断生产者是否已经存在
             int tryTime = 0;

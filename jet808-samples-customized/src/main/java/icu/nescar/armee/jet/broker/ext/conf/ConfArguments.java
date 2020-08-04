@@ -28,4 +28,10 @@ public class ConfArguments {
      * Jt808消费，并发送给对应到终端；业务生产到Kafka
      */
     public static final String KAFKA_TOPIC_CMD = "Command";
+
+    /**
+     * 消费者组前缀<br>
+     * 对于一个broker而言只需要1个消费者组
+     */
+    public static final String KAFKA_CONSUMER_GROUP_PREFIX = "ConsumerGroup_";
 }

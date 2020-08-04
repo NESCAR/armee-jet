@@ -11,13 +11,19 @@ package icu.nescar.armee.jet.broker.ext.conf;
  *     mysql.psw=Root123456@
  *     mysql.auth.table=client
  *     validator.pool.core-num=10
- *     kafka.server.url=23.11.11.11 或者 kafka
- *     kafka.server.port=9092
+ *     produce.to=kafka
+ *     kafka.producer.server.url=23.11.11.11 或者 kafka
+ *     kafka.producer.server.port=9092
+ *     consume.from=kafka
+ *     kafka.consumer.server.url=23.11.11.11 或者 kafka
+ *     kafka.consumer.server.port=9092
+ *
  *
  *     快速使用
  *     -Dbroker.id=1
  *     -Dauth.by=mysql -Dmysql.url=mysql://mysql:3306/test -Djdbc.driver=com.mysql.cj.jdbc.Driver -Dmysql.user=root -Dmysql.psw=Root123456@ -Dmysql.auth.table=client -Dvalidator.pool.core-num=10
- *     -Dproduce.to=kafka -Dkafka.server.url=kafka-1 kafka.server.port=9092
+ *     -Dproduce.to=kafka -Dkafka.producer.server.url=kafka-1 -Dkafka.producer.server.port=9092
+ *     -Dconsume.from=kafka -Dkafka.consumer.server.url=kafka-1 -Dkafka.consumer.server.port=9092
  * </pre>
  * @author neyzoter
  */
@@ -79,15 +85,29 @@ public class VmOptions {
     /**
      * 支持的生产者类型
      */
-    public static final ProducerType[] PRODUCER_TO_SUPPORT = {ProducerType.KAFKA};
+    public static final MsgQueueType[] MSG_QUEUE_SUPPORT = {MsgQueueType.KAFKA};
     /**
-     * Kafka服务器地址
+     * Kafka服务器生产地址
      */
-    public static final String KAFKA_SERVER_URL = "kafka.server.url";
+    public static final String KAFKA_PRODUCER_SERVER_URL = "kafka.producer.server.url";
     /**
-     * Kakfa服务器端口
+     * Kakfa服务器生产端口
      */
-    public static final String KAFKA_SERVER_PORT = "kafka.server.port";
+    public static final String KAFKA_PRODUCER_SERVER_PORT = "kafka.producer.server.port";
+
+    // 以下是消息消费者的配置，比如配置成Kafka
+    /**
+     * 支持的消费者类型
+     */
+    public static final String CONSUME_FROM = "consume.from";
+    /**
+     * Kafka服务器消费地址
+     */
+    public static final String KAFKA_CONSUMER_SERVER_URL = "kafka.consumer.server.url";
+    /**
+     * Kafka服务器消费端口
+     */
+    public static final String KAFKA_CONSUMER_SERVER_PORT = "kafka.consumer.server.port";
 
 
     /**
@@ -123,17 +143,17 @@ public class VmOptions {
         return null;
     }
     /**
-     * 查询支持的生产者
-     * @param producer 生产者类型
-     * @return {@link ProducerType}
+     * 查询支持的消息队列类型
+     * @param mqtp 消息队列类型
+     * @return {@link MsgQueueType}
      */
-    public static ProducerType findProducerSupported(String producer){
-        if (producer == null) {
+    public static MsgQueueType findMsgQueueSupported(String mqtp){
+        if (mqtp == null) {
             return null;
         }
-        for (ProducerType type : PRODUCER_TO_SUPPORT) {
+        for (MsgQueueType type : MSG_QUEUE_SUPPORT) {
             String name = type.getName();
-            if (name.toLowerCase().equals(producer.toLowerCase())) {
+            if (name.toLowerCase().equals(mqtp.toLowerCase())) {
                 return type;
             }
         }

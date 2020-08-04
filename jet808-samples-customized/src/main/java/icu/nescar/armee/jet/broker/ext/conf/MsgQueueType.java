@@ -3,20 +3,20 @@ package icu.nescar.armee.jet.broker.ext.conf;
 import lombok.Getter;
 
 /**
- * 生产者类型
+ * 消息中间件类型
  * @author neyzoter
  */
 @Getter
-public enum ProducerType {
+public enum MsgQueueType {
     /**
-     * 存储在MySQL
+     * kafka
      */
     KAFKA("Kafka", "kafka");
 
     private final String desc;
     private final String name;
 
-    ProducerType(String desc, String name) {
+    MsgQueueType(String desc, String name) {
         this.desc = desc;
         this.name = name;
     }

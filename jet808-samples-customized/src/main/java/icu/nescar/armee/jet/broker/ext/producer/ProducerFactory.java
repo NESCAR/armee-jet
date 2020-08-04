@@ -1,6 +1,6 @@
 package icu.nescar.armee.jet.broker.ext.producer;
 
-import icu.nescar.armee.jet.broker.ext.conf.ProducerType;
+import icu.nescar.armee.jet.broker.ext.conf.MsgQueueType;
 import icu.nescar.armee.jet.broker.ext.conf.VmOptions;
 import icu.nescar.armee.jet.broker.ext.producer.kafka.KafkaProducerImpl;
 
@@ -17,7 +17,7 @@ public class ProducerFactory {
      * @return 生产者
      */
     public static Producer<MsgKey, Object> createProducer(String producer, String topic, boolean isAsync) {
-        ProducerType type = VmOptions.findProducerSupported(producer);
+        MsgQueueType type = VmOptions.findMsgQueueSupported(producer);
         if (type == null) {
             return null;
         }

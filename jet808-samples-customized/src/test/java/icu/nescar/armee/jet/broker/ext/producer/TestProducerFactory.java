@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * 测试ProducerFactory
  * @author neyzoter
@@ -13,7 +15,7 @@ import org.junit.Test;
 public class TestProducerFactory {
     @Before
     public void init() {
-        System.out.println("KafkaProducer 开始测试-----------------");
+        System.out.println("ProducerFactory 开始测试-----------------");
     }
     @Test
     public void testProducerFactory(){
@@ -24,6 +26,6 @@ public class TestProducerFactory {
     }
     @After
     public void after() {
-        System.out.println("KafkaProducer 测试结束-----------------");
+        System.out.println("ProducerFactory 测试结束-----------------");
     }
 }
