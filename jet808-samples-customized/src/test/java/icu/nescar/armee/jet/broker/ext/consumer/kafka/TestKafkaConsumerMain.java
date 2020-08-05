@@ -3,7 +3,6 @@ package icu.nescar.armee.jet.broker.ext.consumer.kafka;
 import icu.nescar.armee.jet.broker.ext.conf.ConfArguments;
 import icu.nescar.armee.jet.broker.ext.consumer.Consumer;
 import icu.nescar.armee.jet.broker.ext.producer.MsgKey;
-import icu.nescar.armee.jet.broker.util.SerializationUtil;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import java.util.concurrent.Executors;
