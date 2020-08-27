@@ -9,9 +9,9 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>jet-core</module>
-        <module>jet-support</module>
-        <module>jt-spring</module>
+<!--        <module>jet-core</module>-->
+<!--        <module>jet-support</module>-->
+<!--        <module>jt-spring</module>-->
         <module>jet808-samples-customized</module>
     </modules>
     <parent>

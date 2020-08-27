@@ -1,7 +1,7 @@
 package icu.nescar.armee.jet.broker.msg.req;
 
 
-import icu.nescar.armee.jet.annotation.msg.req.Jt808ReqMsgBody;
+import io.github.hylexus.jt.annotation.msg.req.Jt808ReqMsgBody;
 import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;

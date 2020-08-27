@@ -2,6 +2,7 @@ package icu.nescar.armee.jet.broker.handler;
 
 import icu.nescar.armee.jet.broker.config.Jt808MsgType;
 import icu.nescar.armee.jet.broker.msg.req.AxleLoadUploadRequestMsgBody;
+import icu.nescar.armee.jet.broker.msg.req.RssUploadRequestMsgBody;
 import io.github.hylexus.jt.annotation.msg.handler.Jt808RequestMsgHandler;
 import io.github.hylexus.jt.annotation.msg.handler.Jt808RequestMsgHandlerMapping;
 import io.github.hylexus.jt808.msg.RequestMsgHeader;
@@ -14,28 +15,25 @@ import org.springframework.stereotype.Component;
 
 /**
  * @Auther whale
- * @Date 2020/8/26
- * 基于注解的请求消息处理器注册
- * 轴负载信息的消息处理器
- * 目前返回的都是终端通用应答
+ * @Date 2020/8/27
  */
 @Slf4j
 @Jt808RequestMsgHandler
 @Component
-public class AxleLoadUploadMsgHandler {
-    @Jt808RequestMsgHandlerMapping(msgType = 0x0109)
-    public RespMsgBody processAxleMsg(
+public class RssInfoUploadMsgHandler {
+    @Jt808RequestMsgHandlerMapping(msgType = 0x0111)
+    public RespMsgBody processRssMsg(
             Session session, RequestMsgMetadata metadata,
-            RequestMsgHeader header, AxleLoadUploadRequestMsgBody msgBody
-            ){
-        assert header.getMsgId() == Jt808MsgType.CLIENT_AXLE_LOAD_INFO_UPLOAD.getMsgId();
+            RequestMsgHeader header, RssUploadRequestMsgBody msgBody
+    ) {
+        assert header.getMsgId() == Jt808MsgType.CLIENT_RSSEVENT_INFO_UPLOAD.getMsgId();
         assert session.getTerminalId().equals(header.getTerminalId());
         assert session.getTerminalId().equals(metadata.getHeader().getTerminalId());
-        assert metadata.getHeader()==header;
+        assert metadata.getHeader() == header;
 
-        log.info("处理轴负载上报信息 terminalId = {}, msgBody = {}",header.getTerminalId(),msgBody);
+        log.info("处理侧倾稳定性支持的上报信息 terminalId = {}, msgBody = {}", header.getTerminalId(), msgBody);
         return CommonReplyMsgBody.success(header.getFlowId(), Jt808MsgType.CLIENT_COMMON_REPLY);
+
 
     }
 }
-

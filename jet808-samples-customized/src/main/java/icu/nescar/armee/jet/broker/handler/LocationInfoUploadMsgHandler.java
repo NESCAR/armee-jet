@@ -23,6 +23,6 @@ public class LocationInfoUploadMsgHandler extends AbstractMsgHandler<LocationUpl
 
         log.info("{}", body);
         return Optional.of(commonSuccessReply(metadata, Jt808MsgType.CLIENT_COMMON_REPLY));//Optional.of（t）返回一个t的非空值
-    //返回一个通用的针对位置上报信息的成功回答
+    //to do返回一个通用的针对位置上报信息的成功回答
     }
 }
