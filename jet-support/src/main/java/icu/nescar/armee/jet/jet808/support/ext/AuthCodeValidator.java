@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author hylexus
  * Created At 2019-08-26 8:19 下午
+ * 内置的鉴权逻辑是永远返回true 需自行实现
  */
 @FunctionalInterface
 public interface AuthCodeValidator {

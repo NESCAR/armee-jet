@@ -4,8 +4,9 @@ import java.lang.annotation.*;
 
 /**
  *
- * @author Charles Song
- * @date 2020-6-19
+ * @author whale
+ * @date 2020-8-20
+ * 将被修饰的字段拆分之后赋值给另一个bean
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

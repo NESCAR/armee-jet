@@ -9,7 +9,8 @@ import io.github.hylexus.oaks.utils.IntBitOps;
 import java.util.Optional;
 
 /**
- * 终端通用应答
+ * 请求消息转换器接口的其中一个实现
+ * 面对的请求消息主要是终端通用应答
  *
  * @author hylexus
  * Created At 2020-02-02 11:19 上午

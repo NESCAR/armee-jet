@@ -7,8 +7,12 @@ import java.lang.annotation.*;
 
 /**
  *
- * @author Charles Song
- * @date 2020-6-18
+ * @author whale
+ * @date 2020-8-18
+ * 只能标记在字段上
+ * 类似于mybatis的Column、Basic注解
+ * @BasicField（startIndex=4,dataType=BYTES,length=4,customDataTypeConverterClass）
+ * 起始字节索引是4，数据类型是字节（还可以别的），长度是4，自定义的类型转换器是blala
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

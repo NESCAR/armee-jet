@@ -29,6 +29,7 @@ import static icu.nescar.armee.jet.broker.config.Jt808MsgType.*;
 /**
  * @author hylexus
  * Created At 2019-10-06 9:12 下午
+ * 使用CommandSender将响应消息下发给终端
  */
 @Slf4j
 @RestController

@@ -6,6 +6,7 @@ import icu.nescar.armee.jet.jet808.support.msg.RespMsgBody;
 
 /**
  * @author hylexus
+ * 空的应答消息类型
  * Created At 2020-03-11 10:15 下午
  */
 public class EmptyRespMsgBody implements RespMsgBody {

@@ -19,12 +19,13 @@ import java.util.List;
 /**
  * @author hylexus
  * Created At 2020-02-02 3:30 下午
+ * commonfield注解具体功能的实现
  */
 @Slf4j
 public class CommonFieldEncoder {
 
     public List<byte[]> encodeMsgBodyRecursively(Object instance, List<byte[]> byteList) throws IllegalAccessException, InstantiationException {
-        Class<?> cls = instance.getClass();
+        Class<?> cls = instance.getClass();//Recursively递归地
         JavaBeanMetadata beanMetadata = JavaBeanMetadataUtils.getBeanMetadata(cls);
         for (JavaBeanFieldMetadata fieldMetadata : beanMetadata.getFieldMetadataList()) {
             if (fieldMetadata.isAnnotationPresent(Transient.class)) {

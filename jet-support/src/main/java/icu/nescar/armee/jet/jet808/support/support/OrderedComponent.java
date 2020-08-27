@@ -3,6 +3,10 @@ package icu.nescar.armee.jet.jet808.support.support;
 /**
  * @author hylexus
  * Created At 2020-02-02 4:56 下午
+ * add by whale
+ * 这个组件主要是用来处理各种处理器和转换器之前的逻辑，
+ * 当手动实现、注解实现、内置都实现了相同的处理器时，其使用的优先级就通过这个组件处理
+ * 手动实现优先级最高，注解实现第二，内置最低。
  */
 public interface OrderedComponent {
 

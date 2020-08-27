@@ -3,6 +3,10 @@ package icu.nescar.armee.jet.jet808.support.session;
 /**
  * @Auther  whale
  * @Date  2020-6-26
+ * 用来管理每个终端的TCP连接
+ * 管理session对象
+ * session会话，每个用户的会话对象就叫session对象。
+ *  * 一个用户客户端默认情况下独占一个session对象。服务器会将用户数据写到用户独占的session对象中
  */
 
 import io.netty.channel.Channel;
@@ -40,7 +44,7 @@ public class SessionManager {
 
     public void persistence(Session session) {
         synchronized (lock) {
-            this.sessionMap.put(session.getTerminalId(), session);
+            this.sessionMap.put(session.getTerminalId(), session);//同步；乐观锁，适用读多写少的场景。同一时间只能被同一个线程访问。
             sessionIdTerminalIdMapping.put(session.getId(), session.getTerminalId());
         }
     }
@@ -73,7 +77,8 @@ public class SessionManager {
             return Optional.empty();
         }
 
-        return Optional.of(session);
+        return Optional.of(session);//如果session存在 就返回一个session对象，否则抛出null异常
+        //这样的好处是不需要对session进行判断，否则就要先判断它是否是null值，再进行下一步操作
     }
 
     private boolean checkStatus(Session session) {

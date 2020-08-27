@@ -9,6 +9,7 @@ Jt808Config.configureMsgConverterMapping和configureMsgHandlerMapping分别添�
 Jt808Config.supplyAuthCodeValidator中添加自定义设备鉴权器
 
 ### 1.3 Jt808MsgType添加消息类型
+实现MsgType接口，定义各消息的msgid 
 
 ## 2、控制器（MVC的概念）
 可以通过HTTP来获取消息，如设备的属性
@@ -24,7 +25,7 @@ Jt808Config.supplyAuthCodeValidator中添加自定义设备鉴权器
 
 参考处理器LocationInfoUploadMsgHandler，实现获取到此类消息后到后续操作，比如发送到Kafka消息队列、返回响应（到设备）。
 
-返回响应后，调用doProcess的函数（AbstractMsgHandler.handleMsg）会自动将响应发送给设备，不需要认为操作。
+返回响应后，调用doProcess的函数（AbstractMsgHandler.handleMsg）会自动将响应发送给设备，不需要人为操作。
 
 ## 6、自定义消息msg
 ### 6.1 请求消息req

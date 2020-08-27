@@ -1,14 +1,11 @@
 package icu.nescar.armee.jet.jet808.support.msg.resp;
 
-
-
-import icu.nescar.armee.jet.data.msg.BuiltinJt808MsgType;
-import icu.nescar.armee.jet.data.msg.MsgType;
-import icu.nescar.armee.jet.jet808.support.msg.RespMsgBody;
 import io.github.hylexus.oaks.utils.Bytes;
 import io.github.hylexus.oaks.utils.IntBitOps;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import static icu.nescar.armee.jet.jet808.support.msg.RespMsgBody.SUCCESS;
 
 /**
  * @author hylexus
@@ -48,7 +45,7 @@ public class CommonReplyMsgBody implements RespMsgBody {
         );
     }
 
-    @Override
+    @Override//这和重写前的不是一样的吗？
     public MsgType replyMsgType() {
         return BuiltinJt808MsgType.SERVER_COMMON_REPLY;
     }

@@ -12,7 +12,8 @@ import java.io.IOException;
  * @author hylexus
  * createdAt 2019/1/28
  **/
-@Slf4j
+@Slf4j//生成log日志的注解
+//协议工具
 public class ProtocolUtils {
 
     public static byte calculateCheckSum4Jt808(byte[] bs, int start, int end) {
@@ -22,7 +23,7 @@ public class ProtocolUtils {
         }
         return sum;
     }
-
+//对接收的字节数据做转义处理
     public static byte[] doEscape4ReceiveJt808Msg(byte[] bs, int start, int end) throws Exception {
         if (start < 0 || end > bs.length) {
             throw new ArrayIndexOutOfBoundsException("doEscape4Receive error : index out of bounds(start=" + start

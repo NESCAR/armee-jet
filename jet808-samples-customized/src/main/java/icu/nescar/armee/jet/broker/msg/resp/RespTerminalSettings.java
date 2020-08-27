@@ -14,6 +14,7 @@ import static io.github.hylexus.jt.data.MsgDataType.DWORD;
 /**
  * @author hylexus
  * Created At 2019-10-16 10:43 下午
+ * 设置终端参数的下发消息体
  */
 @Data
 @Accessors(chain = true)

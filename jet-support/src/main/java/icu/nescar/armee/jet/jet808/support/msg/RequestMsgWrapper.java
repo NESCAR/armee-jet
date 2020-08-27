@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 /**
  * @Auther whale
  * @Date 2020/6/27
+ * 请求消息的封装 包括元数据和主体
  */
 
 @Data
