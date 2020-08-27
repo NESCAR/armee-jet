@@ -29,8 +29,33 @@ public class RssUploadRequestMsgBody implements RequestMsgBody {
     @BasicField(startIndex = 1,dataType = MsgDataType.WORD,length = 2)
     private int axleLoadSum;
 
+    //左第一个车轮速度
+    @BasicField(startIndex = 3,dataType = MsgDataType.WORD,length=2)
+    private short leftFirstWheelSpeed;
+
+    //左第二个车轮速度
+    @BasicField(startIndex = 5,dataType = MsgDataType.WORD,length=2)
+    private short leftSecondWheelSpeed;
+
+    //左第三个车轮速度
+    @BasicField(startIndex = 7,dataType = MsgDataType.WORD,length=2)
+    private short leftThirdWheelSpeed;
+
+    //右第一个车轮速度
+    @BasicField(startIndex = 9,dataType = MsgDataType.WORD,length=2)
+    private short rightFirstWheelSpeed;
+
+    //右第二个车轮速度
+    @BasicField(startIndex = 11,dataType = MsgDataType.WORD,length=2)
+    private short rightSecondWheelSpeed;
+
+    //右第三个车轮速度
+    @BasicField(startIndex = 13,dataType = MsgDataType.WORD,length=2)
+    private short rightThirdWheelSpeed;
+
+
     //时间 YY-MM-DD-hh-mm-ss GMT+8时间
-    @BasicField(startIndex =3,dataType = MsgDataType.BCD,length = 6)
+    @BasicField(startIndex =15,dataType = MsgDataType.BCD,length = 6)
     private String time;
 
 
