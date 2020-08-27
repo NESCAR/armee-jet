@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @author neyzoter
  */
 @Getter
+@Setter
 @ToString
 public class KafkaMsgKey implements Serializable, MsgKey {
     private static final long serialVersionUID = 8445397571181027199L;
@@ -26,15 +27,5 @@ public class KafkaMsgKey implements Serializable, MsgKey {
     public KafkaMsgKey(String tid, int mid){
         terminalId = tid;
         msgId = mid;
-    }
-
-    @Override
-    public String getTerminalId() {
-        return null;
-    }
-
-    @Override
-    public String getMsgId() {
-        return null;
     }
 }

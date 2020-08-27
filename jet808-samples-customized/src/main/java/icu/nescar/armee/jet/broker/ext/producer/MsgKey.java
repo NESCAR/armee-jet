@@ -8,5 +8,5 @@ import java.io.Serializable;
  */
 public interface MsgKey extends Serializable {
     String getTerminalId();
-    String getMsgId();
+    int getMsgId();
 }
