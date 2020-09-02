@@ -16,7 +16,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0113)
-
 public class BrakeEventRequestMsgBody implements RequestMsgBody {
     //to do暂定用一个字节值来表示急刹车事件
     @BasicField(startIndex = 0,dataType = MsgDataType.BYTE,length = 1)

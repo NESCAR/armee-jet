@@ -18,8 +18,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0109)
-
-
 public class AxleLoadUploadRequestMsgBody implements RequestMsgBody {
     //轴负载总和 起始位置 两个字节
     @BasicField(startIndex = 0,dataType = MsgDataType.WORD,length = 2)

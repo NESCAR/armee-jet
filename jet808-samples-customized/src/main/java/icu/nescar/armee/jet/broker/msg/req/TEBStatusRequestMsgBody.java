@@ -17,7 +17,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0110)
-
 public class TEBStatusRequestMsgBody implements RequestMsgBody {
 
     //tebs状态位

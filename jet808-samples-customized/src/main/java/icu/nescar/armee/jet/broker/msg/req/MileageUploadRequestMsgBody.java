@@ -14,7 +14,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0112)
-
 public class MileageUploadRequestMsgBody implements RequestMsgBody {
     private int mileage; // 4个字节 1/10km，对应车上里程表读数
     private String time;

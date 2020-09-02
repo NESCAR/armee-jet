@@ -19,7 +19,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0111)
-
 public class RssUploadRequestMsgBody implements RequestMsgBody {
     //横向加速度 信号为一个字节
     @BasicField(startIndex = 0,dataType = MsgDataType.BYTE,length = 1)
