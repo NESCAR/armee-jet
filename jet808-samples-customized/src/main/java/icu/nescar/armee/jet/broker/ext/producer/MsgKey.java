@@ -7,4 +7,6 @@ import java.io.Serializable;
  * @author neyzoter
  */
 public interface MsgKey extends Serializable {
+    String getTerminalId();
+    int getMsgId();
 }
