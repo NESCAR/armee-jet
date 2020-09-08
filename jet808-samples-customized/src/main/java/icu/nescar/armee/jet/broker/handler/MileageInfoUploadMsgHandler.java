@@ -27,6 +27,6 @@ public class MileageInfoUploadMsgHandler extends AbstractMsgHandler<MileageUploa
     protected Optional<RespMsgBody> doProcess(RequestMsgMetadata metadata, MileageUploadRequestMsgBody body, Session session) {
 
         log.info("{}", body);
-        return Optional.of(commonSuccessReply(metadata, Jt808MsgType.CLIENT_COMMON_REPLY));
+        return Optional.of(commonSuccessReply(metadata, Jt808MsgType.CLIENT_MILEAGE_INFO_UPLOAD));
     }
 }

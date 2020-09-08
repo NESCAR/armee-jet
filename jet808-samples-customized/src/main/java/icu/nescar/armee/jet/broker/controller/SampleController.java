@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +39,7 @@ public class SampleController {
 
     // private Encoder encoder = new Encoder(new BytesEncoder.DefaultBytesEncoder());
 
-    @Autowired
+    @Resource
     private CommandSender commandSender;
 
     @GetMapping("/send-msg")

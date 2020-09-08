@@ -14,6 +14,8 @@ import java.util.Optional;
 /**
  * @author hylexus
  * Created At 2019-09-19 11:31 下午
+ * 位置上报信息的消息处理器
+ * 会返回一个通用应答
  */
 @Slf4j
 public class LocationInfoUploadMsgHandler extends AbstractMsgHandler<LocationUploadRequestMsgBody> {
@@ -22,7 +24,7 @@ public class LocationInfoUploadMsgHandler extends AbstractMsgHandler<LocationUpl
     protected Optional<RespMsgBody> doProcess(RequestMsgMetadata metadata, LocationUploadRequestMsgBody body, Session session) {
 
         log.info("{}", body);
-        return Optional.of(commonSuccessReply(metadata, Jt808MsgType.CLIENT_COMMON_REPLY));//Optional.of（t）返回一个t的非空值
-    //to do返回一个通用的针对位置上报信息的成功回答
+        return Optional.of(commonSuccessReply(metadata, Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD));//Optional.of（t）返回一个t的非空值
+    //返回通用应答 包含result 流水号和消息类型三个数据
     }
 }
