@@ -8,8 +8,7 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
-import static io.github.hylexus.jt.data.MsgDataType.BYTE;
-import static io.github.hylexus.jt.data.MsgDataType.DWORD;
+import static io.github.hylexus.jt.data.MsgDataType.*;
 
 /**
  * @Auther whale
@@ -22,31 +21,27 @@ import static io.github.hylexus.jt.data.MsgDataType.DWORD;
 @Jt808RespMsgBody(respMsgId = 0x8114,desc = "上锁信息下发（设置）")
 public class RespLockInfoSettings {
 
-    @CommandField(order = 2)
-    private List<RespTerminalSettings.ParamItem> paramList;
-
+    //车辆的身份信息
     @CommandField(order = 1, targetMsgDataType = BYTE)
-    private int totalParamCount;
+    private int carID;
 
-    @Data
-    @Accessors(chain = true)
-    @SuppressWarnings("rawtypes")
-    public static class ParamItem {
-        @CommandField(order = 1, targetMsgDataType = DWORD)
-        private int msgId;
+    //司机身份信息
+    @CommandField(order = 2,targetMsgDataType = WORD)
+    private int driverID;
 
-        @CommandField(order = 2, targetMsgDataType = BYTE)
-        private int bytesCountOfContentLength;
+    //解锁密码 云端还需将此解锁密码通过短信方式发送给司机
+    @CommandField(order=3,targetMsgDataType = STRING)
+    private String password;
 
-        @CommandField(order = 3)
-        private BytesValueWrapper msgContent;
+    //上锁时间起点 服务端设置的上锁时间范围
+    @CommandField(order = 4,targetMsgDataType = BCD)
+    private String lockTimeStart;
 
-        public ParamItem(int msgId, BytesValueWrapper msgContent) {
-            this.msgId = msgId;
-            this.msgContent = msgContent;
-            this.bytesCountOfContentLength = msgContent.getAsBytes().length;
-        }
-    }
+    //上锁时间终点
+    @CommandField(order=5,targetMsgDataType = BCD)
+    private String lockTimeEnd;
+
+    
 
 }
 

@@ -21,24 +21,28 @@ import static io.github.hylexus.jt.data.MsgDataType.DWORD;
 @Jt808RespMsgBody(respMsgId = 0x8103, desc = "设置终端参数")
 public class RespTerminalSettings {
 
-    @CommandField(order = 2)
-    private List<ParamItem> paramList;
-
+    //参数总数
     @CommandField(order = 1, targetMsgDataType = BYTE)
     private int totalParamCount;
 
+    //参数项列表
+    @CommandField(order = 2)
+    private List<ParamItem> paramList;
+
+
+    //参数项格式
     @Data
     @Accessors(chain = true)
     @SuppressWarnings("rawtypes")
     public static class ParamItem {
         @CommandField(order = 1, targetMsgDataType = DWORD)
-        private int msgId;
+        private int msgId;//参数ID
 
         @CommandField(order = 2, targetMsgDataType = BYTE)
-        private int bytesCountOfContentLength;
+        private int bytesCountOfContentLength;//参数长度
 
         @CommandField(order = 3)
-        private BytesValueWrapper msgContent;
+        private BytesValueWrapper msgContent;//参数值 是封装类 无论哪种数据类型都可以封装成字节数组
 
         public ParamItem(int msgId, BytesValueWrapper msgContent) {
             this.msgId = msgId;
