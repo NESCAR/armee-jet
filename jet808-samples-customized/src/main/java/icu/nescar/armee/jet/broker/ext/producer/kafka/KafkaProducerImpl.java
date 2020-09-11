@@ -153,6 +153,8 @@ public class KafkaProducerImpl<K extends MsgKey, V> implements Producer<K, V> {
 
     @Override
     public void finalize() {
+        // 断开连接
+        producer.close();
         // 每次该对象被回收时，需要将producerStrId回收
         producerSet.remove(this.producerStrId);
     }
