@@ -6,6 +6,7 @@ import io.github.hylexus.jt.data.resp.BytesValueWrapper;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static io.github.hylexus.jt.data.MsgDataType.*;
@@ -19,8 +20,9 @@ import static io.github.hylexus.jt.data.MsgDataType.*;
 @Data
 @Accessors(chain = true)
 @Jt808RespMsgBody(respMsgId = 0x8114,desc = "上锁信息下发（设置）")
-public class RespLockInfoSettings {
+public class RespLockInfoSettings implements Serializable {
 
+    private static final long serialVersionUID = -1347454708879365117L;
     //车辆的身份信息
     @CommandField(order = 1, targetMsgDataType = BYTE)
     private int carID;
