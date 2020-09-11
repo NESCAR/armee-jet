@@ -6,6 +6,7 @@ import io.github.hylexus.jt.data.resp.BytesValueWrapper;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static io.github.hylexus.jt.data.MsgDataType.BYTE;
@@ -19,7 +20,8 @@ import static io.github.hylexus.jt.data.MsgDataType.DWORD;
 @Data
 @Accessors(chain = true)
 @Jt808RespMsgBody(respMsgId = 0x8103, desc = "设置终端参数")
-public class RespTerminalSettings {
+public class RespTerminalSettings implements Serializable {
+    private static final long serialVersionUID =-1347454708879365117L;
 
     //参数总数
     @CommandField(order = 1, targetMsgDataType = BYTE)

@@ -97,8 +97,8 @@ public class SampleController {
             @RequestParam(required = false, name = "terminalId", defaultValue = "13717861955") String terminalId,
             @RequestParam(required = false, name = "timeout", defaultValue = "5") Long timeout) throws Exception{
             RespLockInfoSettings lockInfo =new RespLockInfoSettings();//设置具体的下发信息内容
-            lockInfo.setCarID(1234);
-            lockInfo.setDriverID(90);
+            lockInfo.setCarID("浙A0925H");
+            lockInfo.setDriverID("21960114");
             lockInfo.setLockTimeStart("2009011208");
             lockInfo.setLockTimeEnd("2009101408");
             lockInfo.setPassword("hujing");
