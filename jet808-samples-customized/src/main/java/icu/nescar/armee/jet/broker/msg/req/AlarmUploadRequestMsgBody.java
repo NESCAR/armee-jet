@@ -7,6 +7,8 @@ import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/9/7
@@ -17,7 +19,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0117)
 
-public class AlarmUploadRequestMsgBody implements RequestMsgBody {
+public class AlarmUploadRequestMsgBody implements RequestMsgBody, Serializable {
+    private static final long serialVersionUID = -719995758967881209L;
     //未按规定停车报警位
     @BasicField(startIndex = 0,dataType = MsgDataType.BYTE,length=1)
     private byte alarmStatus;
