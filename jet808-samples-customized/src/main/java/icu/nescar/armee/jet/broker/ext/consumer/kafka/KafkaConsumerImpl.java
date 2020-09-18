@@ -24,28 +24,28 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
     /**
      * Kafka消费者
      */
-    private KafkaConsumer<MsgKey, byte[]> consumer;
+    protected KafkaConsumer<MsgKey, byte[]> consumer;
 
     /**
      * url
      */
-    private String url;
+    protected String url;
     /**
      * 端口
      */
-    private String port;
+    protected String port;
     /**
      * 节点名称
      */
-    private String broker;
+    protected String broker;
     /**
      * 主题
      */
-    private String topic;
+    protected String topic;
     /**
      * 结束运行
      */
-    private boolean shutdown;
+    protected boolean shutdown;
 
     /**
      * Kafka消费者实例
