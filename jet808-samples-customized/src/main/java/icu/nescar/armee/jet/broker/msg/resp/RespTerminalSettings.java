@@ -21,8 +21,7 @@ import static io.github.hylexus.jt.data.MsgDataType.DWORD;
 @Accessors(chain = true)
 @Jt808RespMsgBody(respMsgId = 0x8103, desc = "设置终端参数")
 public class RespTerminalSettings implements Serializable {
-    private static final long serialVersionUID =-1347454708879365117L;
-
+    private static final long serialVersionUID = -7832581497643729797L;
     //参数总数
     @CommandField(order = 1, targetMsgDataType = BYTE)
     private int totalParamCount;

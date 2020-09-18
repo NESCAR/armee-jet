@@ -8,6 +8,8 @@ import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/8/25
@@ -16,13 +18,15 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0113)
-public class BrakeEventRequestMsgBody implements RequestMsgBody {
+public class BrakeEventRequestMsgBody implements RequestMsgBody, Serializable {
+
+    private static final long serialVersionUID = 1128780475774199113L;
     //to do暂定用一个字节值来表示急刹车事件
-    @BasicField(startIndex = 0,dataType = MsgDataType.BYTE,length = 1)
+    @BasicField(startIndex = 0, dataType = MsgDataType.BYTE, length = 1)
     private byte brakeSignal;
 
     //事件发生时的时间
-    @BasicField(startIndex = 1,dataType = MsgDataType.BCD,length = 6)
+    @BasicField(startIndex = 1, dataType = MsgDataType.BCD, length = 6)
     private String time;//时间 YY-MM-DD-hh-mm-ss GMT+8时间
 }
 

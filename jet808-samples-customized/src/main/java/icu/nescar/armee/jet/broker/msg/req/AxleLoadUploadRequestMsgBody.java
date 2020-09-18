@@ -9,6 +9,8 @@ import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/8/25
@@ -18,7 +20,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0109)
-public class AxleLoadUploadRequestMsgBody implements RequestMsgBody {
+public class AxleLoadUploadRequestMsgBody implements RequestMsgBody, Serializable {
+    private static final long serialVersionUID = -4300078699754216531L;
     //轴负载总和 起始位置 两个字节
     @BasicField(startIndex = 0,dataType = MsgDataType.WORD,length = 2)
     private int axleLoadSum;

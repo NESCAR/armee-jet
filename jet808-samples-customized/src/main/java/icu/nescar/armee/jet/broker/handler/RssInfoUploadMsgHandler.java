@@ -13,6 +13,8 @@ import io.github.hylexus.jt808.session.Session;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/8/27
@@ -20,7 +22,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Jt808RequestMsgHandler
 @Component
-public class RssInfoUploadMsgHandler {
+public class RssInfoUploadMsgHandler{
+
     @Jt808RequestMsgHandlerMapping(msgType = 0x0111)
     public RespMsgBody processRssMsg(
             Session session, RequestMsgMetadata metadata,

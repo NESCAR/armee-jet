@@ -7,6 +7,8 @@ import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/9/7
@@ -16,7 +18,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0116)
-public class LockUploadRequestMsgBody implements RequestMsgBody {
+public class LockUploadRequestMsgBody implements RequestMsgBody, Serializable {
+    private static final long serialVersionUID = -6818087112114899700L;
     //第一位：上锁是否成功，其余位保留
     @BasicField(startIndex = 0,dataType = MsgDataType.BYTE,length = 1)
     private byte lockStatus;

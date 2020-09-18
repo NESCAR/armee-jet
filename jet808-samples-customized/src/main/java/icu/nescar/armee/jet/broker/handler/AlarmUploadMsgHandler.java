@@ -13,6 +13,8 @@ import io.github.hylexus.jt808.session.Session;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/9/7
@@ -20,9 +22,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Jt808RequestMsgHandler
 @Component
-public class AlarmUploadMsgHandler {
+public class AlarmUploadMsgHandler  {
+
     @Jt808RequestMsgHandlerMapping(msgType = 0x0117)
-    //这个函数没有用到 得搞清在哪里使用
+
+    //通过mapping注解的反射 获取到handler的所有方法，然后在通过反射得到的方法进行数据的发送
+
     public RespMsgBody processAlarmMsg(
             Session session, RequestMsgMetadata metadata,
             RequestMsgHeader header, AlarmUploadRequestMsgBody msgBody

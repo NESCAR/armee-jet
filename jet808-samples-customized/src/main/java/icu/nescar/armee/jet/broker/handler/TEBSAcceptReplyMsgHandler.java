@@ -13,6 +13,8 @@ import io.github.hylexus.jt808.session.Session;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/9/7
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Component;
 @Jt808RequestMsgHandler
 @Component
 public class TEBSAcceptReplyMsgHandler {
+
     @Jt808RequestMsgHandlerMapping(msgType = 0x0114)
     public RespMsgBody processTEBSAcceptMsg(
             Session session, RequestMsgMetadata metadata,

@@ -8,6 +8,8 @@ import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/9/7
@@ -18,7 +20,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0114)
-public class TEBSAcceptRequestMsgBody implements RequestMsgBody {
+public class TEBSAcceptRequestMsgBody implements RequestMsgBody, Serializable {
+    private static final long serialVersionUID = 546157984912850337L;
     //上锁信息接收结果的应答上报
     //第0位：车辆识别号是否成功  0否1是
     //第1位：司机身份信息存储本地是否成功

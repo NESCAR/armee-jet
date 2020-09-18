@@ -9,6 +9,8 @@ import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/8/25
@@ -17,8 +19,9 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0110)
-public class TEBStatusRequestMsgBody implements RequestMsgBody {
+public class TEBStatusRequestMsgBody implements RequestMsgBody, Serializable {
 
+    private static final long serialVersionUID = 6012078749469766047L;
     //tebs状态位
     @BasicField(startIndex = 0,dataType = MsgDataType.WORD,length = 2)
     private int tebStatus;

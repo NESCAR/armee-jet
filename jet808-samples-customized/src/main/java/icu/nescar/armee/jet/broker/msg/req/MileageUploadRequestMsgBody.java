@@ -6,6 +6,8 @@ import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/8/13
@@ -14,7 +16,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 
-public class MileageUploadRequestMsgBody implements RequestMsgBody {
+public class MileageUploadRequestMsgBody implements RequestMsgBody, Serializable {
+    private static final long serialVersionUID = 8692716915141763250L;
     private int mileage; // 4个字节 1/10km，对应车上里程表读数
     private String time;
 }

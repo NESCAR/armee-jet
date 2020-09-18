@@ -9,6 +9,7 @@ import io.github.hylexus.jt808.msg.RespMsgBody;
 import io.github.hylexus.jt808.session.Session;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
@@ -18,7 +19,7 @@ import java.util.Optional;
  * 会返回一个通用应答
  */
 @Slf4j
-public class LocationInfoUploadMsgHandler extends AbstractMsgHandler<LocationUploadRequestMsgBody> {
+public class LocationInfoUploadMsgHandler extends AbstractMsgHandler<LocationUploadRequestMsgBody>  {
 
     @Override
     protected Optional<RespMsgBody> doProcess(RequestMsgMetadata metadata, LocationUploadRequestMsgBody body, Session session) {

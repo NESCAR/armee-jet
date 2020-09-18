@@ -4,6 +4,8 @@ import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @author hylexus
  * Created At 2020-02-02 7:16 下午
@@ -12,7 +14,8 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class LocationUploadRequestMsgBody implements RequestMsgBody {
+public class LocationUploadRequestMsgBody implements RequestMsgBody, Serializable {
+    private static final long serialVersionUID = 5957418490574015693L;
     private int warningFlag;//报警标志 紧急报警、超速报警、疲劳驾驶等报警位
 
     private int status;//状态 acc开关、空车或半载满载、油路是否正常、电路是否正常、车门是否上锁等等

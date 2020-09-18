@@ -13,6 +13,8 @@ import io.github.hylexus.jt808.session.Session;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/8/27
@@ -23,7 +25,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Jt808RequestMsgHandler
 @Component
-public class BrakeEventUploadMsgHandler {
+public class BrakeEventUploadMsgHandler{
     @Jt808RequestMsgHandlerMapping(msgType = 0x0113)
     public RespMsgBody processBrakeMsg(
             Session session, RequestMsgMetadata metadata,

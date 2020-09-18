@@ -12,6 +12,8 @@ import io.github.hylexus.jt808.session.Session;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/8/26
@@ -24,17 +26,18 @@ import org.springframework.stereotype.Component;
 @Jt808RequestMsgHandler
 @Component
 public class AxleLoadUploadMsgHandler {
+
     @Jt808RequestMsgHandlerMapping(msgType = 0x0109)
     public RespMsgBody processAxleMsg(
             Session session, RequestMsgMetadata metadata,
             RequestMsgHeader header, AxleLoadUploadRequestMsgBody msgBody
-            ){
+    ) {
         assert header.getMsgId() == Jt808MsgType.CLIENT_AXLE_LOAD_INFO_UPLOAD.getMsgId();
         assert session.getTerminalId().equals(header.getTerminalId());
         assert session.getTerminalId().equals(metadata.getHeader().getTerminalId());
-        assert metadata.getHeader()==header;
+        assert metadata.getHeader() == header;
 
-        log.info("处理轴负载上报信息 terminalId = {}, msgBody = {}",header.getTerminalId(),msgBody);
+        log.info("处理轴负载上报信息 terminalId = {}, msgBody = {}", header.getTerminalId(), msgBody);
         return CommonReplyMsgBody.success(header.getFlowId(), Jt808MsgType.CLIENT_COMMON_REPLY);
 
     }

@@ -13,9 +13,12 @@ import io.github.hylexus.jt808.session.Session;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/9/7
+ * 上锁状态上报的消息处理器
  */
 @Slf4j
 @Jt808RequestMsgHandler

@@ -7,6 +7,8 @@ import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/9/7
@@ -17,7 +19,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0118)
-public class BindingUploadRequestMsgBody implements RequestMsgBody {
+public class BindingUploadRequestMsgBody implements RequestMsgBody, Serializable {
+    private static final long serialVersionUID = -6294999991098732726L;
     //拖车的身份信息
     @BasicField(startIndex = 0,dataType = MsgDataType.BYTE,length = 1)
     private byte trailerId;

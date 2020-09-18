@@ -8,6 +8,8 @@ import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2020/8/25
@@ -19,7 +21,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0111)
-public class RssUploadRequestMsgBody implements RequestMsgBody {
+public class RssUploadRequestMsgBody implements RequestMsgBody, Serializable {
+    private static final long serialVersionUID = -3688883555773127021L;
     //横向加速度 信号为一个字节
     @BasicField(startIndex = 0,dataType = MsgDataType.BYTE,length = 1)
     private byte latAcceleration;

@@ -10,6 +10,7 @@ import io.github.hylexus.jt808.msg.RespMsgBody;
 import io.github.hylexus.jt808.session.Session;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Optional;
 
 
 @Slf4j
-public class MileageInfoUploadMsgHandler extends AbstractMsgHandler<MileageUploadRequestMsgBody> {
+public class MileageInfoUploadMsgHandler extends AbstractMsgHandler<MileageUploadRequestMsgBody>  {
 
     @Override
     protected Optional<RespMsgBody> doProcess(RequestMsgMetadata metadata, MileageUploadRequestMsgBody body, Session session) {
