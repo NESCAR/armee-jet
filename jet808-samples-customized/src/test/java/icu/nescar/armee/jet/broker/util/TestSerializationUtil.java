@@ -14,7 +14,7 @@ public class TestSerializationUtil {
             AlarmUploadRequestMsgBody deser = (AlarmUploadRequestMsgBody) SerializationUtil.deserialize(ser);
             System.out.println(String.format("status : %d time : %s", deser.getAlarmStatus(), deser.getTime()));
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
     }
