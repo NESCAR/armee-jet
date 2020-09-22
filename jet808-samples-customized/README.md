@@ -4,7 +4,7 @@
 
 Jt808Config.configureMsgConverterMapping和configureMsgHandlerMapping分别添加消息转换器、消息处理器。
 
-### 1.2 Jt808Config添加自定义设备鉴权器
+### 1.2 Jt808MsgTypeParser添加自定义设备鉴权器
 
 Jt808Config.supplyAuthCodeValidator中添加自定义设备鉴权器
 
@@ -26,7 +26,7 @@ Jt808Config.supplyAuthCodeValidator中添加自定义设备鉴权器
 
 返回响应后，调用doProcess的函数（AbstractMsgHandler.handleMsg）会自动将响应发送给设备，不需要认为操作。
 
-## 6、自定义消息msg
+## 6、自定义消息msggit 
 ### 6.1 请求消息req
 自定义请求消息，比如LocationUploadRequestMsgBody定义了请求位置信息
 ### 6.2 响应消息resp
