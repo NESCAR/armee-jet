@@ -5,6 +5,7 @@ import icu.nescar.armee.jet.broker.ext.auth.dal.dao.TerminalInfoDaoFactory;
 import icu.nescar.armee.jet.broker.ext.auth.dal.domain.TerminalInfo;
 import icu.nescar.armee.jet.broker.ext.auth.service.AuthCodeValidatorService;
 import icu.nescar.armee.jet.broker.ext.conf.VmOptions;
+import io.github.hylexus.jt.annotation.BuiltinComponent;
 import io.github.hylexus.jt808.msg.RequestMsgMetadata;
 import io.github.hylexus.jt808.msg.req.BuiltinAuthRequestMsgBody;
 import io.github.hylexus.jt808.session.Session;
@@ -17,6 +18,7 @@ import java.util.concurrent.Semaphore;
  * 基于MySQL的鉴权
  * @author neyzoter
  */
+@BuiltinComponent
 public class AuthCodeValidatorImpl implements AuthCodeValidatorService {
 
     /**

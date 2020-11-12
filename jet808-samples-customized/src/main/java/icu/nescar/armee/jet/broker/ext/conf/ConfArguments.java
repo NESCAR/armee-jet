@@ -8,11 +8,11 @@ public class ConfArguments {
     /**
      * 终端ID在TABLE中的字段名称
      */
-    public static final String MYSQL_AUTH_TABLE_SEGMENT_TERMINAL_ID = "terminal_id";
+    public static final String MYSQL_AUTH_TABLE_SEGMENT_TERMINAL_ID = "imei";
     /**
      * 终端在TABLE中的密码名称
      */
-    public static final String MYSQL_AUTH_TABLE_SEGMENT_PASSWORD = "password";
+    public static final String MYSQL_AUTH_TABLE_SEGMENT_PASSWORD = "psw";
     /**
      * Kafka主题：终端信息<br>
      * Jt808生产到Kafka，由业务消费

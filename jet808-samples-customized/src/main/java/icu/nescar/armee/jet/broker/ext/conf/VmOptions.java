@@ -5,23 +5,23 @@ package icu.nescar.armee.jet.broker.ext.conf;
  * <pre>
  *     举例
  *     auth.by=mysql
- *     mysql.url=mysql://mysql:3306/test
+ *     mysql.url=mysql://mysql:3306/tms
  *     jdbc.driver=com.mysql.cj.jdbc.Driver
  *     mysql.user=root
- *     mysql.psw=Root123456@
+ *     mysql.psw=Hujing7017!
  *     mysql.auth.table=client
  *     validator.pool.core-num=10
  *     produce.to=kafka
- *     kafka.producer.server.url=23.11.11.11 或者 kafka
+ *     kafka.producer.server.url= kafka-1
  *     kafka.producer.server.port=9092
  *     consume.from=kafka
- *     kafka.consumer.server.url=23.11.11.11 或者 kafka
+ *     kafka.consumer.server.url= kafka-1
  *     kafka.consumer.server.port=9092
  *
  *
  *     快速使用
  *     -Dbroker.id=1
- *     -Dauth.by=mysql -Dmysql.url=mysql://mysql:3306/test -Djdbc.driver=com.mysql.cj.jdbc.Driver -Dmysql.user=root -Dmysql.psw=Root123456@ -Dmysql.auth.table=client -Dvalidator.pool.core-num=10
+ *     -Dauth.by=mysql -Dmysql.url=mysql://mysql:3306/tms -Djdbc.driver=com.mysql.cj.jdbc.Driver -Dmysql.user=root -Dmysql.psw=Hujing7017! -Dmysql.auth.table=device -Dvalidator.pool.core-num=10
  *     -Dproduce.to=kafka -Dkafka.producer.server.url=kafka-1 -Dkafka.producer.server.port=9092
  *     -Dconsume.from=kafka -Dkafka.consumer.server.url=kafka-1 -Dkafka.consumer.server.port=9092
  * </pre>
