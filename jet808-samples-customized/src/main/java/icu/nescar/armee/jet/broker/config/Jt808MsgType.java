@@ -31,6 +31,7 @@ public enum Jt808MsgType implements MsgType {
     CLIENT_LOCK_INFO_UPLOAD(0x0116,"上锁状态上报"),
     CLIENT_ALARM_INFO_UPLOAD(0x0117,"报警信息上报"),
     CLIENT_BINDING_INFO_UPLOAD(0x0118,"绑定信息上报"),
+    CLIENT_CAN_INFO_UPLOAD(0x0705,"CAN数据上报"),
 
     //下发 id第一位均为8
     RESP_TERMINAL_PARAM_SETTINGS(0x8103, "设置终端参数"),

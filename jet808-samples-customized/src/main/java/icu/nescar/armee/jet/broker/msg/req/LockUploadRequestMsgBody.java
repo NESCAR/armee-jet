@@ -27,5 +27,7 @@ public class LockUploadRequestMsgBody implements RequestMsgBody, Serializable {
     //事件发生时的时间
     @BasicField(startIndex = 1,dataType = MsgDataType.BCD,length = 6)
     private String time;//时间 YY-MM-DD-hh-mm-ss GMT+8时间
+
+
 }
 
