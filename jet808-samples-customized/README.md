@@ -24,7 +24,7 @@ Jt808Config.supplyAuthCodeValidator中添加自定义设备鉴权器
 
 参考处理器LocationInfoUploadMsgHandler，实现获取到此类消息后到后续操作，比如发送到Kafka消息队列、返回响应（到设备）。
 
-返回响应后，调用doProcess的函数（AbstractMsgHandler.handleMsg）会自动将响应发送给设备，不需要认为操作。
+返回响应后，调用doProcess的函数（AbstractMsgHandler.handleMsg）会自动将响应发送给设备，不需要人为操作。
 
 ## 6、自定义消息msg
 ### 6.1 请求消息req

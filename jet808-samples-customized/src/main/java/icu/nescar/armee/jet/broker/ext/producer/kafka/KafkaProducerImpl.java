@@ -81,7 +81,7 @@ public class KafkaProducerImpl<K extends MsgKey, V> implements Producer<K, V> {
         // 保护静态变量
         staticLock.lock();
         try {
-            // TODO 将Kakfka的参数设计为可配置
+            // TODO 将Kafka的参数设计为可配置
             url = System.getProperty(VmOptions.KAFKA_PRODUCER_SERVER_URL);
             port = System.getProperty(VmOptions.KAFKA_PRODUCER_SERVER_PORT);
             broker = System.getProperty(VmOptions.BROKER_ID);
