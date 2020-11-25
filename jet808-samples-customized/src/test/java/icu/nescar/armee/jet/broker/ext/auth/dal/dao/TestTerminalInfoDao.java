@@ -18,7 +18,7 @@ public class TestTerminalInfoDao {
         try {
             TerminalInfoDao service = TerminalInfoDaoFactory.createTerminalInfoDao(System.getProperty(VmOptions.AUTH_BY));
             assert service != null;
-            List<TerminalInfo> list = service.findLimitTerminal("client1", "123456", 1);
+            List<TerminalInfo> list = service.findLimitTerminal("12", "HU", 1);
             if (list == null) {
                 System.out.println("Result : Null");
             } else {

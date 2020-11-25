@@ -1,6 +1,10 @@
 package icu.nescar.armee.jet.broker.handler;
 
 import icu.nescar.armee.jet.broker.config.Jt808MsgType;
+import icu.nescar.armee.jet.broker.ext.conf.ConfArguments;
+import icu.nescar.armee.jet.broker.ext.producer.Producer;
+import icu.nescar.armee.jet.broker.ext.producer.kafka.KafkaProducerImpl;
+import icu.nescar.armee.jet.broker.ext.producer.kafka.msg.KafkaMsgKey;
 import icu.nescar.armee.jet.broker.msg.req.AxleLoadUploadRequestMsgBody;
 import icu.nescar.armee.jet.broker.msg.req.BrakeEventRequestMsgBody;
 import io.github.hylexus.jt.annotation.msg.handler.Jt808RequestMsgHandler;
@@ -35,9 +39,15 @@ public class BrakeEventUploadMsgHandler{
         assert session.getTerminalId().equals(header.getTerminalId());
         assert session.getTerminalId().equals(metadata.getHeader().getTerminalId());
         assert metadata.getHeader() == header;
-
+        Producer<KafkaMsgKey, Object> implSync = new KafkaProducerImpl<>(ConfArguments.KAFKA_TOPIC_DATA, false);
+        try {
+            KafkaMsgKey key = new KafkaMsgKey(session.getTerminalId(), Jt808MsgType.CLIENT_BRAKE_INFO_UPLOAD.getMsgId());
+            implSync.send(key, msgBody);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         log.info("处理急刹车事件上报信息 terminalId = {}, msgBody = {}", header.getTerminalId(), msgBody);
-        return CommonReplyMsgBody.success(header.getFlowId(), Jt808MsgType.CLIENT_COMMON_REPLY);
+        return CommonReplyMsgBody.success(header.getFlowId(), Jt808MsgType.CLIENT_BRAKE_INFO_UPLOAD);
 
 
     }

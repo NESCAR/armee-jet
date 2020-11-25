@@ -18,7 +18,6 @@ import java.util.concurrent.Semaphore;
  * 基于MySQL的鉴权
  * @author neyzoter
  */
-@BuiltinComponent
 public class AuthCodeValidatorImpl implements AuthCodeValidatorService {
 
     /**

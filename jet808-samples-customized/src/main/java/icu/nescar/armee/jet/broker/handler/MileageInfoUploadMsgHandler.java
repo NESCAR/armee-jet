@@ -2,6 +2,10 @@ package icu.nescar.armee.jet.broker.handler;
 
 import icu.nescar.armee.jet.broker.config.Jt808MsgType;
 
+import icu.nescar.armee.jet.broker.ext.conf.ConfArguments;
+import icu.nescar.armee.jet.broker.ext.producer.Producer;
+import icu.nescar.armee.jet.broker.ext.producer.kafka.KafkaProducerImpl;
+import icu.nescar.armee.jet.broker.ext.producer.kafka.msg.KafkaMsgKey;
 import icu.nescar.armee.jet.broker.msg.req.MileageUploadRequestMsgBody;
 
 import io.github.hylexus.jt808.handler.AbstractMsgHandler;
@@ -26,8 +30,14 @@ public class MileageInfoUploadMsgHandler extends AbstractMsgHandler<MileageUploa
 
     @Override
     protected Optional<RespMsgBody> doProcess(RequestMsgMetadata metadata, MileageUploadRequestMsgBody body, Session session) {
-
-        log.info("{}", body);
+        Producer<KafkaMsgKey, Object> implSync = new KafkaProducerImpl<>(ConfArguments.KAFKA_TOPIC_DATA, false);
+        try {
+            KafkaMsgKey key = new KafkaMsgKey(session.getTerminalId(), Jt808MsgType.CLIENT_MILEAGE_INFO_UPLOAD.getMsgId());
+            implSync.send(key, body);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        log.info("处理里程上报信息 terminalId = {}, msgBody = {}", session.getTerminalId(), body);
         return Optional.of(commonSuccessReply(metadata, Jt808MsgType.CLIENT_MILEAGE_INFO_UPLOAD));
     }
 }

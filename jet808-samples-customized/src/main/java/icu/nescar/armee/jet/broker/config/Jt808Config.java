@@ -3,6 +3,7 @@ package icu.nescar.armee.jet.broker.config;
 
 import icu.nescar.armee.jet.broker.converter.LocationUploadMsgBodyConverter2;
 import icu.nescar.armee.jet.broker.converter.MileageMsgBodyConverter;
+import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
 import icu.nescar.armee.jet.broker.handler.LocationInfoUploadMsgHandler;
 import icu.nescar.armee.jet.broker.handler.MileageInfoUploadMsgHandler;
 import io.github.hylexus.jt.exception.MsgEscapeException;
@@ -17,6 +18,7 @@ import io.github.hylexus.jt808.support.netty.Jt808ServerConfigure;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.socket.SocketChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -27,6 +29,8 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j//生成log日志的注解
 @Configuration//spring框架的注解 说明这个类作为一个IoC容器
 public class Jt808Config extends Jt808ServerConfigure {
+
+    private final static AuthCodeValidatorImpl authCodeValidator=new AuthCodeValidatorImpl();
 //覆盖默认逻辑 netty的相关配置
 @Override
 /*ServerBootstrap服务器端的引导类，绑定到一个本地端口，且需要两组不同的channel
@@ -82,9 +86,12 @@ public class Jt808Config extends Jt808ServerConfigure {
         return (session, requestMsgMetadata, authRequestMsgBody) -> {
             final String terminalId = session.getTerminalId();
             final String authCode = authRequestMsgBody.getAuthCode();
-            // 从其他服务验证鉴权码是否正确
-            log.info("AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, true);
-            return true;
+            // 从覆盖的validateAuthCode方法进行鉴权逻辑
+            if(authCodeValidator.validateAuthCode(session,requestMsgMetadata,authRequestMsgBody)){
+                log.info("AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, true);
+                return true;}
+            else {log.info("AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, false);
+                return false;}
         };
     }
 

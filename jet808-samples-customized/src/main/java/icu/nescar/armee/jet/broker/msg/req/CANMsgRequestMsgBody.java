@@ -25,7 +25,7 @@ public class CANMsgRequestMsgBody implements RequestMsgBody, Serializable {
     private int msgItem;
 
     //CAN总线数据接收时间
-    @BasicField(startIndex = 2, dataType = MsgDataType.BCD, length = 6)
+    @BasicField(startIndex = 2, dataType = MsgDataType.BCD, length = 5)
     private String time;//第 1 条 CAN 总线数据的接收时间，hh-mm-ss-msms
 
     //bit31 表示 CAN 通道号，0：CAN1，1：CAN2；
@@ -33,11 +33,11 @@ public class CANMsgRequestMsgBody implements RequestMsgBody, Serializable {
     //bit29 表示数据采集方式，0：原始数据，1：采
     //集区间的平均值；
     //bit28-bit0 表示 CAN 总线 ID。
-    @BasicField(startIndex = 8,dataType = MsgDataType.BYTE,length = 4)
+    @BasicField(startIndex = 7,dataType = MsgDataType.BYTE,length = 4)
     private int canID;
 
     //CAN 数据
-    @BasicField(startIndex = 12,dataType = MsgDataType.BYTE,length = 4)
+    @BasicField(startIndex = 11,dataType = MsgDataType.BYTE,length = 8)
     private int canData;
 
 
