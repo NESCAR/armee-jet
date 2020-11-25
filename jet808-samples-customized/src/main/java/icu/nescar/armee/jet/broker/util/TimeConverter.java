@@ -9,48 +9,48 @@ import java.util.Date;
  */
 public class TimeConverter {
 
-    public static final String RCF3339_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    public static final long RCF3339_TO_LONG_ERROR = -1;
+    public static final String RFC3339_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    public static final long RFC3339_TO_LONG_ERROR = -1;
 
     /**
-     * RCF3339转化为Long
+     * RFC3339转化为Long
      * @return long时间
      */
-    public static long rcf3339ToLong(String rcf) {
-        SimpleDateFormat df = new SimpleDateFormat(RCF3339_FORMAT);
-        long time = RCF3339_TO_LONG_ERROR;
+    public static long RFC3339ToLong(String rfc) {
+        SimpleDateFormat df = new SimpleDateFormat(RFC3339_FORMAT);
+        long time = RFC3339_TO_LONG_ERROR;
         try {
-            time = df.parse(rcf).getTime();
+            time = df.parse(rfc).getTime();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return time;
     }
     /**
-     * RCF3339转化为Double
+     * RFC3339转化为Double
      * @return Double时间
      */
-    public static double rcf3339ToDouble(String rcf) {
-        return (double) rcf3339ToLong(rcf);
+    public static double RFC3339ToDouble(String rfc) {
+        return (double) RFC3339ToLong(rfc);
     }
 
     /**
-     * Long转化为RCF3339
+     * Long转化为RFC3339FFG
      * @param time long时间
-     * @return RCF3339时间
+     * @return RFC3339时间
      */
-    public static String longToRcf3339(long time) {
-        SimpleDateFormat df = new SimpleDateFormat(RCF3339_FORMAT);
+    public static String longToRFC3339(long time) {
+        SimpleDateFormat df = new SimpleDateFormat(RFC3339_FORMAT);
         Date date = new Date(time);
         return df.format(date);
     }
 
     /**
-     * Double转化为RCF3339
+     * Double转化为RFC3339
      * @param time double时间
-     * @return RCF3339时间
+     * @return RFC3339时间
      */
-    public static String doubleToRcf3339(double time) {
-        return longToRcf3339((long) time);
+    public static String doubleToRFC3339(double time) {
+        return longToRFC3339((long) time);
     }
 }
