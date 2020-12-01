@@ -1,4 +1,4 @@
-package icu.nescar.armee.jet.broker.handler;
+package icu.nescar.armee.jet.broker.handler.upload;
 
 import icu.nescar.armee.jet.broker.config.Jt808MsgType;
 import icu.nescar.armee.jet.broker.ext.conf.ConfArguments;
@@ -36,6 +36,6 @@ public class LocationInfoUploadMsgHandler extends AbstractMsgHandler<LocationUpl
         }
         log.info("处理位置上报信息 terminalId = {}, msgBody = {}", session.getTerminalId(), body);
         return Optional.of(commonSuccessReply(metadata, Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD));//Optional.of（t）返回一个t的非空值
-    //返回通用应答 包含result 流水号和消息类型三个数据
+    //返回平台通用应答 ：结果（成功即结果为0） 流水号（终端号）和发来的对应消息id三个数据
     }
 }

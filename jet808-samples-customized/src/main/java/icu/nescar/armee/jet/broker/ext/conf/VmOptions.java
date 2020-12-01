@@ -109,6 +109,11 @@ public class VmOptions {
      */
     public static final String KAFKA_CONSUMER_SERVER_PORT = "kafka.consumer.server.port";
 
+    /**
+    *Kafka消费者实例订阅消息然后用commandsender发送出去的超时时间 秒为单位
+     */
+    public static final String TIME_OUT="5";
+
 
     /**
      * 查询是否支持该DB

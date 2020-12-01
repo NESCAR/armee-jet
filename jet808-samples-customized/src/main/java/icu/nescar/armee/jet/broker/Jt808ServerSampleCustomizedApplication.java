@@ -3,6 +3,7 @@ package icu.nescar.armee.jet.broker;
 import io.github.hylexus.jt808.boot.annotation.EnableJt808ServerAutoConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author hylexus

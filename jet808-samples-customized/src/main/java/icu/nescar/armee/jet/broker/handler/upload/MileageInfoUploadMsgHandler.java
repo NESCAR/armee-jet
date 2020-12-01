@@ -1,4 +1,4 @@
-package icu.nescar.armee.jet.broker.handler;
+package icu.nescar.armee.jet.broker.handler.upload;
 
 import icu.nescar.armee.jet.broker.config.Jt808MsgType;
 

@@ -35,7 +35,7 @@ import static icu.nescar.armee.jet.broker.config.Jt808MsgType.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/demo")
+//@RequestMapping("/demo")
 public class SampleController {
 
     // private Encoder encoder = new Encoder(new BytesEncoder.DefaultBytesEncoder());
@@ -101,7 +101,6 @@ public class SampleController {
             lockInfo.setDriverID("21960114");
             lockInfo.setLockTimeStart("2009011208");
             lockInfo.setLockTimeEnd("2009101408");
-            lockInfo.setPassword("hujing");
 
 
             CommandMsg commandMsg=CommandMsg.of(terminalId,CLIENT_COMMON_REPLY,lockInfo);

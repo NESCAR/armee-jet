@@ -26,20 +26,16 @@ public class RespLockInfoSettings implements Serializable {
     @CommandField(order = 1, targetMsgDataType = STRING)
     private String carID;
 
-    //司机身份信息
+    //司机身份信息 （即IC卡验证信息）
     @CommandField(order = 2,targetMsgDataType = STRING)
     private String driverID;
 
-    //解锁密码 云端还需将此解锁密码通过短信方式发送给司机
-    @CommandField(order=3,targetMsgDataType = STRING)
-    private String password;
-
     //上锁时间起点 服务端设置的上锁时间范围
-    @CommandField(order = 4,targetMsgDataType = BCD)
+    @CommandField(order = 3,targetMsgDataType = BCD)
     private String lockTimeStart;
 
     //上锁时间终点
-    @CommandField(order=5,targetMsgDataType = BCD)
+    @CommandField(order=4,targetMsgDataType = BCD)
     private String lockTimeEnd;
 
     

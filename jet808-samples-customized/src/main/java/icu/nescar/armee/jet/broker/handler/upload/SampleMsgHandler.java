@@ -1,4 +1,4 @@
-package icu.nescar.armee.jet.broker.handler;
+package icu.nescar.armee.jet.broker.handler.upload;
 
 import io.github.hylexus.jt.data.msg.BuiltinJt808MsgType;
 import io.github.hylexus.jt.data.msg.MsgType;

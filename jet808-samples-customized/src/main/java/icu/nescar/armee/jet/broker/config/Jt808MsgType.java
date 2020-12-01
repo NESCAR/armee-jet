@@ -33,7 +33,13 @@ public enum Jt808MsgType implements MsgType {
     CLIENT_BINDING_INFO_UPLOAD(0x0118,"绑定信息上报"),
     CLIENT_CAN_INFO_UPLOAD(0x0705,"CAN数据上报"),
 
+    CLIENT_LOG_OUT(0x0003, "终端注销"),
+    CLIENT_HEART_BEAT(0x0002, "终端心跳"),
+    CLIENT_REGISTER(0x0100, "终端注册"),
+
     //下发 id第一位均为8
+    SERVER_COMMON_REPLY(0x8001, "平台通用应答"),
+    SERVER_REGISTER_REPLY(0x8100, "平台注册应答"),
     RESP_TERMINAL_PARAM_SETTINGS(0x8103, "设置终端参数"),
     RESP_QUERY_TERMINAL_PROPERTIES(0x8107, "查询终端属性(EMPTY)"),
     RESP_LOCK_INFO_SETTINGS(0x8114,"上锁信息下发（设置）"),

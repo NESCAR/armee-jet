@@ -4,8 +4,8 @@ package icu.nescar.armee.jet.broker.config;
 import icu.nescar.armee.jet.broker.converter.LocationUploadMsgBodyConverter2;
 import icu.nescar.armee.jet.broker.converter.MileageMsgBodyConverter;
 import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
-import icu.nescar.armee.jet.broker.handler.LocationInfoUploadMsgHandler;
-import icu.nescar.armee.jet.broker.handler.MileageInfoUploadMsgHandler;
+import icu.nescar.armee.jet.broker.handler.upload.LocationInfoUploadMsgHandler;
+import icu.nescar.armee.jet.broker.handler.upload.MileageInfoUploadMsgHandler;
 import io.github.hylexus.jt.exception.MsgEscapeException;
 import io.github.hylexus.jt808.codec.BytesEncoder;
 import io.github.hylexus.jt808.converter.MsgTypeParser;
@@ -18,7 +18,6 @@ import io.github.hylexus.jt808.support.netty.Jt808ServerConfigure;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.socket.SocketChannel;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 /**
