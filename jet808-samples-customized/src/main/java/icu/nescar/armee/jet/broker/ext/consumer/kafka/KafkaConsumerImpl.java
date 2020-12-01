@@ -80,9 +80,9 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
         for (PartitionInfo pi : piSet) {
             tpList.add(new TopicPartition(pi.topic(), pi.partition()));
         }
-        consumer.assign(tpList);
+//        consumer.assign(tpList);
         // 如果宕机，则需要恢复到offset
-        resetConsumer();
+//        resetConsumer();
     }
 
     @Override
