@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 @Data
 @Accessors(chain = true)
-
+@Jt808ReqMsgBody(msgType = 0x0112)
 public class MileageUploadRequestMsgBody implements RequestMsgBody, Serializable {
     private static final long serialVersionUID = 8692716915141763250L;
     private int mileage; // 4个字节 1/10km，对应车上里程表读数

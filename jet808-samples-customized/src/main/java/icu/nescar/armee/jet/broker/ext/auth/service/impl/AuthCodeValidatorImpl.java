@@ -8,6 +8,7 @@ import icu.nescar.armee.jet.broker.ext.conf.VmOptions;
 import io.github.hylexus.jt.annotation.BuiltinComponent;
 import io.github.hylexus.jt808.msg.RequestMsgMetadata;
 import io.github.hylexus.jt808.msg.req.BuiltinAuthRequestMsgBody;
+import io.github.hylexus.jt808.session.Jt808Session;
 import io.github.hylexus.jt808.session.Session;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class AuthCodeValidatorImpl implements AuthCodeValidatorService {
         }
     }
     @Override
-    public boolean validateAuthCode(Session session, RequestMsgMetadata requestMsgMetadata, BuiltinAuthRequestMsgBody builtinAuthRequestMsgBody) {
+    public boolean validateAuthCode(Jt808Session session, RequestMsgMetadata requestMsgMetadata, BuiltinAuthRequestMsgBody builtinAuthRequestMsgBody) {
         TerminalInfoDao dao = null;
         // semaphore是否成功获取
         boolean smphAcquired = false;

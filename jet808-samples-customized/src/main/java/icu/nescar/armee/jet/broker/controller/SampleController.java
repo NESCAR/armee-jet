@@ -11,6 +11,8 @@ import io.github.hylexus.jt.exception.JtSessionNotFoundException;
 import io.github.hylexus.jt808.dispatcher.CommandSender;
 import io.github.hylexus.jt808.msg.resp.CommandMsg;
 
+import io.github.hylexus.jt808.session.Jt808Session;
+import io.github.hylexus.jt808.session.Jt808SessionManager;
 import io.github.hylexus.jt808.session.Session;
 import io.github.hylexus.jt808.session.SessionManager;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +44,8 @@ public class SampleController {
     //原本是autowired 因为其是spring实现的注解。所以改成了java实现的resource注解 功能类似
     @Resource
     private CommandSender commandSender;
+    @Resource
+    private Jt808SessionManager jt808SessionManager;
 
 
     //下发设置终端参数命令
@@ -83,8 +87,8 @@ public class SampleController {
         return commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
     }
 
-    private Session getSession(String terminalId) {
-        return SessionManager.getInstance().findByTerminalId(terminalId)
+    private Jt808Session getSession(String terminalId) {
+        return jt808SessionManager.findByTerminalId(terminalId)
                 .orElseThrow(() -> new JtSessionNotFoundException(terminalId));
     }
 

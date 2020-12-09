@@ -7,10 +7,13 @@ import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
 import icu.nescar.armee.jet.broker.handler.upload.LocationInfoUploadMsgHandler;
 import icu.nescar.armee.jet.broker.handler.upload.MileageInfoUploadMsgHandler;
 import io.github.hylexus.jt.exception.MsgEscapeException;
+import io.github.hylexus.jt808.boot.config.Jt808ServerConfigurationSupport;
 import io.github.hylexus.jt808.codec.BytesEncoder;
 import io.github.hylexus.jt808.converter.MsgTypeParser;
 import io.github.hylexus.jt808.ext.AuthCodeValidator;
 
+import io.github.hylexus.jt808.ext.TerminalValidator;
+import io.github.hylexus.jt808.msg.RequestMsgMetadata;
 import io.github.hylexus.jt808.support.MsgHandlerMapping;
 import io.github.hylexus.jt808.support.RequestMsgBodyConverterMapping;
 import io.github.hylexus.jt808.support.netty.Jt808ChannelHandlerAdapter;
@@ -27,22 +30,22 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j//生成log日志的注解
 @Configuration//spring框架的注解 说明这个类作为一个IoC容器
-public class Jt808Config extends Jt808ServerConfigure {
+public class Jt808Config extends Jt808ServerConfigurationSupport {
 
     private final static AuthCodeValidatorImpl authCodeValidator=new AuthCodeValidatorImpl();
 //覆盖默认逻辑 netty的相关配置
-@Override
-/*ServerBootstrap服务器端的引导类，绑定到一个本地端口，且需要两组不同的channel
-* 一组用来代表服务器自身的已绑定到某个本地端口的正在监听的套接字
-* 第二组包含所有已创建的用来处理传入客户端连接的channel*/
-    public void configureServerBootstrap(ServerBootstrap serverBootstrap) {
-        super.configureServerBootstrap(serverBootstrap);
-    }
-
-    @Override
-    public void configureSocketChannel(SocketChannel ch, Jt808ChannelHandlerAdapter jt808ChannelHandlerAdapter) {
-        super.configureSocketChannel(ch, jt808ChannelHandlerAdapter);
-    }
+//@Override
+///*ServerBootstrap服务器端的引导类，绑定到一个本地端口，且需要两组不同的channel
+//* 一组用来代表服务器自身的已绑定到某个本地端口的正在监听的套接字
+//* 第二组包含所有已创建的用来处理传入客户端连接的channel*/
+//    public void configureServerBootstrap(ServerBootstrap serverBootstrap) {
+//        super.configureServerBootstrap(serverBootstrap);
+//    }
+//
+//    @Override
+//    public void configureSocketChannel(SocketChannel ch, Jt808ChannelHandlerAdapter jt808ChannelHandlerAdapter) {
+//        super.configureSocketChannel(ch, jt808ChannelHandlerAdapter);
+//    }
 
     @Override
     /*手动将解析位置消息的转换器注册进去,还注册了新的里程信息转换器*/
@@ -76,6 +79,20 @@ public class Jt808Config extends Jt808ServerConfigure {
             @Override
             public byte[] doEscapeForSend(byte[] bytes, int start, int end) throws MsgEscapeException {
                 return bytesEncoder.doEscapeForSend(bytes, start, end);
+            }
+        };
+    }
+    @Override
+    public TerminalValidator terminalValidator() {
+        return new TerminalValidator() {
+            @Override
+            public boolean validateTerminal(RequestMsgMetadata metadata) {
+                return true;
+            }
+
+            @Override
+            public boolean needValidate(RequestMsgMetadata metadata, Integer msgId) {
+                return true;
             }
         };
     }

@@ -77,7 +77,8 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
             if(record.key().getMsgId()==0x8103){
                 // 【下发消息】的消息类型为: RESP_TERMINAL_PARAM_SETTINGS (0x8103)  --> RespTerminalSettings的类注解上指定了下发类型
                 // 客户端对该【下发消息】的回复消息类型为: CLIENT_COMMON_REPLY (0x0001)
-                RespTerminalSettings param = new RespTerminalSettings();
+                RespTerminalSettings param = (RespTerminalSettings)SerializationUtil.deserialize(record.value());
+
                 //具体的param设置
                 CommandMsg commandMsg = CommandMsg.of(terminalId, CLIENT_COMMON_REPLY, param);
                 final Object resp;
