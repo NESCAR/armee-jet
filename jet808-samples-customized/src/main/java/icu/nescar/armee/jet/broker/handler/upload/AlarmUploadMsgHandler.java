@@ -17,6 +17,7 @@ import io.github.hylexus.jt808.msg.RespMsgBody;
 import io.github.hylexus.jt808.msg.resp.CommonReplyMsgBody;
 import io.github.hylexus.jt808.session.Session;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -29,6 +30,8 @@ import java.io.Serializable;
 @Jt808RequestMsgHandler
 @Component
 public class AlarmUploadMsgHandler  {
+
+
     @Jt808RequestMsgHandlerMapping(msgType = 0x0117)
     //通过mapping注解的反射 获取到handler的所有方法，然后在通过反射得到的方法进行数据的发送
     public RespMsgBody processAlarmMsg(
@@ -39,6 +42,7 @@ public class AlarmUploadMsgHandler  {
         assert session.getTerminalId().equals(header.getTerminalId());
         assert session.getTerminalId().equals(metadata.getHeader().getTerminalId());
         assert metadata.getHeader()==header;
+
         Producer<KafkaMsgKey, Object> implSync = new KafkaProducerImpl<>(ConfArguments.KAFKA_TOPIC_DATA, false);
             try {
                 KafkaMsgKey key = new KafkaMsgKey(session.getTerminalId(), Jt808MsgType.CLIENT_ALARM_INFO_UPLOAD.getMsgId());

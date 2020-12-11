@@ -1,5 +1,6 @@
 package icu.nescar.armee.jet.broker.ext.consumer.kafka;
 
+import com.mysql.cj.util.TimeUtil;
 import icu.nescar.armee.jet.broker.ext.consumer.Consumer;
 import icu.nescar.armee.jet.broker.ext.producer.MsgKey;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -7,24 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * @Auther whale
  * @Date 2020/11/26
  * 利用周期性执行任务的线程池执行consumer的任务
  */
-//@Component
+@Component
 public class KafkaConsumerTask {
     Consumer<ConsumerRecord<MsgKey, byte[]>> consumer;
-    ScheduledExecutorService ses;
+    ExecutorService ses;
     @Autowired
     public KafkaConsumerTask(JetConsumerImpl jetConsumerImpl) {
         consumer = jetConsumerImpl;
-        ses = Executors.newSingleThreadScheduledExecutor();
-        ses.scheduleAtFixedRate(jetConsumerImpl,0,8,TimeUnit.SECONDS);
+        ses = new ThreadPoolExecutor(1, 2, 1, TimeUnit.SECONDS, new LinkedBlockingDeque<>());
+        ses.submit(consumer);
     }
 }
 

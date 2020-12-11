@@ -2,7 +2,7 @@ package icu.nescar.armee.jet.broker.controller;
 
 import com.google.common.collect.Lists;
 
-import icu.nescar.armee.jet.broker.msg.resp.RespLockInfoSettings;
+import icu.nescar.armee.jet.broker.msg.command.LockInfoSettingsMsgBody;
 import icu.nescar.armee.jet.broker.msg.resp.RespTerminalSettings;
 import io.github.hylexus.jt.command.CommandWaitingPool;
 import io.github.hylexus.jt.command.Jt808CommandKey;
@@ -13,12 +13,8 @@ import io.github.hylexus.jt808.msg.resp.CommandMsg;
 
 import io.github.hylexus.jt808.session.Jt808Session;
 import io.github.hylexus.jt808.session.Jt808SessionManager;
-import io.github.hylexus.jt808.session.Session;
-import io.github.hylexus.jt808.session.SessionManager;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -83,7 +79,7 @@ public class SampleController {
         // 【下发消息】的消息体为空
         // 【下发消息】消息的类型为: RESP_QUERY_TERMINAL_PROPERTIES (0x8107)
         // 客户端对该【下发消息】的回复消息类型为: CLIENT_QUERY_TERMINAL_PROPERTIES_REPLY (0x0107)
-        CommandMsg commandMsg = CommandMsg.emptyRespMsgBody(terminalId, CLIENT_QUERY_TERMINAL_PROPERTIES_REPLY, RESP_QUERY_TERMINAL_PROPERTIES);
+        CommandMsg commandMsg = CommandMsg.emptyRespMsgBody(terminalId, CLIENT_QUERY_TERMINAL_PROPERTIES_REPLY, CMD_QUERY_TERMINAL_PROPERTIES);
         return commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
     }
 
@@ -100,9 +96,9 @@ public class SampleController {
     public Object sendLockInfo(
             @RequestParam(required = false, name = "terminalId", defaultValue = "13717861955") String terminalId,
             @RequestParam(required = false, name = "timeout", defaultValue = "5") Long timeout) throws Exception{
-            RespLockInfoSettings lockInfo =new RespLockInfoSettings();//设置具体的下发信息内容
+            LockInfoSettingsMsgBody lockInfo =new LockInfoSettingsMsgBody();//设置具体的下发信息内容
             lockInfo.setCarID("浙A0925H");
-            lockInfo.setDriverID("21960114");
+            lockInfo.setICID("21960114");
             lockInfo.setLockTimeStart("2009011208");
             lockInfo.setLockTimeEnd("2009101408");
 

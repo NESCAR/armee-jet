@@ -4,6 +4,7 @@ package icu.nescar.armee.jet.broker.config;
 import icu.nescar.armee.jet.broker.converter.LocationUploadMsgBodyConverter2;
 import icu.nescar.armee.jet.broker.converter.MileageMsgBodyConverter;
 import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
+import icu.nescar.armee.jet.broker.ext.netty.MyChannelHandlerAdapter;
 import icu.nescar.armee.jet.broker.handler.upload.LocationInfoUploadMsgHandler;
 import icu.nescar.armee.jet.broker.handler.upload.MileageInfoUploadMsgHandler;
 import io.github.hylexus.jt.exception.MsgEscapeException;
@@ -16,8 +17,7 @@ import io.github.hylexus.jt808.ext.TerminalValidator;
 import io.github.hylexus.jt808.msg.RequestMsgMetadata;
 import io.github.hylexus.jt808.support.MsgHandlerMapping;
 import io.github.hylexus.jt808.support.RequestMsgBodyConverterMapping;
-import io.github.hylexus.jt808.support.netty.Jt808ChannelHandlerAdapter;
-import io.github.hylexus.jt808.support.netty.Jt808ServerConfigure;
+import io.github.hylexus.jt808.support.netty.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.socket.SocketChannel;
 import lombok.extern.slf4j.Slf4j;
@@ -34,18 +34,19 @@ public class Jt808Config extends Jt808ServerConfigurationSupport {
 
     private final static AuthCodeValidatorImpl authCodeValidator=new AuthCodeValidatorImpl();
 //覆盖默认逻辑 netty的相关配置
-//@Override
-///*ServerBootstrap服务器端的引导类，绑定到一个本地端口，且需要两组不同的channel
-//* 一组用来代表服务器自身的已绑定到某个本地端口的正在监听的套接字
-//* 第二组包含所有已创建的用来处理传入客户端连接的channel*/
-//    public void configureServerBootstrap(ServerBootstrap serverBootstrap) {
-//        super.configureServerBootstrap(serverBootstrap);
-//    }
-//
-//    @Override
-//    public void configureSocketChannel(SocketChannel ch, Jt808ChannelHandlerAdapter jt808ChannelHandlerAdapter) {
-//        super.configureSocketChannel(ch, jt808ChannelHandlerAdapter);
-//    }
+
+/*ServerBootstrap服务器端的引导类，绑定到一个本地端口，且需要两组不同的channel
+* 一组用来代表服务器自身的已绑定到某个本地端口的正在监听的套接字
+* 第二组包含所有已创建的用来处理传入客户端连接的channel*/
+// [非必须配置] -- 可替换内置Netty相关配置
+@Override
+public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
+        HeatBeatHandler heatBeatHandler, Jt808DecodeHandler decodeHandler,
+        TerminalValidatorHandler terminalValidatorHandler, MyChannelHandlerAdapter jt808ChannelHandlerAdapter) {
+    return super.jt808ServerNettyConfigure(heatBeatHandler, decodeHandler, terminalValidatorHandler, jt808ChannelHandlerAdapter);
+}
+
+
 
     @Override
     /*手动将解析位置消息的转换器注册进去,还注册了新的里程信息转换器*/
@@ -104,6 +105,7 @@ public class Jt808Config extends Jt808ServerConfigurationSupport {
             final String authCode = authRequestMsgBody.getAuthCode();
             // 从覆盖的validateAuthCode方法进行鉴权逻辑
             if(authCodeValidator.validateAuthCode(session,requestMsgMetadata,authRequestMsgBody)){
+
                 log.info("AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, true);
                 return true;}
             else {log.info("AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, false);

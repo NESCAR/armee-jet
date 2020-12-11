@@ -10,6 +10,8 @@ import io.github.hylexus.jt808.msg.RequestMsgMetadata;
 import io.github.hylexus.jt808.msg.req.BuiltinAuthRequestMsgBody;
 import io.github.hylexus.jt808.session.Jt808Session;
 import io.github.hylexus.jt808.session.Session;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -19,6 +21,7 @@ import java.util.concurrent.Semaphore;
  * 基于MySQL的鉴权
  * @author neyzoter
  */
+@Primary
 public class AuthCodeValidatorImpl implements AuthCodeValidatorService {
 
     /**

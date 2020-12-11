@@ -112,7 +112,7 @@ public class VmOptions {
     /**
     *Kafka消费者实例订阅消息然后用commandsender发送出去的超时时间 秒为单位
      */
-    public static final String TIME_OUT="5";
+    public static final long TIME_OUT=5;
 
 
     /**

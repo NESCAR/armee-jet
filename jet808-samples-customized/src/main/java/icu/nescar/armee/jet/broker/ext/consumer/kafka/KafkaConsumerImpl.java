@@ -5,12 +5,14 @@ import icu.nescar.armee.jet.broker.ext.conf.VmOptions;
 import icu.nescar.armee.jet.broker.ext.consumer.Consumer;
 import icu.nescar.armee.jet.broker.ext.producer.MsgKey;
 import icu.nescar.armee.jet.broker.ext.producer.kafka.msg.KafkaMsgKeyDeserializer;
+import jdk.nashorn.internal.runtime.regexp.joni.constants.Arguments;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.errors.TimeoutException;
 import org.apache.kafka.common.serialization.ByteArrayDeserializer;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.*;
@@ -46,7 +48,9 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
      * 结束运行
      */
     protected boolean shutdown;
-
+    public KafkaConsumerImpl() {
+        this(ConfArguments.KAFKA_TOPIC_CMD);
+    }
     /**
      * Kafka消费者实例
      * @param t topic
@@ -80,6 +84,7 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
         for (PartitionInfo pi : piSet) {
             tpList.add(new TopicPartition(pi.topic(), pi.partition()));
         }
+        log.info("testKafkaconsumer");
 //        consumer.assign(tpList);
         // 如果宕机，则需要恢复到offset
 //        resetConsumer();
@@ -92,7 +97,7 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
 
     @Override
     public void run() {
-//        while (!shutdown) {
+        while (!shutdown) {
             long startMs = System.currentTimeMillis() / 1000;
             log.info("start : " + startMs);
             ConsumerRecords<MsgKey, byte[]> records = (ConsumerRecords<MsgKey, byte[]>) receive(Duration.ofSeconds(5));
@@ -118,7 +123,7 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
                     te.printStackTrace();
                 }
             }
-//        }
+       }
     }
 
     /**
