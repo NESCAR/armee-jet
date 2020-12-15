@@ -7,6 +7,7 @@ import icu.nescar.armee.jet.broker.msg.command.LockInfoSettingsMsgBody;
 import icu.nescar.armee.jet.broker.msg.resp.RespTerminalSettings;
 import icu.nescar.armee.jet.broker.util.SerializationUtil;
 import io.github.hylexus.jt808.codec.Encoder;
+import io.github.hylexus.jt808.converter.impl.resp.CommandMsgBodyConverter;
 import io.github.hylexus.jt808.converter.impl.resp.VoidRespMsgBodyConverter;
 import io.github.hylexus.jt808.dispatcher.CommandSender;
 import io.github.hylexus.jt808.dispatcher.impl.DefaultCommandSender;
@@ -53,7 +54,8 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
     }
     private CommandSender commandSender;
     public Long timeout;
-    VoidRespMsgBodyConverter voidr=new VoidRespMsgBodyConverter();
+    private CommandMsgBodyConverter commandMsgBodyConverter;
+
     @Autowired
     private Encoder encoder;
     @Autowired
@@ -66,8 +68,8 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
         while (true) {
             long startMs = System.currentTimeMillis() / 1000;
             //log.info("start : " + startMs);
-            //TODO commandsender针对每一个消息都要初始化一下对应
-            commandSender=new DefaultCommandSender(voidr,encoder,sessionManager);
+            //TODO 消费者消费到的信息测试下发是否可以成功
+            commandSender=new DefaultCommandSender(commandMsgBodyConverter,encoder,sessionManager);
 
             ConsumerRecords<MsgKey, byte[]> records = (ConsumerRecords<MsgKey, byte[]>) receive(Duration.ofSeconds(1));
             timeout=VmOptions.TIME_OUT;
