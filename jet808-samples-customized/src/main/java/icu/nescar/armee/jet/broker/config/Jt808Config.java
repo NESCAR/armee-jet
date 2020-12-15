@@ -15,12 +15,15 @@ import io.github.hylexus.jt808.ext.AuthCodeValidator;
 
 import io.github.hylexus.jt808.ext.TerminalValidator;
 import io.github.hylexus.jt808.msg.RequestMsgMetadata;
+import io.github.hylexus.jt808.session.Jt808SessionManager;
+import io.github.hylexus.jt808.session.SessionManager;
 import io.github.hylexus.jt808.support.MsgHandlerMapping;
 import io.github.hylexus.jt808.support.RequestMsgBodyConverterMapping;
 import io.github.hylexus.jt808.support.netty.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.socket.SocketChannel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -32,6 +35,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration//spring框架的注解 说明这个类作为一个IoC容器
 public class Jt808Config extends Jt808ServerConfigurationSupport {
 
+    @Autowired
+    private Jt808SessionManager sessionManager;
     private final static AuthCodeValidatorImpl authCodeValidator=new AuthCodeValidatorImpl();
 //覆盖默认逻辑 netty的相关配置
 
@@ -42,7 +47,7 @@ public class Jt808Config extends Jt808ServerConfigurationSupport {
 @Override
 public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
         HeatBeatHandler heatBeatHandler, Jt808DecodeHandler decodeHandler,
-        TerminalValidatorHandler terminalValidatorHandler, MyChannelHandlerAdapter jt808ChannelHandlerAdapter) {
+        TerminalValidatorHandler terminalValidatorHandler, Jt808ChannelHandlerAdapter jt808ChannelHandlerAdapter) {
     return super.jt808ServerNettyConfigure(heatBeatHandler, decodeHandler, terminalValidatorHandler, jt808ChannelHandlerAdapter);
 }
 
@@ -106,10 +111,13 @@ public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
             // 从覆盖的validateAuthCode方法进行鉴权逻辑
             if(authCodeValidator.validateAuthCode(session,requestMsgMetadata,authRequestMsgBody)){
 
-                log.info("AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, true);
+                log.info("鉴权通过。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, true);
+                //鉴权通过的话 将session持久化，否则就断开
+                sessionManager.persistenceIfNecessary(terminalId, session.getChannel());
                 return true;}
-            else {log.info("AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, false);
-                return false;}
+            else {log.info("鉴权失败。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, false);
+                sessionManager.removeBySessionId(sessionManager.generateSessionId(session.getChannel()));
+            return false;}
         };
     }
 

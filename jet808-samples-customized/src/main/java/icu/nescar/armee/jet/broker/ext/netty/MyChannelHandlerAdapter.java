@@ -1,6 +1,7 @@
 package icu.nescar.armee.jet.broker.ext.netty;
 
 import icu.nescar.armee.jet.broker.config.Jt808MsgTypeParser;
+import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
 import io.github.hylexus.jt.data.msg.MsgType;
 import io.github.hylexus.jt.utils.HexStringUtils;
 import io.github.hylexus.jt808.converter.MsgTypeParser;
@@ -9,7 +10,9 @@ import io.github.hylexus.jt808.dispatcher.RequestMsgDispatcher;
 import io.github.hylexus.jt808.msg.RequestMsgHeader;
 import io.github.hylexus.jt808.msg.RequestMsgMetadata;
 import io.github.hylexus.jt808.msg.RequestMsgWrapper;
+import io.github.hylexus.jt808.session.Jt808Session;
 import io.github.hylexus.jt808.session.Jt808SessionManager;
+import io.github.hylexus.jt808.session.Session;
 import io.github.hylexus.jt808.session.SessionManager;
 import io.github.hylexus.jt808.support.netty.Jt808ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandler;
@@ -17,22 +20,32 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 import static io.github.hylexus.jt808.session.SessionCloseReason.IDLE_TIMEOUT;
 
+@Component
 @ChannelHandler.Sharable
 public class MyChannelHandlerAdapter extends Jt808ChannelHandlerAdapter {
     private static final Logger log = LoggerFactory.getLogger("my.channel.handler.adapter");
-    private Jt808MsgTypeParser msgTypeParser;
-    private SessionManager sessionManager;
-    private RequestMsgDispatcher msgDispatcher;
+    private final RequestMsgDispatcher msgDispatcher;
+    private final MsgTypeParser msgTypeParser;
+    private final Jt808SessionManager sessionManager;
 
     public MyChannelHandlerAdapter(RequestMsgDispatcher msgDispatcher, MsgTypeParser msgTypeParser, Jt808SessionManager sessionManager) {
         super(msgDispatcher, msgTypeParser, sessionManager);
+        this.sessionManager = sessionManager;
+        this.msgDispatcher = msgDispatcher;
+        this.msgTypeParser = msgTypeParser;
     }
+//    public Jt808ChannelHandlerAdapter(RequestMsgDispatcher msgDispatcher, MsgTypeParser msgTypeParser, Jt808SessionManager sessionManager) {
+//        super(msgDispatcher, msgTypeParser, sessionManager);
+//    }
+
 
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         try {
@@ -51,17 +64,19 @@ public class MyChannelHandlerAdapter extends Jt808ChannelHandlerAdapter {
                     log.debug("[decode] : {}, terminalId={}, msg = {}", new Object[]{msgType.get(), terminalId, metadata});
                     RequestMsgWrapper requestMsgWrapper = (new RequestMsgWrapper()).setMetadata(metadata);
                     this.msgDispatcher.doDispatch(requestMsgWrapper);
+                    this.sessionManager.persistenceIfNecessary(terminalId, ctx.channel());
                     return;
                 }
                 else {
-                    if(session.){
-                        log.debug("[decode] : {}, terminalId={}, msg = {}", new Object[]{msgType.get(), terminalId, metadata});
+                    if( sessionManager.findByTerminalId(header.getTerminalId(),true).isPresent())
+                    { log.debug("[decode] : {}, terminalId={}, msg = {}", new Object[]{msgType.get(), terminalId, metadata});
                     RequestMsgWrapper requestMsgWrapper = (new RequestMsgWrapper()).setMetadata(metadata);
                     this.msgDispatcher.doDispatch(requestMsgWrapper);
                     this.sessionManager.persistenceIfNecessary(terminalId, ctx.channel());
                     return;}
                     else {
-                        sessionManager.removeBySessionIdAndClose(sessionManager.generateSessionId(ctx.channel()), IDLE_TIMEOUT);
+                        sessionManager.removeBySessionId(sessionManager.generateSessionId(ctx.channel()));
+                        log.info("terminalId={}的终端未经过鉴权或鉴权未通过",terminalId);
                     }
 
                 }
