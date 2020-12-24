@@ -52,12 +52,11 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
     public JetConsumerImpl() {
         super(ConfArguments.KAFKA_TOPIC_CMD);
     }
-    private CommandSender commandSender;
     public Long timeout;
-    private CommandMsgBodyConverter commandMsgBodyConverter;
 
     @Autowired
-    private Encoder encoder;
+    private CommandSender commandSender;
+
     @Autowired
     private Jt808SessionManager sessionManager;
 
@@ -69,7 +68,6 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
             long startMs = System.currentTimeMillis() / 1000;
             //log.info("start : " + startMs);
             //TODO 消费者消费到的信息测试下发是否可以成功
-            commandSender=new DefaultCommandSender(commandMsgBodyConverter,encoder,sessionManager);
 
             ConsumerRecords<MsgKey, byte[]> records = (ConsumerRecords<MsgKey, byte[]>) receive(Duration.ofSeconds(1));
             timeout=VmOptions.TIME_OUT;
@@ -84,7 +82,7 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
                     final Object resp;
                     try {
                         resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-                        log.info("resp: {}", resp);
+                        log.info("下发上锁消息成功，并收到回复resp: {}", resp);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
@@ -105,7 +103,7 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
                     final Object resp;
                     try {
                         resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-                        log.info("resp: {}", resp);
+                        log.info("下发终端设置消息成功，并收到回复resp: {}", resp);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {

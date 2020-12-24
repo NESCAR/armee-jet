@@ -48,8 +48,8 @@ public class MyChannelHandlerAdapter extends Jt808ChannelHandlerAdapter {
 
 
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        try {
-            if (!(msg instanceof RequestMsgMetadata)) {
+       try {
+           if (!(msg instanceof RequestMsgMetadata)) {
                 return;
             }
 
