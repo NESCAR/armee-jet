@@ -19,7 +19,7 @@
         <sarveswaran.version>0.91</sarveswaran.version>
         <oaks.version>1.0.4</oaks.version>
         <netty.version>4.1.50.Final</netty.version>
-        <junit.version>4.13</junit.version>
+        <junit.version>4.13.1</junit.version>
         <hylexus.version>1.0.9-RELEASE</hylexus.version>
     </properties>
 
