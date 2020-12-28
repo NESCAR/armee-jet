@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Jt808RequestMsgHandler
-@Component
+//@Component
 public class CANMsgUploadMsgHandler{
     @Jt808RequestMsgHandlerMapping(msgType = 0x0705)
     public RespMsgBody processCANMsg(

@@ -28,7 +28,7 @@ import java.io.Serializable;
  */
 @Slf4j
 @Jt808RequestMsgHandler
-@Component
+//@Component
 public class AxleLoadUploadMsgHandler {
 
     @Jt808RequestMsgHandlerMapping(msgType = 0x0109)

@@ -107,17 +107,20 @@ public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
     public AuthCodeValidator supplyAuthCodeValidator() {
         return (session, requestMsgMetadata, authRequestMsgBody) -> {
             final String terminalId = session.getTerminalId();
-            final String authCode = authRequestMsgBody.getAuthCode();
-            // 从覆盖的validateAuthCode方法进行鉴权逻辑
-            if(authCodeValidator.validateAuthCode(session,requestMsgMetadata,authRequestMsgBody)){
-
-                log.info("鉴权通过。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, true);
-                //鉴权通过的话 将session持久化，否则就断开
-                sessionManager.persistenceIfNecessary(terminalId, session.getChannel());
-                return true;}
-            else {log.info("鉴权失败。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, false);
-                sessionManager.removeBySessionId(sessionManager.generateSessionId(session.getChannel()));
-            return false;}
+//            final String authCode = authRequestMsgBody.getAuthCode();
+            sessionManager.persistenceIfNecessary(terminalId, session.getChannel());
+            return true;
+//            // 从覆盖的validateAuthCode方法进行鉴权逻辑
+//            if(authCodeValidator.validateAuthCode(session,requestMsgMetadata,authRequestMsgBody)){
+//
+//                log.info("鉴权通过。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, true);
+//                //鉴权通过的话 将session持久化，否则就断开
+//                sessionManager.persistenceIfNecessary(terminalId, session.getChannel());
+//                return true;}
+//            else {log.info("鉴权失败。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, false);
+//                sessionManager.persistenceIfNecessary(terminalId, session.getChannel());
+////                sessionManager.removeBySessionId(sessionManager.generateSessionId(session.getChannel()));
+//            return true;}
         };
     }
 

@@ -25,7 +25,7 @@ import java.io.Serializable;
  */
 @Slf4j
 @Jt808RequestMsgHandler
-@Component
+//@Component
 public class RssInfoUploadMsgHandler{
 
     @Jt808RequestMsgHandlerMapping(msgType = 0x0111)

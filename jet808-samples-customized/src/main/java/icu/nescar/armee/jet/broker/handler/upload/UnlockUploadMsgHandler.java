@@ -25,7 +25,7 @@ import java.io.Serializable;
  */
 @Slf4j
 @Jt808RequestMsgHandler
-@Component
+//@Component
 public class UnlockUploadMsgHandler {
 
     @Jt808RequestMsgHandlerMapping(msgType = 0x0115)

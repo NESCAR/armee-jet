@@ -28,7 +28,7 @@ import java.io.Serializable;
  */
 @Slf4j
 @Jt808RequestMsgHandler
-@Component
+//@Component
 public class BrakeEventUploadMsgHandler{
     @Jt808RequestMsgHandlerMapping(msgType = 0x0113)
     public RespMsgBody processBrakeMsg(

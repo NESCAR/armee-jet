@@ -5,6 +5,7 @@ import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
 import icu.nescar.armee.jet.broker.ext.conf.ConfArguments;
 import icu.nescar.armee.jet.broker.ext.producer.Producer;
 import icu.nescar.armee.jet.broker.ext.producer.kafka.KafkaProducerImpl;
+import icu.nescar.armee.jet.broker.ext.producer.kafka.KafkaProducerStatic;
 import icu.nescar.armee.jet.broker.ext.producer.kafka.msg.KafkaMsgKey;
 import icu.nescar.armee.jet.broker.msg.req.LocationUploadRequestMsgBody;
 import io.github.hylexus.jt808.ext.AuthCodeValidator;
@@ -18,6 +19,7 @@ import io.github.hylexus.jt808.session.Session;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.Optional;
 
@@ -33,8 +35,7 @@ public class LocationInfoUploadMsgHandler extends AbstractMsgHandler<LocationUpl
     @Override
     protected Optional<RespMsgBody> doProcess(RequestMsgMetadata metadata, LocationUploadRequestMsgBody body, Jt808Session session) {
 
-
-            Producer<KafkaMsgKey, Object> implSync = new KafkaProducerImpl<>(ConfArguments.KAFKA_TOPIC_DATA, false);
+            Producer<KafkaMsgKey, Object> implSync = KafkaProducerStatic.getInstance();
             try {
                 KafkaMsgKey key = new KafkaMsgKey(session.getTerminalId(), Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD.getMsgId());
                 implSync.send(key, body);

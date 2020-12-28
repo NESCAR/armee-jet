@@ -60,6 +60,7 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
         url = System.getProperty(VmOptions.KAFKA_CONSUMER_SERVER_URL);
         port = System.getProperty(VmOptions.KAFKA_CONSUMER_SERVER_PORT);
         broker = System.getProperty(VmOptions.BROKER_ID);
+        log.info("url : " + url + " port : " + port + " broker : " + broker);
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, url + ":" + port);
         // 每个broker都需要不相同
@@ -69,9 +70,9 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
 //        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000");
+        props.put(ConsumerConfig.CLIENT_ID_CONFIG, broker);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, KafkaMsgKeyDeserializer.class.getName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ByteArrayDeserializer.class.getName());
-        props.put(ConsumerConfig.CLIENT_ID_CONFIG, broker);
 
         consumer = new KafkaConsumer<>(props);
         topic = t;
