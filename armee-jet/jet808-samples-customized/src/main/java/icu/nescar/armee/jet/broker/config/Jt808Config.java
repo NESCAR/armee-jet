@@ -4,6 +4,7 @@ package icu.nescar.armee.jet.broker.config;
 import icu.nescar.armee.jet.broker.converter.LocationUploadMsgBodyConverter2;
 import icu.nescar.armee.jet.broker.converter.MileageMsgBodyConverter;
 import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
+import icu.nescar.armee.jet.broker.ext.netty.MyChannelHandlerAdapter;
 import icu.nescar.armee.jet.broker.handler.upload.LocationInfoUploadMsgHandler;
 import icu.nescar.armee.jet.broker.handler.upload.MileageInfoUploadMsgHandler;
 import io.github.hylexus.jt.exception.MsgEscapeException;
@@ -25,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import static io.github.hylexus.jt808.session.SessionCloseReason.SERVER_EXCEPTION_OCCURRED;
+
 /**
  * @author hylexus
  * Created At 2019-09-22 3:43 下午
@@ -36,6 +39,7 @@ public class Jt808Config extends Jt808ServerConfigurationSupport {
 
     @Autowired
     private Jt808SessionManager sessionManager;
+
     private final static AuthCodeValidatorImpl authCodeValidator=new AuthCodeValidatorImpl();
 //覆盖默认逻辑 netty的相关配置
 
@@ -43,11 +47,14 @@ public class Jt808Config extends Jt808ServerConfigurationSupport {
 * 一组用来代表服务器自身的已绑定到某个本地端口的正在监听的套接字
 * 第二组包含所有已创建的用来处理传入客户端连接的channel*/
 // [非必须配置] -- 可替换内置Netty相关配置
-@Override
+//@Override
 public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
         HeatBeatHandler heatBeatHandler, Jt808DecodeHandler decodeHandler,
         TerminalValidatorHandler terminalValidatorHandler, Jt808ChannelHandlerAdapter jt808ChannelHandlerAdapter) {
-    return super.jt808ServerNettyConfigure(heatBeatHandler, decodeHandler, terminalValidatorHandler, jt808ChannelHandlerAdapter);
+
+   return super.jt808ServerNettyConfigure(heatBeatHandler, decodeHandler, terminalValidatorHandler, jt808ChannelHandlerAdapter);
+//   AuthValidatorHandler authValidatorHandler=new AuthValidatorHandler(authCodeValidator);
+//    return new ArmeeServerNettyConfigure(heatBeatHandler, decodeHandler, terminalValidatorHandler, authValidatorHandler, jt808ChannelHandlerAdapter);
 }
 
 
@@ -103,20 +110,20 @@ public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
     }
 
     @Override
-    public AuthCodeValidator supplyAuthCodeValidator() {
+   public AuthCodeValidator supplyAuthCodeValidator() {
         return (session, requestMsgMetadata, authRequestMsgBody) -> {
-            final String terminalId = session.getTerminalId();
-            final String authCode = authRequestMsgBody.getAuthCode();
+          final String terminalId = session.getTerminalId();
+           final String authCode = authRequestMsgBody.getAuthCode();
             // 从覆盖的validateAuthCode方法进行鉴权逻辑
-            if(authCodeValidator.validateAuthCode(session,requestMsgMetadata,authRequestMsgBody)){
+           if(authCodeValidator.validateAuthCode(session,requestMsgMetadata,authRequestMsgBody)){
 
                 log.info("鉴权通过。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, true);
                 //鉴权通过的话 将session持久化，否则就断开
                 sessionManager.persistenceIfNecessary(terminalId, session.getChannel());
-                return true;}
+               return true;}
             else {log.info("鉴权失败。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, false);
-                sessionManager.removeBySessionId(sessionManager.generateSessionId(session.getChannel()));
-            return false;}
+               sessionManager.removeBySessionId(sessionManager.generateSessionId(session.getChannel()));
+         return false;}
         };
     }
 

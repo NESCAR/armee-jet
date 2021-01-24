@@ -1,10 +1,14 @@
 package icu.nescar.armee.jet.broker.msg.req;
 
+import icu.nescar.armee.jet.broker.util.SerializationUtil;
 import io.github.hylexus.jt.annotation.msg.req.Jt808ReqMsgBody;
 import io.github.hylexus.jt.annotation.msg.req.basic.BasicField;
 import io.github.hylexus.jt.data.MsgDataType;
+import io.github.hylexus.jt808.msg.RequestMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * @Auther whale
@@ -14,7 +18,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0F06)
 
-public class AuthUpdateSuccessRequestMsgBody {
+public class AuthUpdateSuccessRequestMsgBody implements RequestMsgBody, Serializable {
     private static final long serialVersionUID = -7197293729749L;
     //司机身份信息
     @BasicField(startIndex = 0,dataType = MsgDataType.STRING,length=1)

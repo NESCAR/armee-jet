@@ -63,22 +63,34 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
         while (true) {
             long startMs = System.currentTimeMillis() / 1000;
             //log.info("start : " + startMs);
-            //TODO 消费者消费到的信息测试下发是否可以成功
+            //TODO 当终端存在连接时，能够下发成功。但目前终端无法返回值，所以resp是null
+            //当终端没有连接时，程序卡死，因为找不到对应session，即不知道往哪里发。
 
             ConsumerRecords<MsgKey, byte[]> records = (ConsumerRecords<MsgKey, byte[]>) receive(Duration.ofSeconds(1));
             timeout=VmOptions.TIME_OUT;
 
             for (ConsumerRecord<MsgKey, byte[]> record:records){
                 String terminalId=record.key().getTerminalId();
-
-                if(record.key().getMsgId()==0x8114){//msgid是上锁消息下发
+                if(sessionManager.findByTerminalId(terminalId)!=null){
+                    if(record.key().getMsgId()==0x8F00){//msgid是授权消息下发
                     AuthInfoSettingsMsgBody lockInfo = (AuthInfoSettingsMsgBody) SerializationUtil.deserialize(record.value());//设置具体的下发信息内容
                     CommandMsg commandMsg = CommandMsg.of(terminalId, CLIENT_COMMON_REPLY, lockInfo);
-                    log.info("收到上锁消息"+commandMsg.toString());
+                    log.info("收到平台下发的授权消息"+commandMsg.toString());
                     final Object resp;
                     try {
+
                         resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-                        log.info("下发上锁消息成功，并收到回复resp: {}", resp);
+                        int maxTry=5;
+                        if(resp!=null&&maxTry>0){
+                            log.info("下发授权消息成功，并收到回复resp: {}", resp);
+                        }
+                        else if(resp==null && maxTry>0){
+                            commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
+                            maxTry--;
+                            log.info("下发授权信息失败，并重新下发一次");
+
+                        }
+                        else log.info("下发授权信息失败");
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -89,25 +101,29 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
 
                 }
 
-                if(record.key().getMsgId()==0x8103){
-                    // 【下发消息】的消息类型为: RESP_TERMINAL_PARAM_SETTINGS (0x8103)  --> RespTerminalSettings的类注解上指定了下发类型
-                    // 客户端对该【下发消息】的回复消息类型为: CLIENT_COMMON_REPLY (0x0001)
-                    TerminalSettingsMsgBody param = (TerminalSettingsMsgBody)SerializationUtil.deserialize(record.value());
+                    if(record.key().getMsgId()==0x8103){
+                        // 【下发消息】的消息类型为: RESP_TERMINAL_PARAM_SETTINGS (0x8103)  --> RespTerminalSettings的类注解上指定了下发类型
+                        // 客户端对该【下发消息】的回复消息类型为: CLIENT_COMMON_REPLY (0x0001)
+                        TerminalSettingsMsgBody param = (TerminalSettingsMsgBody)SerializationUtil.deserialize(record.value());
 
-                    //具体的param设置
-                    CommandMsg commandMsg = CommandMsg.of(terminalId, CLIENT_COMMON_REPLY, param);
-                    log.info("收到终端设置消息"+commandMsg.toString());
-                    final Object resp;
-                    try {
-                        resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-                        log.info("下发终端设置消息成功，并收到回复resp: {}", resp);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        //具体的param设置
+                        CommandMsg commandMsg = CommandMsg.of(terminalId, CLIENT_COMMON_REPLY, param);
+                        log.info("收到终端设置消息"+commandMsg.toString());
+                        final Object resp;
+                        try {
+                            resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
+                            log.info("下发终端设置消息成功，并收到回复resp: {}", resp);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
-
-
+                }
+                else {
+                    log.info("该终端:{},无法连接",terminalId);
                 }
 
             }

@@ -35,7 +35,6 @@ public class LocationUploadRequestMsgBody implements RequestMsgBody, Serializabl
     private short speed;//单位为1/10km/h
 
     private Short direction;//0-359 正北为0，顺时针
-    //？这个类型 Short但是上面的类型是short short说明direction是对象 可以操作？？
 
     private String LocationTime;//时间 YY-MM-DD-hh-mm-ss GMT+8时间
 }

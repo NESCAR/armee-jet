@@ -5,6 +5,8 @@ import io.github.hylexus.jt.annotation.msg.resp.Jt808RespMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 import static io.github.hylexus.jt.data.MsgDataType.BYTE;
 
 /**
@@ -15,11 +17,11 @@ import static io.github.hylexus.jt.data.MsgDataType.BYTE;
 @Data
 @Accessors(chain = true)
 @Jt808RespMsgBody(respMsgId = 0x8F01, desc = "锁控制命令下发")
-public class LockControlMsgBody {
+public class LockControlMsgBody implements Serializable {
     private static final long serialVersionUID = -78329765887L;
-    //车辆的身份信息
+    //锁控制命令 一个字节 所以用byte就行
     @CommandField(order = 1, targetMsgDataType = BYTE)
-    private String lockControl;
+    private byte lockControl;
 
 }
 

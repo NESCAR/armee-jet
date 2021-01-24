@@ -77,7 +77,7 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
         topic = t;
         // 会rebalance消费者，所以分区是不确定的
         // 我的理解：consumer就无法使用seekToEnd 或者 seekToBeginng
-        consumer.subscribe(Collections.singletonList(topic));
+//        consumer.subscribe(Collections.singletonList(topic));
 
         List<PartitionInfo> piSet = consumer.partitionsFor(topic);
         List<TopicPartition> tpList = new ArrayList<>(piSet.size());
@@ -85,9 +85,9 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
             tpList.add(new TopicPartition(pi.topic(), pi.partition()));
         }
         log.info("testKafkaconsumer");
-//        consumer.assign(tpList);
+        consumer.assign(tpList);
         // 如果宕机，则需要恢复到offset
-//        resetConsumer();
+        resetConsumer();
     }
 
     @Override

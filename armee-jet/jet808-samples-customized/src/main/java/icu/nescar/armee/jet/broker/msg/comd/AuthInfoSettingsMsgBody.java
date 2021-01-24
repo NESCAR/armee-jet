@@ -20,21 +20,21 @@ import static io.github.hylexus.jt.data.MsgDataType.*;
 public class AuthInfoSettingsMsgBody implements Serializable {
     private static final long serialVersionUID = -7832986449797L;
     //车辆的身份信息
-    @CommandField(order = 1, targetMsgDataType = STRING)
-    private String driverID;
+    @CommandField(order = 1, targetMsgDataType = BYTES)
+    private byte driverID;
 
 
-    //终端号信息
-    @CommandField(order = 2, targetMsgDataType = STRING)
-    private String TerminalID;
+//    //终端号信息
+//    @CommandField(order = 2, targetMsgDataType = BYTES)
+//    private String TerminalID;
 
     //上锁时间起点 服务端设置的上锁时间范围 YY-MM-DD-hh-mm-ss GMT+8时间
-    @CommandField(order = 3, targetMsgDataType = STRING)
-    private String lockTimeStart;
+    @CommandField(order = 2, targetMsgDataType =BYTES)
+    private byte lockTimeStart;
 
     //上锁时间终点 YY-MM-DD-hh-mm-ss GMT+8时间
-    @CommandField(order = 4, targetMsgDataType = STRING)
-    private String lockTimeEnd;
+    @CommandField(order = 3, targetMsgDataType = BYTES)
+    private byte lockTimeEnd;
 
 
 }
