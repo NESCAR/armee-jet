@@ -50,7 +50,7 @@ public class Jt808Config extends Jt808ServerConfigurationSupport {
 //@Override
 public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
         HeatBeatHandler heatBeatHandler, Jt808DecodeHandler decodeHandler,
-        TerminalValidatorHandler terminalValidatorHandler, Jt808ChannelHandlerAdapter jt808ChannelHandlerAdapter) {
+        TerminalValidatorHandler terminalValidatorHandler, MyChannelHandlerAdapter jt808ChannelHandlerAdapter) {
 
    return super.jt808ServerNettyConfigure(heatBeatHandler, decodeHandler, terminalValidatorHandler, jt808ChannelHandlerAdapter);
 //   AuthValidatorHandler authValidatorHandler=new AuthValidatorHandler(authCodeValidator);

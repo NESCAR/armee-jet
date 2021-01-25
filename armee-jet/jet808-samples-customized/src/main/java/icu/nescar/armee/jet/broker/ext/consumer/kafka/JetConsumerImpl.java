@@ -23,6 +23,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static icu.nescar.armee.jet.broker.config.Jt808MsgType.CLIENT_COMMON_REPLY;
@@ -68,19 +69,20 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
 
             ConsumerRecords<MsgKey, byte[]> records = (ConsumerRecords<MsgKey, byte[]>) receive(Duration.ofSeconds(1));
             timeout=VmOptions.TIME_OUT;
+            int maxTry=2;
+
 
             for (ConsumerRecord<MsgKey, byte[]> record:records){
                 String terminalId=record.key().getTerminalId();
-                if(sessionManager.findByTerminalId(terminalId)!=null){
+                if(sessionManager.findByTerminalId(terminalId).isPresent()){
                     if(record.key().getMsgId()==0x8F00){//msgid是授权消息下发
                     AuthInfoSettingsMsgBody lockInfo = (AuthInfoSettingsMsgBody) SerializationUtil.deserialize(record.value());//设置具体的下发信息内容
                     CommandMsg commandMsg = CommandMsg.of(terminalId, CLIENT_COMMON_REPLY, lockInfo);
-                    log.info("收到平台下发的授权消息"+commandMsg.toString());
+                    log.info("收到平台的授权消息"+commandMsg.toString());
                     final Object resp;
                     try {
 
                         resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-                        int maxTry=5;
                         if(resp!=null&&maxTry>0){
                             log.info("下发授权消息成功，并收到回复resp: {}", resp);
                         }
@@ -89,8 +91,7 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
                             maxTry--;
                             log.info("下发授权信息失败，并重新下发一次");
 
-                        }
-                        else log.info("下发授权信息失败");
+                        } else log.info("下发授权信息失败");
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -123,7 +124,7 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
                     }
                 }
                 else {
-                    log.info("该终端:{},无法连接",terminalId);
+                    log.info("收到平台下发信息，但无法发送，由于该终端:{},未连接",terminalId);
                 }
 
             }
