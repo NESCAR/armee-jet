@@ -13,10 +13,11 @@ import java.io.Serializable;
 /**
  * @Auther whale
  * @Date 2021/1/15
+ * 授权信息成功上报的消息题
  */
 @Data
 @Accessors(chain = true)
-@Jt808ReqMsgBody(msgType = 0x0F06)
+@Jt808ReqMsgBody(msgType = 0x0F07)
 
 public class AuthUpdateSuccessRequestMsgBody implements RequestMsgBody, Serializable {
     private static final long serialVersionUID = -7197293729749L;
@@ -24,10 +25,10 @@ public class AuthUpdateSuccessRequestMsgBody implements RequestMsgBody, Serializ
     @BasicField(startIndex = 0,dataType = MsgDataType.STRING,length=1)
     private String driverId;
 
-    @BasicField(startIndex =6 ,dataType = MsgDataType.BCD,length = 6)
-    private String lockTimeStart;//上锁时间起点 YY-MM-DD-hh-mm-ss GMT+8时间
-    @BasicField(startIndex = 12,dataType = MsgDataType.BCD,length = 6)
-    private String lockTimeEnd;//上锁时间终点 YY-MM-DD-hh-mm-ss GMT+8时间
+    @BasicField(startIndex =6 ,dataType = MsgDataType.BYTES,length = 6)
+    private byte[] lockTimeStart;//上锁时间起点 YY-MM-DD-hh-mm-ss GMT+8时间
+    @BasicField(startIndex = 12,dataType = MsgDataType.BYTES,length = 6)
+    private byte[] lockTimeEnd;//上锁时间终点 YY-MM-DD-hh-mm-ss GMT+8时间
 
 }
 

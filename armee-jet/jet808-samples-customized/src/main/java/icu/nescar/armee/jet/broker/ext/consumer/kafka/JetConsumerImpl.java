@@ -69,8 +69,6 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
 
             ConsumerRecords<MsgKey, byte[]> records = (ConsumerRecords<MsgKey, byte[]>) receive(Duration.ofSeconds(1));
             timeout=VmOptions.TIME_OUT;
-            int maxTry=2;
-
 
             for (ConsumerRecord<MsgKey, byte[]> record:records){
                 String terminalId=record.key().getTerminalId();
@@ -78,20 +76,23 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
                     if(record.key().getMsgId()==0x8F00){//msgid是授权消息下发
                     AuthInfoSettingsMsgBody lockInfo = (AuthInfoSettingsMsgBody) SerializationUtil.deserialize(record.value());//设置具体的下发信息内容
                     CommandMsg commandMsg = CommandMsg.of(terminalId, CLIENT_COMMON_REPLY, lockInfo);
-                    log.info("收到平台的授权消息"+commandMsg.toString());
+                    log.info("收到平台的授权消息"+commandMsg.toString()+"body"+commandMsg.getBody());
                     final Object resp;
+
                     try {
 
                         resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-                        if(resp!=null&&maxTry>0){
-                            log.info("下发授权消息成功，并收到回复resp: {}", resp);
-                        }
-                        else if(resp==null && maxTry>0){
-                            commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-                            maxTry--;
-                            log.info("下发授权信息失败，并重新下发一次");
+                        for(int maxTry=2;maxTry>0;maxTry--){
+                            if(resp!=null){
+                              log.info("下发授权消息成功，并收到回复resp: {}", resp);
+                          }
+                          else{
+                              commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
+                              log.info("下发授权信息失败，并重新下发一次");
+                          }
+                    }
+                        log.info("下发授权信息失败");
 
-                        } else log.info("下发授权信息失败");
 
                     } catch (IOException e) {
                         e.printStackTrace();

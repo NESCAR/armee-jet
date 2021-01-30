@@ -16,11 +16,11 @@ import static io.github.hylexus.jt.data.MsgDataType.BYTE;
  */
 @Data
 @Accessors(chain = true)
-//@Jt808RespMsgBody(respMsgId = 0x8F01, desc = "锁控制命令下发")
+@Jt808RespMsgBody(respMsgId = 0x8F01, desc = "锁控制命令下发")
 public class LockControlMsgBody implements Serializable {
     private static final long serialVersionUID = -78329765887L;
     //锁控制命令 0关锁；1开锁
-//    @CommandField(order = 1, targetMsgDataType = BYTE)
+    @CommandField(order = 1, targetMsgDataType = BYTE)
     private byte lockControl;
 
 }

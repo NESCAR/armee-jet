@@ -22,7 +22,8 @@ public class TestKafkaProducerMain {
                 KafkaMsgKey key = new KafkaMsgKey("client1", Jt808MsgType.CLIENT_ALARM_INFO_UPLOAD.getMsgId());
                 AlarmUploadRequestMsgBody msg = new AlarmUploadRequestMsgBody();
                 msg.setAlarmStatus((byte) (1 << step));
-                msg.setAlarmTime(TimeConverter.longToRFC3339(System.currentTimeMillis()));
+                msg.setAlarmTime(new byte[6]);
+//                msg.setAlarmTime(TimeConverter.longToRFC3339(System.currentTimeMillis()));
                 // 异步测试
                 implAsync.send(key, msg);
                 // 同步测试

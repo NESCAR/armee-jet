@@ -7,7 +7,7 @@ public class TestSerializationUtil {
     @Test
     public void testSerDeser() {
         AlarmUploadRequestMsgBody body = new AlarmUploadRequestMsgBody();
-        body.setAlarmTime("2020-09-08T12:00:09Z");
+        body.setAlarmTime(new byte[10]);
         body.setAlarmStatus((byte) 1);
         try {
             byte[] ser = SerializationUtil.serialize(body);

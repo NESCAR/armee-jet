@@ -1,7 +1,6 @@
 package icu.nescar.armee.jet.broker.config;
 
 
-import icu.nescar.armee.jet.broker.converter.LocationUploadMsgBodyConverter2;
 import icu.nescar.armee.jet.broker.converter.MileageMsgBodyConverter;
 import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
 import icu.nescar.armee.jet.broker.ext.netty.MyChannelHandlerAdapter;
@@ -16,17 +15,12 @@ import io.github.hylexus.jt808.ext.AuthCodeValidator;
 import io.github.hylexus.jt808.ext.TerminalValidator;
 import io.github.hylexus.jt808.msg.RequestMsgMetadata;
 import io.github.hylexus.jt808.session.Jt808SessionManager;
-import io.github.hylexus.jt808.session.SessionManager;
 import io.github.hylexus.jt808.support.MsgHandlerMapping;
 import io.github.hylexus.jt808.support.RequestMsgBodyConverterMapping;
 import io.github.hylexus.jt808.support.netty.*;
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.socket.SocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-
-import static io.github.hylexus.jt808.session.SessionCloseReason.SERVER_EXCEPTION_OCCURRED;
 
 /**
  * @author hylexus
@@ -63,7 +57,7 @@ public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
     /*手动将解析位置消息的转换器注册进去,还注册了新的里程信息转换器*/
     public void configureMsgConverterMapping(RequestMsgBodyConverterMapping mapping) {
         super.configureMsgConverterMapping(mapping);
-        mapping.registerConverter(Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD, new LocationUploadMsgBodyConverter2());
+//        mapping.registerConverter(Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD, new LocationUploadMsgBodyConverter());
         mapping.registerConverter(Jt808MsgType.CLIENT_MILEAGE_INFO_UPLOAD, new MileageMsgBodyConverter());
     }
 

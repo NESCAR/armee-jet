@@ -29,7 +29,7 @@ public class LockStatusUploadRequestMsgBody implements RequestMsgBody, Serializa
 
 
     //事件发生时的时间
-    @BasicField(startIndex = 1,dataType = MsgDataType.BCD,length = 6)
-    private String lockStatusTime;//时间 YY-MM-DD-hh-mm-ss GMT+8时间
+   @BasicField(startIndex = 1,dataType = MsgDataType.BYTES,length = 6)
+    private byte[] lockStatusTime;//时间 YY-MM-DD-hh-mm-ss GMT+8时间
 }
 

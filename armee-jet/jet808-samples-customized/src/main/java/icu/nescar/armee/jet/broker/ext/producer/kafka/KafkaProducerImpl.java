@@ -101,7 +101,7 @@ public class KafkaProducerImpl<K extends MsgKey, V> implements Producer<K, V> {
             Properties props = new Properties();
             // 判别请求是否为完整的条件，是否成功发送
             props.put(ProducerConfig.ACKS_CONFIG, "all");
-            // 如果请求失败，生产者自动重试，这里设置重试次数为0
+            // 如果请求失败，生产者自动重试，这里设置重试次数为5
             props.put(ProducerConfig.RETRIES_CONFIG, 5);
             // 设置分区未发送的消息个数，每个分区都会对应一个缓存区来存储这些消息
             props.put(ProducerConfig.BATCH_SIZE_CONFIG, 1000);

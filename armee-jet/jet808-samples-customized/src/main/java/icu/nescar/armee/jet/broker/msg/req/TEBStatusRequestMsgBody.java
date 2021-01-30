@@ -25,8 +25,8 @@ public class TEBStatusRequestMsgBody implements RequestMsgBody, Serializable {
     private int tebStatus;
 
     //时间 YY-MM-DD-hh-mm-ss GMT+8时间
-    @BasicField(startIndex = 2,dataType = MsgDataType.BCD,length = 6)
-    private String time;
+    @BasicField(startIndex = 2,dataType = MsgDataType.BYTES,length = 6)
+    private byte[] tebsTime;
 
 }
 

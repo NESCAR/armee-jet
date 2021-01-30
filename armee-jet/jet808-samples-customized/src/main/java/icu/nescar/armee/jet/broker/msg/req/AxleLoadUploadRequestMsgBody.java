@@ -48,8 +48,8 @@ public class AxleLoadUploadRequestMsgBody implements RequestMsgBody, Serializabl
 
     //BCD 长度6字节
     //时间 YY-MM-DD-hh-mm-ss GMT+8时间
-    @BasicField(startIndex = 14,dataType = MsgDataType.BCD,length=6)
-    private String axleTime;
+    @BasicField(startIndex = 14,dataType = MsgDataType.BYTES,length=6)
+    private byte[] axleTime;
 
 
 }

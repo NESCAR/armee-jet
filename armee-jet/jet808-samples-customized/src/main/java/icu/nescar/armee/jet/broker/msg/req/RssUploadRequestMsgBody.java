@@ -57,8 +57,8 @@ public class RssUploadRequestMsgBody implements RequestMsgBody, Serializable {
 
 
     //时间 YY-MM-DD-hh-mm-ss GMT+8时间
-    @BasicField(startIndex =15,dataType = MsgDataType.BCD,length = 6)
-    private String rssTime;
+    @BasicField(startIndex =15,dataType = MsgDataType.BYTES,length = 6)
+    private byte[] rssTime;
 
 
 

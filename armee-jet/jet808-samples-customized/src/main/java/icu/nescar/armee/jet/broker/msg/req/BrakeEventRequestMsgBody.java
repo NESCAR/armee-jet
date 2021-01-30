@@ -26,7 +26,7 @@ public class BrakeEventRequestMsgBody implements RequestMsgBody, Serializable {
     private byte brakeSignal;
 
     //事件发生时的时间
-    @BasicField(startIndex = 1, dataType = MsgDataType.BCD, length = 6)
-    private String brakeTime;//时间 YY-MM-DD-hh-mm-ss GMT+8时间
+    @BasicField(startIndex = 1, dataType = MsgDataType.BYTES, length = 6)
+    private byte[] brakeTime;//时间 YY-MM-DD-hh-mm-ss GMT+8时间
 }
 
