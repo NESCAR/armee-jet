@@ -6,9 +6,13 @@ import icu.nescar.armee.jet.broker.ext.producer.MsgKey;
 import icu.nescar.armee.jet.broker.msg.comd.AuthInfoSettingsMsgBody;
 import icu.nescar.armee.jet.broker.msg.comd.TerminalSettingsMsgBody;
 import icu.nescar.armee.jet.broker.util.SerializationUtil;
+import io.github.hylexus.jt808.codec.Encoder;
+import io.github.hylexus.jt808.converter.ResponseMsgBodyConverter;
 import io.github.hylexus.jt808.dispatcher.CommandSender;
+import io.github.hylexus.jt808.dispatcher.impl.DefaultCommandSender;
 import io.github.hylexus.jt808.msg.resp.CommandMsg;
 import io.github.hylexus.jt808.session.Jt808SessionManager;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -43,19 +47,26 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
      *
      * @param t topic
      */
-    public JetConsumerImpl(String t) {
-        super(t);
+    public JetConsumerImpl(String t,String s,String m) {
+        super(t,s,m);
     }
     public JetConsumerImpl() {
-        super(ConfArguments.KAFKA_TOPIC_CMD);
+        super(ConfArguments.KAFKA_TOPIC_CMD,"cmd","1");
     }
     public Long timeout;
 
     @Autowired
-    private CommandSender commandSender;
+    private ResponseMsgBodyConverter responseMsgBodyConverter;
+
+    @Autowired
+    private Encoder encoder;
 
     @Autowired
     private Jt808SessionManager sessionManager;
+
+    private DefaultCommandSender commandSender=new DefaultCommandSender(responseMsgBodyConverter,encoder,sessionManager);
+
+
 
 
 

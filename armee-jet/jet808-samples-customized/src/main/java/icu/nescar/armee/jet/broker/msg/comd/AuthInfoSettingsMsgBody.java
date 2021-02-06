@@ -2,9 +2,9 @@ package icu.nescar.armee.jet.broker.msg.comd;
 
 import io.github.hylexus.jt.annotation.msg.resp.CommandField;
 import io.github.hylexus.jt.annotation.msg.resp.Jt808RespMsgBody;
+import io.github.hylexus.jt808.msg.RespMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import sun.jvm.hotspot.runtime.Bytes;
 
 import java.io.Serializable;
 

@@ -57,16 +57,16 @@ public class MyChannelHandlerAdapter extends Jt808ChannelHandlerAdapter {
                 if(msgId==0x102){
                     log.debug("[decode] : {}, terminalId={}, msg = {}", new Object[]{msgType.get(), terminalId, metadata});
                     RequestMsgWrapper requestMsgWrapper = (new RequestMsgWrapper()).setMetadata(metadata);
-                    this.msgDispatcher.doDispatch(requestMsgWrapper);
                     this.sessionManager.persistenceIfNecessary(terminalId, ctx.channel());
+                    this.msgDispatcher.doDispatch(requestMsgWrapper);
                     return;
                 }
                 else {
                     if( sessionManager.findByTerminalId(header.getTerminalId(),true).isPresent())
                     { log.debug("[decode] : {}, terminalId={}, msg = {}", new Object[]{msgType.get(), terminalId, metadata});
                         RequestMsgWrapper requestMsgWrapper = (new RequestMsgWrapper()).setMetadata(metadata);
-                        this.msgDispatcher.doDispatch(requestMsgWrapper);
                         this.sessionManager.persistenceIfNecessary(terminalId, ctx.channel());
+                        this.msgDispatcher.doDispatch(requestMsgWrapper);
                         return;}
                     else {
                         sessionManager.removeBySessionId(sessionManager.generateSessionId(ctx.channel()));

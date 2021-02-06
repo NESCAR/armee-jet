@@ -40,7 +40,7 @@ public enum Jt808MsgType implements MsgType {
     SERVER_REGISTER_REPLY(0x8100, "平台注册应答"),
     CMD_TERMINAL_PARAM_SETTINGS(0x8103, "设置终端参数"),
     CMD_QUERY_TERMINAL_PROPERTIES(0x8107, "查询终端属性(EMPTY)"),
-    CMD_AUTH_INFO_SETTINGS(0x8F01,"授权信息下发"),
+    CMD_AUTH_INFO_SETTINGS(0x8F00,"授权信息下发"),
     CMD_LOCK_INFO_SETTINGS(0x8F01,"锁控制命令下发"),
 
 
