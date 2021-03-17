@@ -17,6 +17,7 @@ package icu.nescar.armee.jet.broker.ext.conf;
  *     consume.from=kafka
  *     kafka.consumer.server.url= kafka-1
  *     kafka.consumer.server.port=9092
+ *     kafka.consumer.group.id=hj
  *
  *
  *     快速使用
@@ -24,6 +25,7 @@ package icu.nescar.armee.jet.broker.ext.conf;
  *     -Dauth.by=mysql -Dmysql.url=mysql://mysql:3306/tms -Djdbc.driver=com.mysql.cj.jdbc.Driver -Dmysql.user=root -Dmysql.psw=Hujing7017! -Dmysql.auth.table=device -Dvalidator.pool.core-num=10
  *     -Dproduce.to=kafka -Dkafka.producer.server.url=kafka-1 -Dkafka.producer.server.port=9092
  *     -Dconsume.from=kafka -Dkafka.consumer.server.url=kafka-1 -Dkafka.consumer.server.port=9092
+ *     -Dckafka.consumer.group.id=hj
  * </pre>
  * @author neyzoter
  */
@@ -113,6 +115,14 @@ public class VmOptions {
     *Kafka消费者实例订阅消息然后用commandsender发送出去的超时时间 秒为单位
      */
     public static final long TIME_OUT=5;
+
+    /**
+     * Kafka服务器的消费者组  每个节点的消费者组都应该不一致。因为需要保证节点能够收到所有消息，在同一组内不能保证。所以要用可配置的方式
+     * 每次运行的时候传入不同的消费者组名称
+     */
+    public static final String KAFKA_CONSUMER_GROUP_ID="kafka.consumer.group.id";
+
+
 
 
     /**

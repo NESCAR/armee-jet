@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestKafkaConsumerMain {
     public static void main(String[] args) {
-        Consumer<ConsumerRecord<MsgKey, byte[]>> consumer = new JetConsumerImpl(ConfArguments.KAFKA_TOPIC_DATA);
+        Consumer<ConsumerRecord<MsgKey, byte[]>> consumer = new JetConsumerImpl(ConfArguments.KAFKA_TOPIC_DATA,"_","_");
         ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
         ses.scheduleAtFixedRate(consumer, 0, 8, TimeUnit.SECONDS);
     }

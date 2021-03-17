@@ -48,46 +48,49 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
      * 结束运行
      */
     protected boolean shutdown;
+
     public KafkaConsumerImpl() {
-        this(ConfArguments.KAFKA_TOPIC_CMD);
+        this(ConfArguments.KAFKA_TOPIC_CMD,"default","default");
     }
     /**
-     * Kafka消费者实例
-     * @param t topic
+     * 设置Kafka Consumer
+     * @param topic 主题
+     * @param CgName 消费者组
      */
-    public KafkaConsumerImpl(String t) {
+    public KafkaConsumerImpl(String topic, String CgName, String consumerId) {
         shutdown = false;
         url = System.getProperty(VmOptions.KAFKA_CONSUMER_SERVER_URL);
         port = System.getProperty(VmOptions.KAFKA_CONSUMER_SERVER_PORT);
+
         broker = System.getProperty(VmOptions.BROKER_ID);
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, url + ":" + port);
         // 每个broker都需要不相同
         // 否则会出现多个broker只能消费一部分数据的情况
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, ConfArguments.KAFKA_CONSUMER_GROUP_PREFIX + broker);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, CgName);
         // 启动手动
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
 //        props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "30000");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, KafkaMsgKeyDeserializer.class.getName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ByteArrayDeserializer.class.getName());
-        props.put(ConsumerConfig.CLIENT_ID_CONFIG, broker);
+        props.put(ConsumerConfig.CLIENT_ID_CONFIG, CgName + broker + consumerId);
 
         consumer = new KafkaConsumer<>(props);
-        topic = t;
+        this.topic = topic;
         // 会rebalance消费者，所以分区是不确定的
         // 我的理解：consumer就无法使用seekToEnd 或者 seekToBeginng
-//        consumer.subscribe(Collections.singletonList(topic));
+        consumer.subscribe(Collections.singletonList(topic));
 
         List<PartitionInfo> piSet = consumer.partitionsFor(topic);
         List<TopicPartition> tpList = new ArrayList<>(piSet.size());
         for (PartitionInfo pi : piSet) {
             tpList.add(new TopicPartition(pi.topic(), pi.partition()));
         }
-        log.info("testKafkaconsumer");
-        consumer.assign(tpList);
+        log.info(String.format("KafkaConsumerImpl : [%s   %s   %s]", topic, CgName, consumerId));
+//        consumer.assign(tpList);
         // 如果宕机，则需要恢复到offset
-        resetConsumer();
+//        resetConsumer();
     }
 
     @Override

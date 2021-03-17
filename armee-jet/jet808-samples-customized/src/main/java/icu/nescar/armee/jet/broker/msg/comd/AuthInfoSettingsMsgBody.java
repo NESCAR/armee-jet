@@ -4,7 +4,7 @@ import io.github.hylexus.jt.annotation.msg.resp.CommandField;
 import io.github.hylexus.jt.annotation.msg.resp.Jt808RespMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import sun.jvm.hotspot.runtime.Bytes;
+//import sun.jvm.hotspot.runtime.Bytes;
 
 import java.io.Serializable;
 
@@ -21,7 +21,7 @@ import static io.github.hylexus.jt.data.MsgDataType.*;
 public class AuthInfoSettingsMsgBody implements Serializable {
     private static final long serialVersionUID = -7832986449797L;
     //车辆的身份信息
-    @CommandField(order = 1, targetMsgDataType = BYTES)
+    @CommandField(order = 1, targetMsgDataType = STRING)
     private String driverID;
 
 
