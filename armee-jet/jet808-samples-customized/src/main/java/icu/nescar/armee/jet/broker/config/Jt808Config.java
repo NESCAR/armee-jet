@@ -1,11 +1,13 @@
 package icu.nescar.armee.jet.broker.config;
 
 
+import icu.nescar.armee.jet.broker.converter.LocationMsgBodyConverter;
 import icu.nescar.armee.jet.broker.converter.MileageMsgBodyConverter;
 import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
 import icu.nescar.armee.jet.broker.ext.netty.MyChannelHandlerAdapter;
 import icu.nescar.armee.jet.broker.handler.upload.LocationInfoUploadMsgHandler;
 import icu.nescar.armee.jet.broker.handler.upload.MileageInfoUploadMsgHandler;
+import icu.nescar.armee.jet.broker.handler.upload.TerminalCommonReplyMsgHandler;
 import io.github.hylexus.jt.exception.MsgEscapeException;
 import io.github.hylexus.jt808.boot.config.Jt808ServerConfigurationSupport;
 import io.github.hylexus.jt808.codec.BytesEncoder;
@@ -57,7 +59,7 @@ public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
     /*手动将解析位置消息的转换器注册进去,还注册了新的里程信息转换器*/
     public void configureMsgConverterMapping(RequestMsgBodyConverterMapping mapping) {
         super.configureMsgConverterMapping(mapping);
-//        mapping.registerConverter(Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD, new LocationUploadMsgBodyConverter());
+        mapping.registerConverter(Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD, new LocationMsgBodyConverter());
         mapping.registerConverter(Jt808MsgType.CLIENT_MILEAGE_INFO_UPLOAD, new MileageMsgBodyConverter());
     }
 
@@ -69,6 +71,7 @@ public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
         super.configureMsgHandlerMapping(mapping);
         mapping.registerHandler(Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD, new LocationInfoUploadMsgHandler());
         mapping.registerHandler(Jt808MsgType.CLIENT_MILEAGE_INFO_UPLOAD, new MileageInfoUploadMsgHandler());
+        mapping.registerHandler(Jt808MsgType.CLIENT_COMMON_REPLY, new TerminalCommonReplyMsgHandler());
     }
 
     @Override

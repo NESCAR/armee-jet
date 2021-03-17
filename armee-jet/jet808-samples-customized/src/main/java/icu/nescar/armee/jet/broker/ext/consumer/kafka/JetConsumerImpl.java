@@ -50,11 +50,11 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
     public JetConsumerImpl(String t,String cg,String ct) {
         super(t,cg,ct);
     }
-    String cgname=System.getProperty();
-    String consumerid=System.getProperty();
+    public static String cgName=System.getProperty(VmOptions.KAFKA_CONSUMER_GROUP_ID);
+    public static String consumerId=System.getProperty(VmOptions.KAFKA_CONSUMER_ID);
 
     public JetConsumerImpl() {
-        super(ConfArguments.KAFKA_TOPIC_CMD,cgname,consumerid);
+        super(ConfArguments.KAFKA_TOPIC_CMD,cgName,consumerId);
     }
     public Long timeout;
 

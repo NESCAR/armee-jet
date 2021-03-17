@@ -3,6 +3,7 @@ package icu.nescar.armee.jet.broker.handler.upload;
 import icu.nescar.armee.jet.broker.config.Jt808MsgType;
 import icu.nescar.armee.jet.broker.ext.producer.Producer;
 import icu.nescar.armee.jet.broker.ext.producer.kafka.KafkaProducerStatic;
+import icu.nescar.armee.jet.broker.ext.producer.kafka.KafkaProducerStatic2;
 import icu.nescar.armee.jet.broker.ext.producer.kafka.msg.KafkaMsgKey;
 import icu.nescar.armee.jet.broker.msg.req.BrakeEventRequestMsgBody;
 import io.github.hylexus.jt.annotation.msg.handler.Jt808RequestMsgHandler;
@@ -35,7 +36,7 @@ public class BrakeEventUploadMsgHandler{
         assert session.getTerminalId().equals(header.getTerminalId());
         assert session.getTerminalId().equals(metadata.getHeader().getTerminalId());
         assert metadata.getHeader() == header;
-        Producer<KafkaMsgKey, Object> implSync = KafkaProducerStatic.getDeviceInstance();
+        Producer<KafkaMsgKey, Object> implSync = KafkaProducerStatic2.getDeviceInstance();
                 try {
             KafkaMsgKey key = new KafkaMsgKey(session.getTerminalId(), Jt808MsgType.CLIENT_BRAKE_INFO_UPLOAD.getMsgId());
             implSync.send(key, msgBody);

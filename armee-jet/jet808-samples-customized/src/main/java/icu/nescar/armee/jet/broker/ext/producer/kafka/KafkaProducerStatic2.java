@@ -6,21 +6,21 @@ import icu.nescar.armee.jet.broker.ext.producer.kafka.msg.KafkaMsgKey;
 
 /**
  * @Auther whale
- * @Date 2020/12/29
- * data数据的生产者单例
+ * @Date 2021/3/17
+ * 设备信息的生产者单例
+ * 非时序数据
  */
-public class KafkaProducerStatic {
+public class KafkaProducerStatic2 {
     protected static volatile Producer<KafkaMsgKey, Object> producer;
-    public static Producer<KafkaMsgKey, Object> getDataInstance() {
+    public static Producer<KafkaMsgKey, Object> getDeviceInstance() {
         if (producer == null) {
             synchronized (KafkaProducerStatic.class) {
                 if(producer == null) {
-                    producer = new KafkaProducerImpl<>(ConfArguments.KAFKA_TOPIC_DATA, false);
+                    producer = new KafkaProducerImpl<>(ConfArguments.KAFKA_TOPIC_DEVICE, false);
                 }
             }
         }
         return producer;
     }
-
 }
 

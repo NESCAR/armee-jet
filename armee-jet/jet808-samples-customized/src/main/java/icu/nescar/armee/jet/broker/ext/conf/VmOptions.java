@@ -121,6 +121,8 @@ public class VmOptions {
      * 每次运行的时候传入不同的消费者组名称
      */
     public static final String KAFKA_CONSUMER_GROUP_ID="kafka.consumer.group.id";
+    public static final String KAFKA_CONSUMER_ID="kafka.consumer.id";
+
 
 
 
