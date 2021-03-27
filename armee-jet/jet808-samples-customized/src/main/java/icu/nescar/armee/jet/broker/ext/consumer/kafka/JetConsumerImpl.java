@@ -79,9 +79,9 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
 
             for (ConsumerRecord<MsgKey, byte[]> record : records) {
                 String terminalId = record.key().getTerminalId();
-                threadPool.submit(new Runnable() {
-                    @Override
-                    public void run() {
+//                threadPool.submit(new Runnable() {
+//                    @Override
+//                    public void run() {
                         if (sessionManager.findByTerminalId(terminalId).isPresent()) {
                             if (record.key().getMsgId() == 0x8F00) {//msgid是授权消息下发
 
@@ -132,8 +132,8 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
                         } else {
                             log.info("收到平台下发信息，但无法发送，由于该终端:{},未连接", terminalId);
                         }
-                    }
-                });
+//                    }
+//                });
             }
             /**
              * 手动控制offset
