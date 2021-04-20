@@ -88,21 +88,22 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
                                 AuthInfoSettingsMsgBody lockInfo = (AuthInfoSettingsMsgBody) SerializationUtil.deserialize(record.value());//设置具体的下发信息内容
                                 CommandMsg commandMsg = CommandMsg.of(terminalId, CLIENT_COMMON_REPLY, lockInfo);
                                 log.info("收到平台的授权消息:" + commandMsg.toString() + ";body:" + commandMsg.getBody());
-                                final Object resp;
+                                Object resp = null;
                                 try {
+//                                    while (resp==null){
+//                                        resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
+//                                        if (resp != null) {
+//                                            log.info("下发授权消息成功，并收到回复resp: {}", resp);
+//                                        }else {
+//                                            log.info("下发授权信息失败");
+//                                        }
+//                                    }
                                     resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-                                    for (int maxTry = 2; maxTry > 0; maxTry--) {
-                                        if (resp != null) {
-                                            log.info("下发授权消息成功，并收到回复resp: {}", resp);
-                                        } else {
-                                            commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-
-                                            log.info("下发授权信息失败，并重新下发一次");
-                                        }
+                                    if (resp != null) {
+                                        log.info("下发授权消息成功，并收到回复resp: {}", resp);
+                                    }else {
+                                        log.info("下发授权信息失败");
                                     }
-                                    log.info("下发授权信息失败");
-
-
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 } catch (InterruptedException e) {
@@ -132,9 +133,9 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
                         } else {
                             log.info("收到平台下发信息，但无法发送，由于该终端:{},未连接", terminalId);
                         }
-//                    }
+                    }
 //                });
-            }
+//            }
             /**
              * 手动控制offset
              * 当宕机后，等待consumer重启，则通过seek(TopicPartition, long)来恢复到之前的offset

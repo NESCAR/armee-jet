@@ -5,6 +5,7 @@ import icu.nescar.armee.jet.broker.converter.LocationMsgBodyConverter;
 import icu.nescar.armee.jet.broker.converter.MileageMsgBodyConverter;
 import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
 //import icu.nescar.armee.jet.broker.ext.netty.MyChannelHandlerAdapter;
+import icu.nescar.armee.jet.broker.ext.netty.MyChannelHandlerAdapter;
 import icu.nescar.armee.jet.broker.handler.upload.LocationInfoUploadMsgHandler;
 import icu.nescar.armee.jet.broker.handler.upload.MileageInfoUploadMsgHandler;
 import icu.nescar.armee.jet.broker.handler.upload.TerminalCommonReplyMsgHandler;
@@ -46,7 +47,7 @@ public class Jt808Config extends Jt808ServerConfigurationSupport {
 //@Override
 public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
         HeatBeatHandler heatBeatHandler, Jt808DecodeHandler decodeHandler,
-        TerminalValidatorHandler terminalValidatorHandler, Jt808ChannelHandlerAdapter jt808ChannelHandlerAdapter) {
+        TerminalValidatorHandler terminalValidatorHandler, MyChannelHandlerAdapter jt808ChannelHandlerAdapter) {
 
    return super.jt808ServerNettyConfigure(heatBeatHandler, decodeHandler, terminalValidatorHandler, jt808ChannelHandlerAdapter);
 //   AuthValidatorHandler authValidatorHandler=new AuthValidatorHandler(authCodeValidator);
@@ -106,23 +107,23 @@ public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
         };
     }
 
-//    @Override
-//   public AuthCodeValidator supplyAuthCodeValidator() {
-//        return (session, requestMsgMetadata, authRequestMsgBody) -> {
-//          final String terminalId = session.getTerminalId();
-//           final String authCode = authRequestMsgBody.getAuthCode();
-//            // 从覆盖的validateAuthCode方法进行鉴权逻辑
-//           if(authCodeValidator.validateAuthCode(session,requestMsgMetadata,authRequestMsgBody)){
-//
-//                log.info("鉴权通过。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, true);
-//                //鉴权通过的话 将session持久化，否则就断开
-//                sessionManager.persistenceIfNecessary(terminalId, session.getChannel());
-//               return true;}
-//            else {log.info("鉴权失败。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, false);
-//               sessionManager.removeBySessionId(sessionManager.generateSessionId(session.getChannel()));
-//         return false;}
-//        };
-//    }
+    @Override
+   public AuthCodeValidator supplyAuthCodeValidator() {
+        return (session, requestMsgMetadata, authRequestMsgBody) -> {
+          final String terminalId = session.getTerminalId();
+           final String authCode = authRequestMsgBody.getAuthCode();
+            // 从覆盖的validateAuthCode方法进行鉴权逻辑
+           if(authCodeValidator.validateAuthCode(session,requestMsgMetadata,authRequestMsgBody)){
+
+                log.info("鉴权通过。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, true);
+                //鉴权通过的话 将session持久化，否则就断开
+                sessionManager.persistenceIfNecessary(terminalId, session.getChannel());
+               return true;}
+            else {log.info("鉴权失败。AuthCode validate for terminal : {} with authCode : {}, result: {}", terminalId, authCode, false);
+               sessionManager.removeBySessionId(sessionManager.generateSessionId(session.getChannel()));
+         return false;}
+        };
+    }
 
 
     @Override

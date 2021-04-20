@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Auther whale
@@ -37,9 +38,9 @@ public class TerminalCommonReplyMsgHandler extends AbstractMsgHandler<BuiltinTer
     protected Optional<RespMsgBody> doProcess(RequestMsgMetadata metadata, BuiltinTerminalCommonReplyMsgBody body, Jt808Session session) {
         log.info("收到终端通用应答 terminalId = {}, msgBody = {}", session.getTerminalId(),body);
         Jt808CommandKey commandKey=Jt808CommandKey.of(metadata.getMsgType(), metadata.getHeader().getTerminalId(), metadata.getHeader().getFlowId());
-        commandKey.setFlowId(metadata.getHeader().getFlowId());
-        commandKey.setMsgType(metadata.getMsgType());
-        commandKey.setTerminalId(metadata.getHeader().getTerminalId());
+//        commandKey.setFlowId(metadata.getHeader().getFlowId());
+//        commandKey.setMsgType(metadata.getMsgType());
+//        commandKey.setTerminalId(metadata.getHeader().getTerminalId());
         CommandWaitingPool.getInstance().putIfNecessary(commandKey, "result for " + commandKey.getKeyAsString());
 
         return Optional.empty();
