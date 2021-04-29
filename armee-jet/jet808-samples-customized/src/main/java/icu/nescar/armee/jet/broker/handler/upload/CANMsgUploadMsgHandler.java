@@ -33,11 +33,7 @@ public class CANMsgUploadMsgHandler{
             Session session, RequestMsgMetadata metadata,
             RequestMsgHeader header, CANMsgRequestMsgBody msgBody
     ) {
-        assert header.getMsgId() == Jt808MsgType.CLIENT_CAN_INFO_UPLOAD.getMsgId();
-        assert session.getTerminalId().equals(header.getTerminalId());
-        assert session.getTerminalId().equals(metadata.getHeader().getTerminalId());
-        assert metadata.getHeader() == header;
-        Producer<KafkaMsgKey, Object> implSync = KafkaProducerStatic2.getDeviceInstance();
+        Producer<KafkaMsgKey, Object> implSync = KafkaProducerStatic.getDataInstance();
                 try {
             KafkaMsgKey key = new KafkaMsgKey(session.getTerminalId(), Jt808MsgType.CLIENT_CAN_INFO_UPLOAD.getMsgId());
             implSync.send(key, msgBody);

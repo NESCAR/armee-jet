@@ -20,7 +20,7 @@ import static io.github.hylexus.jt.data.MsgDataType.*;
 @Jt808RespMsgBody(respMsgId = 0x8F00, desc = "授权信息下发")
 public class AuthInfoSettingsMsgBody implements Serializable {
     private static final long serialVersionUID = -7832986449797L;
-    //车辆的身份信息
+    //车辆的身份信息 下发的是ic卡号
     @CommandField(order = 1, targetMsgDataType = STRING)
     private String driverID;
 

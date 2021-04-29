@@ -1,6 +1,7 @@
 package icu.nescar.armee.jet.broker.config;
 
 
+import icu.nescar.armee.jet.broker.converter.CANMsgBodyConverter;
 import icu.nescar.armee.jet.broker.converter.LocationMsgBodyConverter;
 import icu.nescar.armee.jet.broker.converter.MileageMsgBodyConverter;
 import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
@@ -62,6 +63,7 @@ public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
         super.configureMsgConverterMapping(mapping);
         mapping.registerConverter(Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD, new LocationMsgBodyConverter());
         mapping.registerConverter(Jt808MsgType.CLIENT_MILEAGE_INFO_UPLOAD, new MileageMsgBodyConverter());
+        mapping.registerConverter(Jt808MsgType.CLIENT_CAN_INFO_UPLOAD,new CANMsgBodyConverter());
     }
 
     @Override

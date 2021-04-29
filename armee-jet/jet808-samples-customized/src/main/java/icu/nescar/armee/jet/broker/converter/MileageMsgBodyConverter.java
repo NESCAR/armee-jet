@@ -10,7 +10,10 @@ import io.github.hylexus.oaks.utils.BcdOps;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
+import java.util.Arrays;
 import java.util.Optional;
+
+import static io.github.hylexus.oaks.utils.IntBitOps.intFromBytes;
 
 /**
  * @Auther whale
@@ -26,13 +29,11 @@ public class MileageMsgBodyConverter implements RequestMsgBodyConverter<MileageU
     @Override
     public Optional<MileageUploadRequestMsgBody> convert2Entity(RequestMsgMetadata metadata) {
         // 使用ByteBuf读取字节的时候注意顺序！！！ 先是里程后是BCD时间
-//        ByteBuf buf = Unpooled.wrappedBuffer(metadata.getBodyBytes());
-//        MileageUploadRequestMsgBody body = new MileageUploadRequestMsgBody();
-//        body.setMileage(buf.readInt());
-//        byte[] tmp = new byte[6];
-//        buf.readBytes(tmp);
-//        body.setMileageTime(BcdOps.bytes2BcdString(tmp, 0, 6));
-        MileageUploadRequestMsgBody body = (MileageUploadRequestMsgBody) SerializationUtil.deserialize(metadata.getBodyBytes());
+        byte[] bytes = metadata.getBodyBytes();
+        MileageUploadRequestMsgBody body = new MileageUploadRequestMsgBody();
+        body.setMileage(intFromBytes(bytes, 0, 4));
+        body.setMileageTime(Arrays.copyOfRange(bytes,4,10));
+//        MileageUploadRequestMsgBody body = (MileageUploadRequestMsgBody) SerializationUtil.deserialize(metadata.getBodyBytes());
 
         return Optional.of(body);
     }
