@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 /**
  * @Auther whale
  * @Date 2020/8/27
+ * 未使用
  */
 @Slf4j
 @Jt808RequestMsgHandler

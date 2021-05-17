@@ -11,6 +11,8 @@ import io.github.hylexus.jt808.msg.RequestMsgMetadata;
 import io.github.hylexus.jt808.msg.RespMsgBody;
 import io.github.hylexus.jt808.session.Jt808Session;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
 import java.util.Optional;
 
 /**
@@ -18,10 +20,12 @@ import java.util.Optional;
  * 里程信息上报处理器
  * @Date 2020/8/13
  * 目前返回的都是终端通用应答
+ * 未使用
  */
 
 
 @Slf4j
+@Component
 public class MileageInfoUploadMsgHandler extends AbstractMsgHandler<MileageUploadRequestMsgBody>  {
 
     @Override

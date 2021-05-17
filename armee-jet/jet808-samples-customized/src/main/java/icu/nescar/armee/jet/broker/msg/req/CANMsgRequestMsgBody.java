@@ -19,9 +19,8 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @Jt808ReqMsgBody(msgType = 0x0705)
 public class CANMsgRequestMsgBody implements RequestMsgBody, Serializable {
-    private static final long serialVersionUID=12323;
-
-    //数据项个数
+    private static final long serialVersionUID = -2049808968329417346L;
+    //数据项个数 目前只传1个
 //    @BasicField(startIndex = 0, dataType = MsgDataType.WORD, length = 2)
     private int msgItem;
 

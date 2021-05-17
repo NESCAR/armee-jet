@@ -1,5 +1,6 @@
 package icu.nescar.armee.jet.broker.converter;
 
+import icu.nescar.armee.jet.broker.config.CANMsgType;
 import icu.nescar.armee.jet.broker.msg.CANMessage.*;
 import icu.nescar.armee.jet.broker.msg.req.CANMsgRequestMsgBody;
 import io.github.hylexus.jt808.converter.RequestMsgBodyConverter;
@@ -19,6 +20,7 @@ import static io.github.hylexus.oaks.utils.IntBitOps.intFromBytes;
  */
 @Slf4j
 public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgRequestMsgBody> {
+
     @Override
     public Optional<CANMsgRequestMsgBody> convert2Entity(RequestMsgMetadata requestMsgMetadata) {
         byte[] bytes = requestMsgMetadata.getBodyBytes();
@@ -27,247 +29,238 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
         body.setCanTime(Arrays.copyOfRange(bytes,2,8));
         body.setCanID(intFromBytes(bytes,8,4));
         byte[] canData=Arrays.copyOfRange(bytes,12,20);
+        switch (body.getCanID()){
+            case 0x0C02C820:
+                EBS11 canBody=new EBS11();
+                canBody.setCanTime(body.getCanTime());
+                canBody.setABSstatus((canData[0]>>6)&0x03);
+                canBody.setRetarderControlStatus((canData[0]>>4)&0x03);
+                canBody.setASRBrakeCcontrolStatus((canData[0]>>2)&0x03);
+                canBody.setASREngineControlStatus(canData[0]&0x03);
+                canBody.setBrakeLightSwitch((canData[1]>>6)&0x03);
+                canBody.setVehicleType((canData[1]>>4)&0x03);
+                canBody.setVDCActive((canData[1]>>2)&0x03);
+                canBody.setServiceBrakeDemandPressure(intFromBytes(canData,2,2));
+                canBody.setParkBrakeDemandRelativePressure(intFromBytes(canData,4,1));
+                canBody.setRetarderDemandRelativePressure(intFromBytes(canData,5,1));
+                canBody.setRelativeBrakeDemandFrontLeftSide(intFromBytes(canData,6,1));
+                canBody.setRelativeBrakeDemandRearRightSide(intFromBytes(canData,7,1));
+                body.setCanData(canBody);
+                break;
+            case 0x18FEC920:
+                EBS12 canBody2=new EBS12();
+                canBody2.setCanTime(body.getCanTime());
+                canBody2.setRetarderControlStatus((canData[0]>>6)&0x03);
+                canBody2.setROPStatus((canData[0]>>4)&0x03);
+                canBody2.setYCStatus((canData[0]>>2)&0x03);
+                canBody2.setTrailerROPSystemRequest((canData[1]>>6)&0x03);
+                canBody2.setTrailerYCSystemRequest((canData[1]>>4)&0x03);
+                canBody2.setReverseGearStatus((canData[1]>>2)&0x03);
+                canBody2.setEmergencyBrakingStatus(canData[1]&0x03);
+                canBody2.setTwoElectricalCircuitsBrakeDemandStatus((canData[2]>>6)&0x03);
+                canBody2.setABSOffroadRequest((canData[2]>>4)&0x03);
+                canBody2.setPneumaticControlLineStatus((canData[2]>>2)&0x03);
+                canBody2.setLoadProportionalFunctionInstallationStatus(canData[2]&0x03);
+                canBody2.setRoadCurvature(intFromBytes(canData,4,2));
+                canBody2.setBrakingSystemWheelbasedSpeed(intFromBytes(canData,6,2));
+                body.setCanData(canBody2);
+                break;
 
-        if(body.getCanID()==0x0C02C820){
-            EBS11 canBody=new EBS11();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setABSstatus((canData[0]>>6)&0x03);
-            canBody.setRetarderControlStatus((canData[0]>>4)&0x03);
-            canBody.setASRBrakeCcontrolStatus((canData[0]>>2)&0x03);
-            canBody.setASREngineControlStatus(canData[0]&0x03);
-            canBody.setBrakeLightSwitch((canData[1]>>6)&0x03);
-            canBody.setVehicleType((canData[1]>>4)&0x03);
-            canBody.setVDCActive((canData[1]>>2)&0x03);
-            canBody.setServiceBrakeDemandPressure(intFromBytes(canData,2,2));
-            canBody.setParkBrakeDemandRelativePressure(intFromBytes(canData,4,1));
-            canBody.setRetarderDemandRelativePressure(intFromBytes(canData,5,1));
-            canBody.setRelativeBrakeDemandFrontLeftSide(intFromBytes(canData,6,1));
-            canBody.setRelativeBrakeDemandRearRightSide(intFromBytes(canData,7,1));
-            body.setCanData(canBody);
+            case 0x0C0320C8:
+                EBS21 canBody3=new EBS21();
+                canBody3.setCanTime(body.getCanTime());
+                canBody3.setABSStatus((canData[0]>>6)&0x03);
+                canBody3.setRetarderControlStatus((canData[0]>>4)&0x03);
+                canBody3.setServiceBrakeStatus((canData[0]>>2)&0x03);
+                canBody3.setAutomaticTowedVehicleBrakingStatus(canData[0]&0x03);
+                canBody3.setVDCActive((canData[1]>>6)&0x03);
+                canBody3.setSupportOfSideOrAxleWiseBrakeForceDistribution((canData[1]>>4)&0x03);
+                canBody3.setBrakingSystemWheelBasedSpeed(intFromBytes(canData,2,2));
+                canBody3.setRetarderRelativePeakTorque(intFromBytes(canData,4,1));
+                canBody3.setWheelSpeedDifferenceMainAxle(intFromBytes(canData,5,2));
+                canBody3.setLateralAcceleration(intFromBytes(canData,7,1));
+                body.setCanData(canBody3);
+                break;
+
+            case 0x18FEC4C8:
+                EBS22 canBody4=new EBS22();
+                canBody4.setCanTime(body.getCanTime());
+                canBody4.setABSStatus((canData[0]>>6)&0x03);
+                canBody4.setRetarderControlStatus((canData[0]>>4)&0x03);
+                canBody4.setServiceBrakeStatus((canData[0]>>2)&0x03);
+                canBody4.setAutomaticTowedVehicleBrakingStatus(canData[0]&0x03);
+                canBody4.setElectricalSupplyStatus((canData[1]>>6)&0x03);
+                canBody4.setRedWarningSignalRequest((canData[1]>>4)&0x03);
+                canBody4.setAmberWarningSignalRequest((canData[1]>>2)&0x03);
+                canBody4.setElectricalSupplyOfNonbrakingSystemStatus(canData[1]&0x03);
+                canBody4.setSpringBrakeInstallationStatus((canData[2]>>6)&0x03);
+                canBody4.setElectricalLoadProportionalFunctionInstallStatus((canData[2]>>4)&0x03);
+                canBody4.setVehicleType((canData[2]>>2)&0x03);
+                canBody4.setSpringBrakeStatus(canData[2]&0x03);
+                canBody4.setLoadRampApproachAssistanceStatus((canData[3]>>6)&0x03);
+                canBody4.setSupplyLineBraking((canData[3]>>4)&0x03);
+                canBody4.setStopLampsRequest((canData[3]>>2)&0x03);
+                canBody4.setBrakingViaElectricControlLineSupport(canData[3]&0x03);
+                canBody4.setAxleLoadSum(intFromBytes(canData,4,2));
+                canBody4.setRetarderReferenceTorque(intFromBytes(canData,6,2));
+                body.setCanData(canBody4);
+                break;
+            case 0x18FEC6C8:
+                EBS23 canBody5=new EBS23();
+                canBody5.setCanTime(body.getCanTime());
+                canBody5.setTyrePressureStatus((canData[0]>>6)&0x03);
+                canBody5.setBrakeLiningStatus((canData[0]>>4)&0x03);
+                canBody5.setBrakeTemperatureStatus((canData[0]>>2)&0x03);
+                canBody5.setPneumaticSupplyPressure(canData[0]&0x03);
+                canBody5.setTyreIdentificationForTyrePressure(intFromBytes(canData,1,1));
+                canBody5.setTyreIdentificationForBrakeLining(intFromBytes(canData,2,1));
+                canBody5.setTyreIdentificationForBrakeTemperature(intFromBytes(canData,3,1));
+                canBody5.setTyrePressure(intFromBytes(canData,4,1));
+                canBody5.setBrakeLining(intFromBytes(canData,5,1));
+                canBody5.setBrakeTemperature(intFromBytes(canData,6,1));
+                canBody5.setPneumaticSupplyPressure(intFromBytes(canData,7,2));
+                body.setCanData(canBody5);
+                break;
+            case 0x18FD9AC8:
+                EBS24 canBody6=new EBS24();
+                canBody6.setCanTime(body.getCanTime());
+                canBody6.setGeometricDataIndex(intFromBytes(canData,0,1));
+                canBody6.setGeometricDataIndexContent(intFromBytes(canData,1,1));
+                canBody6.setTowedDetectionStatus((canData[2]>>4)&0x15);
+                canBody6.setVehicleCombinationABSStatus((canData[2]>>2)&0x03);
+                body.setCanData(canBody6);
+                break;
+            case 0x18FEADC8:
+                EBS25 canBody7=new EBS25();
+                canBody7.setCanTime(body.getCanTime());
+                canBody7.setBrakeCylinderPressureFirstAxleLeftWheel(intFromBytes(canData,0,1));
+                canBody7.setBrakeCylinderPressureFirstAxleRightWheel(intFromBytes(canData,1,1));
+                canBody7.setBrakeCylinderPressureSecondAxleLeftWheel(intFromBytes(canData,2,1));
+                canBody7.setBrakeCylinderPressureSecondAxleRightWheel(intFromBytes(canData,3,1));
+                canBody7.setBrakeCylinderPressureThirdAxleLeftWheel(intFromBytes(canData,4,1));
+                canBody7.setBrakeCylinderPressureThirdAxleRightWheel(intFromBytes(canData,5,1));
+                canBody7.setROPSystemStatus((canData[6]>>6)&0x03);
+                canBody7.setYCSystemStatus((canData[6]>>4)&0x03);
+                canBody7.setExternalBrakeRequestStatus((canData[6]>>2)&0x03);
+                body.setCanData(canBody7);
+                break;
+            case 0x0CFE6EC8:
+                EBS26 canBody8=new EBS26();
+                canBody8.setCanTime(body.getCanTime());
+                canBody8.setWheelSpeedFirstAxleLeftWheel(intFromBytes(canData,0,2));
+                canBody8.setWheelSpeedFirstAxleRightWheel(intFromBytes(canData,2,2));
+                body.setCanData(canBody8);
+                break;
+            case 0x18E4C820:
+                RGE11 canBody9=new RGE11();
+                canBody9.setCanTime(body.getCanTime());
+                canBody9.setRideHeightRequest((canData[0]>>6)&0x03);
+                canBody9.setLevelChangeRequestFrontAxle((canData[0]>>4)&0x03);
+                canBody9.setLevelChangeRequestRearAxle((canData[0]>>2)&0x03);
+                canBody9.setTractionHelpRequest(canData[0]&0x03);
+                canBody9.setLiftAxle1PositionRequest((canData[1]>>6)&0x03);
+                canBody9.setLiftAxle2PositionRequest((canData[1]>>4)&0x03);
+                canBody9.setSteeringAxleLockingRequest((canData[1]>>2)&0x03);
+                canBody9.setRampLevelRequest(canData[1]&0x03);
+                canBody9.setLevelControlRequest((canData[2]>>6)&0x03);
+                canBody9.setRampLevelStorageRequest((canData[2]>>4)&0x03);
+                canBody9.setStopLevelChangeRequest((canData[2]>>2)&0x03);
+                canBody9.setRideHeightStorageRequest(canData[2]&0x03);
+                canBody9.setDrivenAxleLoad(intFromBytes(canData,3,2));
+                canBody9.setParkingAndTrailerAirPressure(intFromBytes(canData,5,1));
+                canBody9.setAuxiliaryEquipmentSupplyPressure(intFromBytes(canData,6,1));
+                canBody9.setLiftAxle3PositionRequest((canData[7]>>6)&0x03);
+                canBody9.setLiftAxle4PositionRequest((canData[7]>>4)&0x03);
+                canBody9.setLiftAxle5PositionRequest((canData[7]>>2)&0x03);
+                canBody9.setRideHeightAndRampLevelSetRequest(canData[7]&0x03);
+                body.setCanData(canBody9);
+                break;
+            case 0x188AC820:
+                RGE12 canBody10=new RGE12();
+                canBody10.setCanTime(body.getCanTime());
+                canBody10.setAxleLoadCalibrationDataStorageRequest((canData[0]>>6)&0x03);
+                canBody10.setTyreWheelIdentification(intFromBytes(canData,1,1));
+                canBody10.setAxleLoadMeasuredByExternScale(intFromBytes(canData,2,1));
+                canBody10.setIdentificationDataIndex(intFromBytes(canData,4,1));
+                canBody10.setIdentificationDataContent(intFromBytes(canData,5,1));
+                body.setCanData(canBody10);
+                break;
+            case 0x18E520C8:
+                RGE21 canBody11=new RGE21();
+                canBody11.setCanTime(body.getCanTime());
+                canBody11.setRideHeightLevel((canData[0]>>6)&0x03);
+                canBody11.setLevelControlStatus((canData[0]>>4)&0x03);
+                canBody11.setTractionHelpStatus((canData[0]>>2)&0x03);
+                canBody11.setRampLevelPosition(canData[0]&0x03);
+                canBody11.setLiftAxle1Position((canData[1]>>6)&0x03);
+                canBody11.setLiftAxle2Position((canData[1]>>4)&0x03);
+                canBody11.setSteeringAxleLockingStatus((canData[1]>>2)&0x03);
+                canBody11.setRideHeightStorage((canData[2]>>6)&0x03);
+                canBody11.setRampLevelStorageStatus((canData[2]>>4)&0x03);
+                canBody11.setLevelChangeStatusFrontAxle((canData[2]>>2)&0x03);
+                canBody11.setLevelChangeStatusRearAxle(canData[2]&0x03);
+                canBody11.setStopLevelChangeAcknowledge((canData[3]>>6)&0x03);
+                canBody11.setNormalLevel((canData[3]>>4)&0x03);
+                canBody11.setRampLevel((canData[3]>>2)&0x03);
+                canBody11.setExtendedRideHeightAndRampLevelStorage(canData[3]&0x03);
+                canBody11.setLevelChangeStatusFrontAxle(intFromBytes(canData,4,2));
+                canBody11.setLevelChangeStatusRearAxle(intFromBytes(canData,6,2));
+                body.setCanData(canBody11);
+                break;
+            case 0x18FE5CC8:
+                RGE22 canBody12=new RGE22();
+                canBody12.setCanTime(body.getCanTime());
+                canBody12.setRelativeBodyLevelFrontAxle(intFromBytes(canData,0,2));
+                canBody12.setRelativeBodyLevelRearAxle(intFromBytes(canData,2,2));
+                canBody12.setTyreIdentification(intFromBytes(canData,4,1));
+                canBody12.setAxleLoad(intFromBytes(canData,5,2));
+                body.setCanData(canBody12);
+                break;
+            case 0x18FE5EC8:
+                RGE23 canBody13=new RGE23();
+                canBody13.setCanTime(body.getCanTime());
+                canBody13.setTyreIdentification(intFromBytes(canData,0,1));
+                canBody13.setTyreTemperature(intFromBytes(canData,1,2));
+                canBody13.setAirLeakageDetection(intFromBytes(canData,3,2));
+                canBody13.setTyrePressureThresholdDetection((canData[5]>>5)&0x07);
+                canBody13.setTyreModulePowerSupplyStatus((canData[5]>>3)&0x03);
+                canBody13.setIdentificationDataIndex(intFromBytes(canData,6,1));
+                canBody13.setIdentificationDataContent(intFromBytes(canData,7,1));
+                body.setCanData(canBody13);
+                break;
+            case 0x188920C8:
+                RGE24 canBody14=new RGE24();
+                canBody14.setCanTime(body.getCanTime());
+                canBody14.setTyreIdentification(intFromBytes(canData,0,1));
+                canBody14.setAxleLoadMeasuredByTowedVehicle(intFromBytes(canData,1,2));
+                canBody14.setAxleLoadMeasuredByExternalVehicle(intFromBytes(canData,3,2));
+                canBody14.setAxleLoadCalibrationDataLoadLevel((canData[5]>>6)&0x03);
+                canBody14.setAxleLoadCalibrationType((canData[5]>>4)&0x03);
+                canBody14.setAxleLoadCalibrationDataStorage((canData[5]>>2)&0x03);
+                canBody14.setYear(intFromBytes(canData,6,1));
+                canBody14.setMonth(intFromBytes(canData,7,1));
+                body.setCanData(canBody14);
+                break;
+            case 0x18FEE620:
+                TDE11 canBody15=new TDE11();
+                canBody15.setCanTime(body.getCanTime());
+                canBody15.setSeconds(intFromBytes(canData,0,1));
+                canBody15.setMinutes(intFromBytes(canData,1,1));
+                canBody15.setHours(intFromBytes(canData,2,1));
+                canBody15.setDay(intFromBytes(canData,3,1));
+                canBody15.setMonth(intFromBytes(canData,4,1));
+                canBody15.setYear(intFromBytes(canData,5,1));
+                canBody15.setLocalMinuteOffset(intFromBytes(canData,6,1));
+                canBody15.setLocalHourOffset(intFromBytes(canData,7,1));
+                body.setCanData(canBody15);
+                break;
+            default:
+                log.info("收到未定义的CanID="+body.getCanID()+"的can报文");
 
 
         }
-        if(body.getCanID()==0x18FEC920){
-            EBS12 canBody=new EBS12();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setRetarderControlStatus((canData[0]>>6)&0x03);
-            canBody.setROPStatus((canData[0]>>4)&0x03);
-            canBody.setYCStatus((canData[0]>>2)&0x03);
-            canBody.setTrailerROPSystemRequest((canData[1]>>6)&0x03);
-            canBody.setTrailerYCSystemRequest((canData[1]>>4)&0x03);
-            canBody.setReverseGearStatus((canData[1]>>2)&0x03);
-            canBody.setEmergencyBrakingStatus(canData[1]&0x03);
-            canBody.setTwoElectricalCircuitsBrakeDemandStatus((canData[2]>>6)&0x03);
-            canBody.setABSOffroadRequest((canData[2]>>4)&0x03);
-            canBody.setPneumaticControlLineStatus((canData[2]>>2)&0x03);
-            canBody.setLoadProportionalFunctionInstallationStatus(canData[2]&0x03);
-            canBody.setRoadCurvature(intFromBytes(canData,4,2));
-            canBody.setBrakingSystemWheelbasedSpeed(intFromBytes(canData,6,2));
-            body.setCanData(canBody);
-
-        }
-        if(body.getCanID()==0x0C0320C8){
-            EBS21 canBody=new EBS21();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setABSStatus((canData[0]>>6)&0x03);
-            canBody.setRetarderControlStatus((canData[0]>>4)&0x03);
-            canBody.setServiceBrakeStatus((canData[0]>>2)&0x03);
-            canBody.setAutomaticTowedVehicleBrakingStatus(canData[0]&0x03);
-            canBody.setVDCActive((canData[1]>>6)&0x03);
-            canBody.setSupportOfSideOrAxleWiseBrakeForceDistribution((canData[1]>>4)&0x03);
-            canBody.setBrakingSystemWheelBasedSpeed(intFromBytes(canData,2,2));
-            canBody.setRetarderRelativePeakTorque(intFromBytes(canData,4,1));
-            canBody.setWheelSpeedDifferenceMainAxle(intFromBytes(canData,5,2));
-            canBody.setLateralAcceleration(intFromBytes(canData,7,1));
-            body.setCanData(canBody);
-
-        }
-        if(body.getCanID()==0x18FEC4C8){
-            EBS22 canBody=new EBS22();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setABSStatus((canData[0]>>6)&0x03);
-            canBody.setRetarderControlStatus((canData[0]>>4)&0x03);
-            canBody.setServiceBrakeStatus((canData[0]>>2)&0x03);
-            canBody.setAutomaticTowedVehicleBrakingStatus(canData[0]&0x03);
-            canBody.setElectricalSupplyStatus((canData[1]>>6)&0x03);
-            canBody.setRedWarningSignalRequest((canData[1]>>4)&0x03);
-            canBody.setAmberWarningSignalRequest((canData[1]>>2)&0x03);
-            canBody.setElectricalSupplyOfNonbrakingSystemStatus(canData[1]&0x03);
-            canBody.setSpringBrakeInstallationStatus((canData[2]>>6)&0x03);
-            canBody.setElectricalLoadProportionalFunctionInstallStatus((canData[2]>>4)&0x03);
-            canBody.setVehicleType((canData[2]>>2)&0x03);
-            canBody.setSpringBrakeStatus(canData[2]&0x03);
-            canBody.setLoadRampApproachAssistanceStatus((canData[3]>>6)&0x03);
-            canBody.setSupplyLineBraking((canData[3]>>4)&0x03);
-            canBody.setStopLampsRequest((canData[3]>>2)&0x03);
-            canBody.setBrakingViaElectricControlLineSupport(canData[3]&0x03);
-            canBody.setAxleLoadSum(intFromBytes(canData,4,2));
-            canBody.setRetarderReferenceTorque(intFromBytes(canData,6,2));
-            body.setCanData(canBody);
-
-        }
-        if(body.getCanID()==0x18FEC6C8){
-            EBS23 canBody=new EBS23();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setTyrePressureStatus((canData[0]>>6)&0x03);
-            canBody.setBrakeLiningStatus((canData[0]>>4)&0x03);
-            canBody.setBrakeTemperatureStatus((canData[0]>>2)&0x03);
-            canBody.setPneumaticSupplyPressure(canData[0]&0x03);
-            canBody.setTyreIdentificationForTyrePressure(intFromBytes(canData,1,1));
-            canBody.setTyreIdentificationForBrakeLining(intFromBytes(canData,2,1));
-            canBody.setTyreIdentificationForBrakeTemperature(intFromBytes(canData,3,1));
-            canBody.setTyrePressure(intFromBytes(canData,4,1));
-            canBody.setBrakeLining(intFromBytes(canData,5,1));
-            canBody.setBrakeTemperature(intFromBytes(canData,6,1));
-            canBody.setPneumaticSupplyPressure(intFromBytes(canData,7,2));
-            body.setCanData(canBody);
-
-        }
-
-        if(body.getCanID()==0x18FD9AC8){
-            EBS24 canBody=new EBS24();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setGeometricDataIndex(intFromBytes(canData,0,1));
-            canBody.setGeometricDataIndexContent(intFromBytes(canData,1,1));
-            canBody.setTowedDetectionStatus((canData[2]>>4)&0x15);
-            canBody.setVehicleCombinationABSStatus((canData[2]>>2)&0x03);
-            body.setCanData(canBody);
-
-        }
-        if(body.getCanID()==0x18FEADC8){
-            EBS25 canBody=new EBS25();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setBrakeCylinderPressureFirstAxleLeftWheel(intFromBytes(canData,0,1));
-            canBody.setBrakeCylinderPressureFirstAxleRightWheel(intFromBytes(canData,1,1));
-            canBody.setBrakeCylinderPressureSecondAxleLeftWheel(intFromBytes(canData,2,1));
-            canBody.setBrakeCylinderPressureSecondAxleRightWheel(intFromBytes(canData,3,1));
-            canBody.setBrakeCylinderPressureThirdAxleLeftWheel(intFromBytes(canData,4,1));
-            canBody.setBrakeCylinderPressureThirdAxleRightWheel(intFromBytes(canData,5,1));
-            canBody.setROPSystemStatus((canData[6]>>6)&0x03);
-            canBody.setYCSystemStatus((canData[6]>>4)&0x03);
-            canBody.setExternalBrakeRequestStatus((canData[6]>>2)&0x03);
-            body.setCanData(canBody);
-
-        }
-        if(body.getCanID()==0x0CFE6EC8){
-            EBS26 canBody=new EBS26();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setWheelSpeedFirstAxleLeftWheel(intFromBytes(canData,0,2));
-            canBody.setWheelSpeedFirstAxleRightWheel(intFromBytes(canData,2,2));
-            body.setCanData(canBody);
-
-        }
-        if(body.getCanID()==0x18E4C820){
-            RGE11 canBody=new RGE11();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setRideHeightRequest((canData[0]>>6)&0x03);
-            canBody.setLevelChangeRequestFrontAxle((canData[0]>>4)&0x03);
-            canBody.setLevelChangeRequestRearAxle((canData[0]>>2)&0x03);
-            canBody.setTractionHelpRequest(canData[0]&0x03);
-            canBody.setLiftAxle1PositionRequest((canData[1]>>6)&0x03);
-            canBody.setLiftAxle2PositionRequest((canData[1]>>4)&0x03);
-            canBody.setSteeringAxleLockingRequest((canData[1]>>2)&0x03);
-            canBody.setRampLevelRequest(canData[1]&0x03);
-            canBody.setLevelControlRequest((canData[2]>>6)&0x03);
-            canBody.setRampLevelStorageRequest((canData[2]>>4)&0x03);
-            canBody.setStopLevelChangeRequest((canData[2]>>2)&0x03);
-            canBody.setRideHeightStorageRequest(canData[2]&0x03);
-            canBody.setDrivenAxleLoad(intFromBytes(canData,3,2));
-            canBody.setParkingAndTrailerAirPressure(intFromBytes(canData,5,1));
-            canBody.setAuxiliaryEquipmentSupplyPressure(intFromBytes(canData,6,1));
-            canBody.setLiftAxle3PositionRequest((canData[7]>>6)&0x03);
-            canBody.setLiftAxle4PositionRequest((canData[7]>>4)&0x03);
-            canBody.setLiftAxle5PositionRequest((canData[7]>>2)&0x03);
-            canBody.setRideHeightAndRampLevelSetRequest(canData[7]&0x03);
-            body.setCanData(canBody);
-
-        }
-        if(body.getCanID()==0x188AC820){
-            RGE12 canBody=new RGE12();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setAxleLoadCalibrationDataStorageRequest((canData[0]>>6)&0x03);
-            canBody.setTyreWheelIdentification(intFromBytes(canData,1,1));
-            canBody.setAxleLoadMeasuredByExternScale(intFromBytes(canData,2,1));
-            canBody.setIdentificationDataIndex(intFromBytes(canData,4,1));
-            canBody.setIdentificationDataContent(intFromBytes(canData,5,1));
-            body.setCanData(canBody);
-
-        }
-        if(body.getCanID()==0x18E520C8){
-            RGE21 canBody=new RGE21();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setRideHeightLevel((canData[0]>>6)&0x03);
-            canBody.setLevelControlStatus((canData[0]>>4)&0x03);
-            canBody.setTractionHelpStatus((canData[0]>>2)&0x03);
-            canBody.setRampLevelPosition(canData[0]&0x03);
-            canBody.setLiftAxle1Position((canData[1]>>6)&0x03);
-            canBody.setLiftAxle2Position((canData[1]>>4)&0x03);
-            canBody.setSteeringAxleLockingStatus((canData[1]>>2)&0x03);
-            canBody.setRideHeightStorage((canData[2]>>6)&0x03);
-            canBody.setRampLevelStorageStatus((canData[2]>>4)&0x03);
-            canBody.setLevelChangeStatusFrontAxle((canData[2]>>2)&0x03);
-            canBody.setLevelChangeStatusRearAxle(canData[2]&0x03);
-            canBody.setStopLevelChangeAcknowledge((canData[3]>>6)&0x03);
-            canBody.setNormalLevel((canData[3]>>4)&0x03);
-            canBody.setRampLevel((canData[3]>>2)&0x03);
-            canBody.setExtendedRideHeightAndRampLevelStorage(canData[3]&0x03);
-            canBody.setLevelChangeStatusFrontAxle(intFromBytes(canData,4,2));
-            canBody.setLevelChangeStatusRearAxle(intFromBytes(canData,6,2));
-            body.setCanData(canBody);
-
-        }
-        if(body.getCanID()==0x18FE5CC8){
-            RGE22 canBody=new RGE22();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setRelativeBodyLevelFrontAxle(intFromBytes(canData,0,2));
-            canBody.setRelativeBodyLevelRearAxle(intFromBytes(canData,2,2));
-            canBody.setTyreIdentification(intFromBytes(canData,4,1));
-            canBody.setAxleLoad(intFromBytes(canData,5,2));
-            body.setCanData(canBody);
 
 
-        }
-        if(body.getCanID()==0x18FE5EC8){
-            RGE23 canBody=new RGE23();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setTyreIdentification(intFromBytes(canData,0,1));
-            canBody.setTyreTemperature(intFromBytes(canData,1,2));
-            canBody.setAirLeakageDetection(intFromBytes(canData,3,2));
-            canBody.setTyrePressureThresholdDetection((canData[5]>>5)&0x07);
-            canBody.setTyreModulePowerSupplyStatus((canData[5]>>3)&0x03);
-            canBody.setIdentificationDataIndex(intFromBytes(canData,6,1));
-            canBody.setIdentificationDataContent(intFromBytes(canData,7,1));
-            body.setCanData(canBody);
-        }
-        if(body.getCanID()==0x188920C8){
-            RGE24 canBody=new RGE24();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setTyreIdentification(intFromBytes(canData,0,1));
-            canBody.setAxleLoadMeasuredByTowedVehicle(intFromBytes(canData,1,2));
-            canBody.setAxleLoadMeasuredByExternalVehicle(intFromBytes(canData,3,2));
-            canBody.setAxleLoadCalibrationDataLoadLevel((canData[5]>>6)&0x03);
-            canBody.setAxleLoadCalibrationType((canData[5]>>4)&0x03);
-            canBody.setAxleLoadCalibrationDataStorage((canData[5]>>2)&0x03);
-            canBody.setYear(intFromBytes(canData,6,1));
-            canBody.setMonth(intFromBytes(canData,7,1));
-            body.setCanData(canBody);
-        }
-        if(body.getCanID()==0x18FEE620){
-            TDE11 canBody=new TDE11();
-            canBody.setCanTime(body.getCanTime());
-            canBody.setSeconds(intFromBytes(canData,0,1));
-            canBody.setMinutes(intFromBytes(canData,1,1));
-            canBody.setHours(intFromBytes(canData,2,1));
-            canBody.setDay(intFromBytes(canData,3,1));
-            canBody.setMonth(intFromBytes(canData,4,1));
-            canBody.setYear(intFromBytes(canData,5,1));
-            canBody.setLocalMinuteOffset(intFromBytes(canData,6,1));
-            canBody.setLocalHourOffset(intFromBytes(canData,7,1));
-            body.setCanData(canBody);
-        }
-        else{
-            log.info("收到未定义的CanID="+body.getCanID()+"的can报文");
-        }
 
         return Optional.of(body);
     }

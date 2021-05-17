@@ -1,8 +1,6 @@
 package icu.nescar.armee.jet.broker.config;
 
-import io.github.hylexus.jt.data.msg.MsgType;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.util.HashMap;
@@ -16,6 +14,8 @@ import java.util.Optional;
 @Getter
 @ToString
 public enum CANMsgType {
+
+
     EBS11(0x0C02C820),
     EBS12(0x18FEC920),
     RGE11(0x18FEC920),
@@ -36,24 +36,22 @@ public enum CANMsgType {
     ;
     private final int msgId;
 
-//    private final String desc;
-//
     CANMsgType(int msgId) {
         this.msgId = msgId;
     }
-//
-//    private static final Map<Integer, CANMsgType> mapping = new HashMap<>(values().length);
-//
-//    static {
-//        for (CANMsgType type : values()) {
-//            mapping.put(type.msgId, type);
-//        }
-//    }
-//
-//
-//    public Optional<CANMsgType> parseFromInt(int msgId) {
-//        return Optional.ofNullable(mapping.get(msgId));
-//    }
-//    //指定msgId返回mapping中存储的对应id对象，如果是null的话返回空值
+
+    private static final Map<Integer, CANMsgType> mapping = new HashMap<>(values().length);
+
+    static {
+        for (CANMsgType type : values()) {
+            mapping.put(type.msgId, type);
+        }
+    }
+
+
+    public Optional<CANMsgType> parseFromInt(int msgId) {
+        return Optional.ofNullable(mapping.get(msgId));
+    }
+    //指定msgId返回mapping中存储的对应id对象，如果是null的话返回空值
 }
 

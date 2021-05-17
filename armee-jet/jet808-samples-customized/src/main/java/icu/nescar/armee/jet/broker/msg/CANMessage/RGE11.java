@@ -4,13 +4,16 @@ import io.github.hylexus.jt.annotation.msg.req.Jt808ReqMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2021/4/28
  */
 @Data
 @Accessors(chain = true)
-public class RGE11 implements CANMsgBody{
+public class RGE11 implements CANMsgBody, Serializable {
+    private static final long serialVersionUID = -4516841292109774090L;
     private int rideHeightRequest;
     private int levelChangeRequestFrontAxle;
     private int levelChangeRequestRearAxle;

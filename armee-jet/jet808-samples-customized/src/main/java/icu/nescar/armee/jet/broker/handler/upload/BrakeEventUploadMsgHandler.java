@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
  * 基于注解的handler
  * 处理急刹车事件的上报
  * 返回一个终端的通用应答
+ * 未使用
  */
 @Slf4j
 @Jt808RequestMsgHandler

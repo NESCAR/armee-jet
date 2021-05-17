@@ -6,17 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="jt-808-server-support" />
         <module name="jet808-samples-customized" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="armee-jet" target="1.8" />
       <module name="jet808-samples-customized" target="1.8" />
+      <module name="jt-808-server-support" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="jet808-samples-customized" options="-parameters" />
+      <module name="jt-808-server-support" options="-parameters" />
     </option>
   </component>
 </project>

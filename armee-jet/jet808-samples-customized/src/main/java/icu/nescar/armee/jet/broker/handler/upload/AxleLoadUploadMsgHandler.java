@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
  * 轴负载信息的消息处理器
  * 自动注解实现的消息处理器不会给客户端回复数据
  * 方法返回类型为void 返回值为VoidRespMsgBody.NO_DATA_WILL_BE_SENT_TO_CLENT
+ * 未使用
  */
 @Slf4j
 @Jt808RequestMsgHandler

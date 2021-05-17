@@ -72,7 +72,6 @@ public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
     * 也可以从Spring容器中获取bean来注入，不一定要手动new一个handler注册*/
     public void configureMsgHandlerMapping(MsgHandlerMapping mapping) {
         super.configureMsgHandlerMapping(mapping);
-        mapping.registerHandler(Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD, new LocationInfoUploadMsgHandler());
         mapping.registerHandler(Jt808MsgType.CLIENT_MILEAGE_INFO_UPLOAD, new MileageInfoUploadMsgHandler());
         mapping.registerHandler(Jt808MsgType.CLIENT_COMMON_REPLY, new TerminalCommonReplyMsgHandler());
     }

@@ -8,6 +8,7 @@
       <list>
         <option value="$PROJECT_DIR$/armee-jet/jet808-samples-customized/pom.xml" />
         <option value="$PROJECT_DIR$/armee-jet/pom.xml" />
+        <option value="$PROJECT_DIR$/armee-jet/jt-808-server-support/pom.xml" />
       </list>
     </option>
   </component>

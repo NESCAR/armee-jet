@@ -4,6 +4,7 @@ import io.github.hylexus.jt.annotation.msg.req.Jt808ReqMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.lang.ref.PhantomReference;
 
 /**
@@ -12,7 +13,8 @@ import java.lang.ref.PhantomReference;
  */
 @Data
 @Accessors(chain = true)
-public class RGE24 implements CANMsgBody{
+public class RGE24 implements CANMsgBody, Serializable {
+    private static final long serialVersionUID = 4916191811884853449L;
     private int tyreIdentification;
     private int axleLoadMeasuredByTowedVehicle;
     private int axleLoadMeasuredByExternalVehicle;

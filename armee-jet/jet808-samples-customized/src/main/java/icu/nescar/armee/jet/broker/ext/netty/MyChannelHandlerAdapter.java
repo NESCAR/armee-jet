@@ -51,9 +51,11 @@ public class MyChannelHandlerAdapter extends Jt808ChannelHandlerAdapter {
             RequestMsgHeader header = metadata.getHeader();
             int msgId = header.getMsgId();
             Optional<MsgType> msgType = this.msgTypeParser.parseMsgType(msgId);
-            metadata.setMsgType((MsgType)msgType.get());
-            String terminalId = header.getTerminalId();
+
+
             if (msgType.isPresent()) {
+                metadata.setMsgType((MsgType)msgType.get());
+                String terminalId = header.getTerminalId();
                 if(msgId==0x102){
                     log.debug("[decode] : {}, terminalId={}, msg = {}", new Object[]{msgType.get(), terminalId, metadata});
                     RequestMsgWrapper requestMsgWrapper = (new RequestMsgWrapper()).setMetadata(metadata);
@@ -74,10 +76,7 @@ public class MyChannelHandlerAdapter extends Jt808ChannelHandlerAdapter {
                     }
 
                 }
-
-
             }
-
             log.warn("received unknown msg, msgId = {}({}). ignore.", msgId, HexStringUtils.int2HexString(msgId, 4));
         } catch (InvocationTargetException var13) {
             log.error("InvocationTargetException", var13);

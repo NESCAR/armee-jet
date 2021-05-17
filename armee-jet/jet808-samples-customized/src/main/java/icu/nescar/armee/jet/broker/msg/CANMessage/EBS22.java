@@ -4,6 +4,7 @@ import io.github.hylexus.jt.annotation.msg.req.Jt808ReqMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.lang.ref.PhantomReference;
 
 /**
@@ -12,7 +13,8 @@ import java.lang.ref.PhantomReference;
  */
 @Data
 @Accessors(chain = true)
-public class EBS22 implements CANMsgBody {
+public class EBS22 implements CANMsgBody, Serializable {
+    private static final long serialVersionUID = 5285421973427290666L;
     private int ABSStatus;
     private int retarderControlStatus;
     private int serviceBrakeStatus;

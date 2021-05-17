@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 /**
  * @Auther whale
  * @Date 2020/9/7
+ * 报警信息上报处理器 未使用
  */
 @Slf4j
 @Jt808RequestMsgHandler

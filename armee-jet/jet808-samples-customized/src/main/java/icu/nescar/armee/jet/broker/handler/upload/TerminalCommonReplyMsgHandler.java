@@ -6,6 +6,7 @@ import icu.nescar.armee.jet.broker.ext.producer.kafka.KafkaProducerStatic;
 import icu.nescar.armee.jet.broker.ext.producer.kafka.msg.KafkaMsgKey;
 import icu.nescar.armee.jet.broker.msg.req.MileageUploadRequestMsgBody;
 import icu.nescar.armee.jet.broker.msg.req.TEBStatusRequestMsgBody;
+import icu.nescar.armee.jet.broker.util.CheckSum;
 import io.github.hylexus.jt.annotation.msg.handler.Jt808RequestMsgHandler;
 import io.github.hylexus.jt.annotation.msg.handler.Jt808RequestMsgHandlerMapping;
 import io.github.hylexus.jt.command.CommandWaitingPool;
@@ -19,6 +20,8 @@ import io.github.hylexus.jt808.msg.resp.CommonReplyMsgBody;
 import io.github.hylexus.jt808.session.Jt808Session;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 
 import java.util.Optional;
@@ -27,23 +30,32 @@ import java.util.concurrent.TimeUnit;
 /**
  * @Auther whale
  * @Date 2021/3/10
+ * 收到终端通用应答后 将下发消息等待的commandkey的值写入
+ * 让平台根据commandkey的值判断消息下发成功
  */
 @Slf4j
-
+@Component
 public class TerminalCommonReplyMsgHandler extends AbstractMsgHandler<BuiltinTerminalCommonReplyMsgBody> {
 
-
+    @Autowired
+    CheckSum checkSum;
 
     @Override
     protected Optional<RespMsgBody> doProcess(RequestMsgMetadata metadata, BuiltinTerminalCommonReplyMsgBody body, Jt808Session session) {
-        log.info("收到终端通用应答 terminalId = {}, msgBody = {}", session.getTerminalId(),body);
-        Jt808CommandKey commandKey=Jt808CommandKey.of(metadata.getMsgType(), metadata.getHeader().getTerminalId(), metadata.getHeader().getFlowId());
-        commandKey.setFlowId(metadata.getHeader().getFlowId());
-        commandKey.setMsgType(metadata.getMsgType());
-        commandKey.setTerminalId(metadata.getHeader().getTerminalId());
-        CommandWaitingPool.getInstance().putIfNecessary(commandKey, "result for " + commandKey.getKeyAsString());
 
-        return Optional.empty();
+        if (checkSum.validateCheckSum(metadata.getBodyBytes(), metadata.getHeader(), metadata.getCheckSum())) {
+            Jt808CommandKey commandKey = Jt808CommandKey.of(metadata.getMsgType(), metadata.getHeader().getTerminalId(), metadata.getHeader().getFlowId());
+            commandKey.setFlowId(metadata.getHeader().getFlowId());
+            commandKey.setMsgType(metadata.getMsgType());
+            commandKey.setTerminalId(metadata.getHeader().getTerminalId());
+            CommandWaitingPool.getInstance().putIfNecessary(commandKey, "result for " + commandKey.getKeyAsString());
+            log.info("收到终端通用应答 terminalId = {}, msgBody = {}", session.getTerminalId(), body);
+            return Optional.empty();
+        }
+        else {
+            log.info("终端应答消息校验错误，不处理");
+            return Optional.empty();
+        }
     }
 
 }

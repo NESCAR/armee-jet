@@ -4,6 +4,8 @@ import io.github.hylexus.jt.annotation.msg.req.Jt808ReqMsgBody;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @Auther whale
  * @Date 2021/4/28
@@ -11,7 +13,8 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class EBS11 implements CANMsgBody{
+public class EBS11 implements CANMsgBody, Serializable {
+    private static final long serialVersionUID = 5855530221038216001L;
     private int ABSstatus;
     private int retarderControlStatus;
     private int ASRBrakeCcontrolStatus;
