@@ -107,6 +107,12 @@
             <groupId>io.github.hylexus.jt</groupId>
             <artifactId>jt-core</artifactId>
             <version>${hylexus.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.github.hylexus.jt</groupId>
+                    <artifactId>jt-808-server-support</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.github.hylexus.jt/jt-spring -->
@@ -114,6 +120,12 @@
             <groupId>io.github.hylexus.jt</groupId>
             <artifactId>jt-spring</artifactId>
             <version>${hylexus.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.github.hylexus.jt</groupId>
+                    <artifactId>jt-808-server-support</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
@@ -122,6 +134,12 @@
             <groupId>io.github.hylexus.jt</groupId>
             <artifactId>jt-808-server-spring-boot-stater</artifactId>
             <version>${hylexus.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.github.hylexus.jt</groupId>
+                    <artifactId>jt-808-server-support</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
