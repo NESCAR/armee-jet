@@ -21,8 +21,8 @@ import static io.github.hylexus.jt.data.MsgDataType.*;
 public class AuthInfoSettingsMsgBody implements Serializable {
     private static final long serialVersionUID = -7832986449797L;
     //车辆的身份信息 下发的是ic卡号
-    @CommandField(order = 1, targetMsgDataType = STRING)
-    private String driverID;
+    @CommandField(order = 1, targetMsgDataType = BYTES)
+    private byte[] driverID;
 
 
     //上锁时间起点 服务端设置的上锁时间范围 YY-MM-DD-hh-mm-ss GMT+8时间
