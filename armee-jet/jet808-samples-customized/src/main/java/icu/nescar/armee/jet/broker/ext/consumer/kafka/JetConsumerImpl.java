@@ -41,6 +41,10 @@ import static icu.nescar.armee.jet.broker.config.Jt808MsgType.CLIENT_COMMON_REPL
 @Component
 public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, byte[]>> {
 
+
+    CommandMsg commandLockAuthMsg = null;
+    CommandMsg commandTerminalMsg =null;
+    int flag=0;
     /**
      * Kafka消费者实例
      *
@@ -72,70 +76,26 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
             long startMs = System.currentTimeMillis() / 1000;
             //log.info("start : " + startMs);
             //TODO 当终端存在连接时，能够下发成功。但目前终端无法返回值，所以resp是null
-            //当终端没有连接时，程序卡死，因为找不到对应session，即不知道往哪里发。
 
             ConsumerRecords<MsgKey, byte[]> records = (ConsumerRecords<MsgKey, byte[]>) receive(Duration.ofSeconds(1));
             timeout=VmOptions.TIME_OUT;
-
+            //重试发送消息的最大次数
+            int maxTry=5;
             for (ConsumerRecord<MsgKey, byte[]> record : records) {
                 String terminalId = record.key().getTerminalId();
-//                threadPool.submit(new Runnable() {
-//                    @Override
-//                    public void run() {
                         if (sessionManager.findByTerminalId(terminalId).isPresent()) {
                             if (record.key().getMsgId() == 0x8F00) {//msgid是授权消息下发
+                                for(int i=0;i<maxTry;i++){
+                                    authCommandSend(terminalId,record);}
+                                if(flag==0){
+                                log.info("重试五次，但下发消息依旧失败，停止发送");}
 
-                                AuthInfoSettingsMsgBody lockInfo = (AuthInfoSettingsMsgBody) SerializationUtil.deserialize(record.value());//设置具体的下发信息内容
-                                CommandMsg commandMsg = CommandMsg.of(terminalId, CLIENT_COMMON_REPLY, lockInfo);
-                                log.info("收到平台的授权消息:" + commandMsg.toString() + ";body:" + commandMsg.getBody());
-                                Object resp = null;
-                                try {
-//                                    while (resp==null){
-//                                        resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-//                                        if (resp != null) {
-//                                            log.info("下发授权消息成功，并收到回复resp: {}", resp);
-//                                        }else {
-//                                            log.info("下发授权信息失败");
-//                                        }
-//                                    }
-                                    resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-                                    if (resp != null) {
-                                        log.info("下发授权消息成功，并收到回复resp: {}", resp);
-                                    }else {
-                                        log.info("下发授权信息失败");
-                                    }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
 
-                            }
-
-                            if (record.key().getMsgId() == 0x8103) {
-                                // 【下发消息】的消息类型为: RESP_TERMINAL_PARAM_SETTINGS (0x8103)  --> RespTerminalSettings的类注解上指定了下发类型
-                                // 客户端对该【下发消息】的回复消息类型为: CLIENT_COMMON_REPLY (0x0001)
-                                TerminalSettingsMsgBody param = (TerminalSettingsMsgBody) SerializationUtil.deserialize(record.value());
-
-                                //具体的param设置
-                                CommandMsg commandMsg = CommandMsg.of(terminalId, CLIENT_COMMON_REPLY, param);
-                                log.info("收到终端设置消息" + commandMsg.toString());
-                                final Object resp;
-                                try {
-                                    resp = commandSender.sendCommandAndWaitingForReply(commandMsg, timeout, TimeUnit.SECONDS);
-                                    log.info("下发终端设置消息成功，并收到回复resp: {}", resp);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
                             }
                         } else {
                             log.info("收到平台下发信息，但无法发送，由于该终端:{},未连接", terminalId);
                         }
                     }
-//                });
-//            }
             /**
              * 手动控制offset
              * 当宕机后，等待consumer重启，则通过seek(TopicPartition, long)来恢复到之前的offset
@@ -162,6 +122,29 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
         }
 
 
+    }
+    public void authCommandSend(String terminalId,ConsumerRecord<MsgKey, byte[]> record){
+
+        AuthInfoSettingsMsgBody lockInfo = (AuthInfoSettingsMsgBody) SerializationUtil.deserialize(record.value());//设置具体的下发信息内容
+        if (commandLockAuthMsg==null){
+            commandLockAuthMsg = CommandMsg.of(terminalId, CLIENT_COMMON_REPLY, lockInfo);
+        }
+        log.info("收到平台的授权消息:" + commandLockAuthMsg.toString() + ";body:" + commandLockAuthMsg.getBody());
+        Object resp = null;
+        try {
+            resp = commandSender.sendCommandAndWaitingForReply(commandLockAuthMsg, timeout, TimeUnit.SECONDS);
+            if (resp != null) {
+                log.info("下发授权消息成功，并收到回复resp: {}", resp);
+                flag=1;
+                commandLockAuthMsg = null;
+            }else {
+                log.info("下发授权信息失败，重新尝试下发");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
 

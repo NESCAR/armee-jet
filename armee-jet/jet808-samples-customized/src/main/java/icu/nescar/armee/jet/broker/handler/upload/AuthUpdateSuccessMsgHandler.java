@@ -39,7 +39,7 @@ public class AuthUpdateSuccessMsgHandler {
         assert session.getTerminalId().equals(header.getTerminalId());
         assert session.getTerminalId().equals(metadata.getHeader().getTerminalId());
         assert metadata.getHeader() == header;
-        if (checkSum.validateCheckSum(metadata.getBodyBytes(), metadata.getHeader(), metadata.getCheckSum())) {
+        if (checkSum.validateCheckSum(metadata.getUnescaped(), metadata.getHeader(), metadata.getCheckSum())) {
 
             Producer<KafkaMsgKey, Object> implSync = KafkaProducerStatic2.getDeviceInstance();
             try {

@@ -8,7 +8,10 @@ import io.github.hylexus.jt808.msg.RequestMsgBody;
 import io.github.hylexus.jt808.msg.RequestMsgMetadata;
 import lombok.extern.slf4j.Slf4j;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Optional;
 
 import static io.github.hylexus.oaks.utils.IntBitOps.intFromBytes;
@@ -25,14 +28,14 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
     public Optional<CANMsgRequestMsgBody> convert2Entity(RequestMsgMetadata requestMsgMetadata) {
         byte[] bytes = requestMsgMetadata.getBodyBytes();
         CANMsgRequestMsgBody body=new CANMsgRequestMsgBody();
-        body.setMsgItem(intFromBytes(bytes,0,2));
-        body.setCanTime(Arrays.copyOfRange(bytes,2,8));
-        body.setCanID(intFromBytes(bytes,8,4));
-        byte[] canData=Arrays.copyOfRange(bytes,12,20);
+//        body.setMsgItem(intFromBytes(bytes,0,2));
+        body.setCanTime(new Date());
+        body.setCanID(intFromBytes(bytes,0,4));
+        byte[] canData=Arrays.copyOfRange(bytes,4,12);
         switch (body.getCanID()){
             case 0x0C02C820:
                 EBS11 canBody=new EBS11();
-                canBody.setCanTime(body.getCanTime());
+//                canBody.setCanTime(body.getCanTime());
                 canBody.setABSstatus(canData[0]&0x03);
                 canBody.setRetarderControlStatus((canData[0]>>2)&0x03);
                 canBody.setASRBrakeCcontrolStatus((canData[0]>>4)&0x03);
@@ -49,7 +52,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
                 break;
             case 0x18FEC920:
                 EBS12 canBody2=new EBS12();
-                canBody2.setCanTime(body.getCanTime());
+//                canBody2.setCanTime(body.getCanTime());
                 canBody2.setRetarderControlStatus(canData[0]&0x03);
                 canBody2.setROPStatus((canData[0]>>2)&0x03);
                 canBody2.setYCStatus((canData[0]>>4)&0x03);
@@ -68,7 +71,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
 
             case 0x0C0320C8:
                 EBS21 canBody3=new EBS21();
-                canBody3.setCanTime(body.getCanTime());
+//                canBody3.setCanTime(body.getCanTime());
                 canBody3.setABSStatus(canData[0]&0x03);
                 canBody3.setRetarderControlStatus((canData[0]>>2)&0x03);
                 canBody3.setServiceBrakeStatus((canData[0]>>4)&0x03);
@@ -84,7 +87,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
 
             case 0x18FEC4C8:
                 EBS22 canBody4=new EBS22();
-                canBody4.setCanTime(body.getCanTime());
+//                canBody4.setCanTime(body.getCanTime());
                 canBody4.setABSStatus(canData[0]&0x03);
                 canBody4.setRetarderControlStatus((canData[0]>>2)&0x03);
                 canBody4.setServiceBrakeStatus((canData[0]>>4)&0x03);
@@ -107,7 +110,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
                 break;
             case 0x18FEC6C8:
                 EBS23 canBody5=new EBS23();
-                canBody5.setCanTime(body.getCanTime());
+//                canBody5.setCanTime(body.getCanTime());
                 canBody5.setTyrePressureStatus(canData[0]&0x03);
                 canBody5.setBrakeLiningStatus((canData[0]>>2)&0x03);
                 canBody5.setBrakeTemperatureStatus((canData[0]>>4)&0x03);
@@ -123,7 +126,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
                 break;
             case 0x18FD9AC8:
                 EBS24 canBody6=new EBS24();
-                canBody6.setCanTime(body.getCanTime());
+//                canBody6.setCanTime(body.getCanTime());
                 canBody6.setGeometricDataIndex(intFromBytes(canData,0,1));
                 canBody6.setGeometricDataIndexContent(intFromBytes(canData,1,1));
                 canBody6.setTowedDetectionStatus((canData[2]>>2)&0x15);
@@ -132,7 +135,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
                 break;
             case 0x18FEADC8:
                 EBS25 canBody7=new EBS25();
-                canBody7.setCanTime(body.getCanTime());
+//                canBody7.setCanTime(body.getCanTime());
                 canBody7.setBrakeCylinderPressureFirstAxleLeftWheel(intFromBytes(canData,0,1));
                 canBody7.setBrakeCylinderPressureFirstAxleRightWheel(intFromBytes(canData,1,1));
                 canBody7.setBrakeCylinderPressureSecondAxleLeftWheel(intFromBytes(canData,2,1));
@@ -146,14 +149,14 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
                 break;
             case 0x0CFE6EC8:
                 EBS26 canBody8=new EBS26();
-                canBody8.setCanTime(body.getCanTime());
+//                canBody8.setCanTime(body.getCanTime());
                 canBody8.setWheelSpeedFirstAxleLeftWheel(intFromBytes(canData,0,2));
                 canBody8.setWheelSpeedFirstAxleRightWheel(intFromBytes(canData,2,2));
                 body.setCanData(canBody8);
                 break;
             case 0x18E4C820:
                 RGE11 canBody9=new RGE11();
-                canBody9.setCanTime(body.getCanTime());
+//                canBody9.setCanTime(body.getCanTime());
                 canBody9.setRideHeightRequest(canData[0]&0x03);
                 canBody9.setLevelChangeRequestFrontAxle((canData[0]>>2)&0x03);
                 canBody9.setLevelChangeRequestRearAxle((canData[0]>>4)&0x03);
@@ -177,7 +180,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
                 break;
             case 0x188AC820:
                 RGE12 canBody10=new RGE12();
-                canBody10.setCanTime(body.getCanTime());
+//                canBody10.setCanTime(body.getCanTime());
                 canBody10.setAxleLoadCalibrationDataStorageRequest(canData[0]&0x03);
                 canBody10.setTyreWheelIdentification(intFromBytes(canData,1,1));
                 canBody10.setAxleLoadMeasuredByExternScale(intFromBytes(canData,2,1));
@@ -187,7 +190,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
                 break;
             case 0x18E520C8:
                 RGE21 canBody11=new RGE21();
-                canBody11.setCanTime(body.getCanTime());
+//                canBody11.setCanTime(body.getCanTime());
                 canBody11.setRideHeightLevel(canData[0]&0x03);
                 canBody11.setLevelControlStatus((canData[0]>>2)&0x03);
                 canBody11.setTractionHelpStatus((canData[0]>>4)&0x03);
@@ -209,7 +212,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
                 break;
             case 0x18FE5CC8:
                 RGE22 canBody12=new RGE22();
-                canBody12.setCanTime(body.getCanTime());
+//                canBody12.setCanTime(body.getCanTime());
                 canBody12.setRelativeBodyLevelFrontAxle(intFromBytes(canData,0,2));
                 canBody12.setRelativeBodyLevelRearAxle(intFromBytes(canData,2,2));
                 canBody12.setTyreIdentification(intFromBytes(canData,4,1));
@@ -218,7 +221,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
                 break;
             case 0x18FE5EC8:
                 RGE23 canBody13=new RGE23();
-                canBody13.setCanTime(body.getCanTime());
+//                canBody13.setCanTime(body.getCanTime());
                 canBody13.setTyreIdentification(intFromBytes(canData,0,1));
                 canBody13.setTyreTemperature(intFromBytes(canData,1,2));
                 canBody13.setAirLeakageDetection(intFromBytes(canData,3,2));
@@ -230,7 +233,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
                 break;
             case 0x188920C8:
                 RGE24 canBody14=new RGE24();
-                canBody14.setCanTime(body.getCanTime());
+//                canBody14.setCanTime(body.getCanTime());
                 canBody14.setTyreIdentification(intFromBytes(canData,0,1));
                 canBody14.setAxleLoadMeasuredByTowedVehicle(intFromBytes(canData,1,2));
                 canBody14.setAxleLoadMeasuredByExternalVehicle(intFromBytes(canData,3,2));
@@ -243,7 +246,7 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
                 break;
             case 0x18FEE620:
                 TDE11 canBody15=new TDE11();
-                canBody15.setCanTime(body.getCanTime());
+//                canBody15.setCanTime(body.getCanTime());
                 canBody15.setSeconds(intFromBytes(canData,0,1));
                 canBody15.setMinutes(intFromBytes(canData,1,1));
                 canBody15.setHours(intFromBytes(canData,2,1));

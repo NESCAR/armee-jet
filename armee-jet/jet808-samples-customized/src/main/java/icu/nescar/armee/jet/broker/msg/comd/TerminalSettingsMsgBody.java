@@ -16,6 +16,9 @@ import static io.github.hylexus.jt.data.MsgDataType.DWORD;
  * @author hylexus
  * Created At 2019-10-16 10:43 下午
  * 设置终端参数的下发消息体
+ * @write by whale
+ * 设置终端参数是jt808协议里面的内容
+ * 但目前瑞立终端参数是本地写死 不是由云端下发 所以没有用到
  */
 @Data
 @Accessors(chain = true)

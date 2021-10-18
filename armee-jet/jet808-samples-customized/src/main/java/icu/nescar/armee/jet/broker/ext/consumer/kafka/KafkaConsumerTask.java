@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 /**
  * @Auther whale
  * @Date 2020/11/26
- * 利用周期性执行任务的线程池执行consumer的任务
+ * 利用线程池执行consumer的任务
  */
 @Component
 public class KafkaConsumerTask {

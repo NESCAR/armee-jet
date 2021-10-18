@@ -3,13 +3,9 @@ package icu.nescar.armee.jet.broker.config;
 
 import icu.nescar.armee.jet.broker.converter.CANMsgBodyConverter;
 import icu.nescar.armee.jet.broker.converter.LocationMsgBodyConverter;
-import icu.nescar.armee.jet.broker.converter.MileageMsgBodyConverter;
 import icu.nescar.armee.jet.broker.ext.auth.service.impl.AuthCodeValidatorImpl;
 //import icu.nescar.armee.jet.broker.ext.netty.MyChannelHandlerAdapter;
 import icu.nescar.armee.jet.broker.ext.netty.MyChannelHandlerAdapter;
-import icu.nescar.armee.jet.broker.handler.upload.LocationInfoUploadMsgHandler;
-import icu.nescar.armee.jet.broker.handler.upload.MileageInfoUploadMsgHandler;
-import icu.nescar.armee.jet.broker.handler.upload.TerminalCommonReplyMsgHandler;
 import io.github.hylexus.jt.exception.MsgEscapeException;
 import io.github.hylexus.jt808.boot.config.Jt808ServerConfigurationSupport;
 import io.github.hylexus.jt808.codec.BytesEncoder;
@@ -62,18 +58,18 @@ public Jt808ServerNettyConfigure jt808ServerNettyConfigure(
     public void configureMsgConverterMapping(RequestMsgBodyConverterMapping mapping) {
         super.configureMsgConverterMapping(mapping);
         mapping.registerConverter(Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD, new LocationMsgBodyConverter());
-        mapping.registerConverter(Jt808MsgType.CLIENT_MILEAGE_INFO_UPLOAD, new MileageMsgBodyConverter());
         mapping.registerConverter(Jt808MsgType.CLIENT_CAN_INFO_UPLOAD,new CANMsgBodyConverter());
     }
 
     @Override
     /*手动将解析xx消息的处理器注册进去，同上
     * 如果自定义了鉴权消息处理器，并在此处注册，那么AuthCodeValidator也不需要提供了
+    * 但自定义的一些处理器在使用过程中会报null指针错误 所以目前废弃掉这种方式了
     * 也可以从Spring容器中获取bean来注入，不一定要手动new一个handler注册*/
     public void configureMsgHandlerMapping(MsgHandlerMapping mapping) {
         super.configureMsgHandlerMapping(mapping);
-        mapping.registerHandler(Jt808MsgType.CLIENT_MILEAGE_INFO_UPLOAD, new MileageInfoUploadMsgHandler());
-        mapping.registerHandler(Jt808MsgType.CLIENT_COMMON_REPLY, new TerminalCommonReplyMsgHandler());
+//        mapping.registerHandler(Jt808MsgType.CLIENT_MILEAGE_INFO_UPLOAD, new MileageInfoUploadMsgHandler());
+//        mapping.registerHandler(Jt808MsgType.CLIENT_COMMON_REPLY, new TerminalCommonReplyMsgHandler());
     }
 
     @Override

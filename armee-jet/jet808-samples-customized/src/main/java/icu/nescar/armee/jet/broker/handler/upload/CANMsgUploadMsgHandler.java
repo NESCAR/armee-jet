@@ -49,7 +49,7 @@ public class CANMsgUploadMsgHandler{
         assert session.getTerminalId().equals(metadata.getHeader().getTerminalId());
         assert metadata.getHeader() == header;
          //如果校验码一致 再判断是否是支持的can id类型
-        if(checkSum.validateCheckSum(metadata.getBodyBytes(),metadata.getHeader(),metadata.getCheckSum())) {
+        if(checkSum.validateCheckSum(metadata.getUnescaped(),metadata.getHeader(),metadata.getCheckSum())) {
 
             if (!CANMsgType.EBS11.parseFromInt(msgBody.getCanID()).equals(Optional.empty())) {
                 Producer<KafkaMsgKey, Object> implSync = KafkaProducerStatic.getDataInstance();

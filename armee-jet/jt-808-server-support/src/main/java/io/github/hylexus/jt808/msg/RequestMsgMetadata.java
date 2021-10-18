@@ -14,6 +14,7 @@ public class RequestMsgMetadata {
     protected RequestMsgHeader header;
     protected byte[] bodyBytes;
     protected byte checkSum;
+    protected byte[] unescaped;
     protected MsgType msgType;
 
     @Override

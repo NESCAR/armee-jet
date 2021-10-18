@@ -35,6 +35,9 @@ public class Decoder {
     public RequestMsgMetadata parseMsgMetadata(Jt808ProtocolVersion version, byte[] bytes) {
         final RequestMsgMetadata ret=new RequestMsgMetadata();
 
+        //bytes包含校验码
+        ret.setUnescaped(bytes);
+
         // 1. 消息头 16byte 或 12byte
         final RequestMsgHeader msgHeader = this.parseMsgHeaderFromBytes(version, bytes);
         ret.setHeader(msgHeader);
@@ -70,7 +73,7 @@ public class Decoder {
     public boolean validateCheckSum(byte[] bytes, RequestMsgHeader msgHeader, byte checkSumInPkg) {
         final int calculatedCheckSum = this.bytesEncoder.calculateCheckSum(bytes, 0, bytes.length - 1);
         if (checkSumInPkg != calculatedCheckSum) {
-            log.warn("检验码不一致,msgId:{},expected : {},calculated : {}", msgHeader.getMsgId(), checkSumInPkg, calculatedCheckSum);
+            log.warn("检验码不一致,msgId:{},actual : {},expected : {}", msgHeader.getMsgId(), checkSumInPkg, calculatedCheckSum);
             return false;
         }
         return true;

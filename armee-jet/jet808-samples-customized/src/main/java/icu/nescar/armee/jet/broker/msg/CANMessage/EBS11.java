@@ -27,7 +27,7 @@ public class EBS11 implements CANMsgBody, Serializable {
     private int retarderDemandRelativePressure;
     private int relativeBrakeDemandFrontLeftSide;
     private int relativeBrakeDemandRearRightSide;
-    private byte[] canTime;
+//    private byte[] canTime;
 
 }
 

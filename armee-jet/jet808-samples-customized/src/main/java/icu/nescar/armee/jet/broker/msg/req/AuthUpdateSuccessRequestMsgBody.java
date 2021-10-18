@@ -22,8 +22,11 @@ import java.io.Serializable;
 public class AuthUpdateSuccessRequestMsgBody implements RequestMsgBody, Serializable {
     private static final long serialVersionUID = -7197293729749L;
     //司机身份信息,在上层存储叫icCode
-    @BasicField(startIndex = 0,dataType = MsgDataType.STRING,length=1)
+//    @BasicField(startIndex = 0,dataType = MsgDataType.BYTES,length=6)
+//    private byte[] driverID;
+    @BasicField(startIndex = 0,dataType = MsgDataType.STRING,length=6)
     private String driverID;
+
 
     @BasicField(startIndex =6 ,dataType = MsgDataType.BYTES,length = 6)
     private byte[] lockTimeStart;//上锁时间起点 YY-MM-DD-hh-mm-ss GMT+8时间

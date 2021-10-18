@@ -4,9 +4,7 @@ import icu.nescar.armee.jet.broker.config.Jt808MsgType;
 import icu.nescar.armee.jet.broker.ext.conf.ConfArguments;
 import icu.nescar.armee.jet.broker.ext.producer.Producer;
 import icu.nescar.armee.jet.broker.ext.producer.kafka.msg.KafkaMsgKey;
-import icu.nescar.armee.jet.broker.msg.req.AlarmUploadRequestMsgBody;
 import icu.nescar.armee.jet.broker.msg.req.LocationUploadRequestMsgBody;
-import icu.nescar.armee.jet.broker.util.TimeConverter;
 
 /**
  * Main函数发送Kafka消息
