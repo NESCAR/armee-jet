@@ -1,6 +1,10 @@
 package icu.nescar.armee.jet.broker.handler.upload;
 
 import icu.nescar.armee.jet.broker.config.Jt808MsgType;
+import icu.nescar.armee.jet.broker.ext.producer.Producer;
+import icu.nescar.armee.jet.broker.ext.producer.kafka.KafkaProducerStatic2;
+import icu.nescar.armee.jet.broker.ext.producer.kafka.msg.KafkaMsgKey;
+import icu.nescar.armee.jet.broker.msg.req.AuthUpdateSuccessRequestMsgBody;
 import icu.nescar.armee.jet.broker.util.CheckSum;
 import io.github.hylexus.jt.annotation.msg.handler.Jt808RequestMsgHandler;
 import io.github.hylexus.jt.annotation.msg.handler.Jt808RequestMsgHandlerMapping;
@@ -37,22 +41,27 @@ public class TerminalCommonReplyMsgHandler  {
             Session session, RequestMsgMetadata metadata,
             RequestMsgHeader header, BuiltinTerminalCommonReplyMsgBody msgBody
     ) {
-        assert header.getMsgId() == Jt808MsgType.CLIENT_CAN_INFO_UPLOAD.getMsgId();
+//        assert header.getMsgId() == Jt808MsgType.CLIENT_CAN_INFO_UPLOAD.getMsgId();
         assert session.getTerminalId().equals(header.getTerminalId());
         assert session.getTerminalId().equals(metadata.getHeader().getTerminalId());
         assert metadata.getHeader() == header;
-        //如果校验码一致
+        //如果校验码一致 本身这里会写入commandkey 从而使不再重复发送 去掉这个机制 不使用
+
         if (checkSum.validateCheckSum(metadata.getUnescaped(), metadata.getHeader(), metadata.getCheckSum())) {
-            try {
-                Jt808CommandKey commandKey = Jt808CommandKey.of(metadata.getMsgType(), metadata.getHeader().getTerminalId(), metadata.getHeader().getFlowId());
-//                commandKey.setFlowId(metadata.getHeader().getFlowId());
-                commandKey.setFlowId(msgBody.getReplyFlowId());
-                commandKey.setMsgType(metadata.getMsgType());
-                commandKey.setTerminalId(metadata.getHeader().getTerminalId());
-                CommandWaitingPool.getInstance().putIfNecessary(commandKey, "result for " + commandKey.getKeyAsString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//
+//                Jt808CommandKey commandKey = Jt808CommandKey.of(metadata.getMsgType(), metadata.getHeader().getTerminalId(), metadata.getHeader().getFlowId());
+//               commandKey.setFlowId(metadata.getHeader().getFlowId());
+//                commandKey.setFlowId(msgBody.getReplyFlowId());
+//                commandKey.setMsgType(metadata.getMsgType());
+//                commandKey.setTerminalId(metadata.getHeader().getTerminalId());
+//                CommandWaitingPool.getInstance().putIfNecessary(commandKey, "result for " + commandKey.getKeyAsString());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+
+
+
             log.info("收到终端通用应答 terminalId = {}, msgBody = {}", session.getTerminalId(), msgBody);
             return CommonReplyMsgBody.success(header.getFlowId(), Jt808MsgType.CLIENT_COMMON_REPLY);
 

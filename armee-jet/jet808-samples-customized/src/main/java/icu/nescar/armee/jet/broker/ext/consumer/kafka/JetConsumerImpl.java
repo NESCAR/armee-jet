@@ -75,22 +75,33 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
         while (true) {
             long startMs = System.currentTimeMillis() / 1000;
             //log.info("start : " + startMs);
-            //TODO 当终端存在连接时，能够下发成功。但目前终端无法返回值，所以resp是null
+            //当终端存在连接时，下发。否则无法发送
 
             ConsumerRecords<MsgKey, byte[]> records = (ConsumerRecords<MsgKey, byte[]>) receive(Duration.ofSeconds(1));
             timeout=VmOptions.TIME_OUT;
             //重试发送消息的最大次数
-            int maxTry=5;
+//            int maxTry=5;
             for (ConsumerRecord<MsgKey, byte[]> record : records) {
                 String terminalId = record.key().getTerminalId();
-                        if (sessionManager.findByTerminalId(terminalId).isPresent()) {
+                AuthInfoSettingsMsgBody lockInfo = (AuthInfoSettingsMsgBody) SerializationUtil.deserialize(record.value());//设置具体的下发信息内容
+                commandLockAuthMsg = CommandMsg.of(terminalId, CLIENT_COMMON_REPLY, lockInfo);
+                log.info("收到平台的授权消息:" + commandLockAuthMsg.toString() + ";body:" + commandLockAuthMsg.getBody());
+
+                if (sessionManager.findByTerminalId(terminalId).isPresent()) {
                             if (record.key().getMsgId() == 0x8F00) {//msgid是授权消息下发
-                                for(int i=0;i<maxTry;i++){
-                                    authCommandSend(terminalId,record);}
-                                if(flag==0){
-                                log.info("重试五次，但下发消息依旧失败，停止发送");}
-
-
+//                                for(int i=0;i<maxTry;i++){
+//                                    authCommandSend(terminalId,record);}
+//                                if(flag==0){
+//                                log.info("重试五次，但下发消息依旧失败，停止发送");}
+                                //收到授权信息 直接下发，不等待回复。
+                              try {
+                                    commandSender.sendCommand(commandLockAuthMsg);
+                                    log.info("下发授权消息成功");
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         } else {
                             log.info("收到平台下发信息，但无法发送，由于该终端:{},未连接", terminalId);
@@ -123,6 +134,7 @@ public class JetConsumerImpl extends KafkaConsumerImpl<ConsumerRecord<MsgKey, by
 
 
     }
+    //下发授权消息给终端 且等待回复
     public void authCommandSend(String terminalId,ConsumerRecord<MsgKey, byte[]> record){
 
         AuthInfoSettingsMsgBody lockInfo = (AuthInfoSettingsMsgBody) SerializationUtil.deserialize(record.value());//设置具体的下发信息内容

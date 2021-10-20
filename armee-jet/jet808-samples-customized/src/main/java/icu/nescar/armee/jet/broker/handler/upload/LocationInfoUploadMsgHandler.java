@@ -43,7 +43,8 @@ public class LocationInfoUploadMsgHandler{
             RequestMsgHeader header,LocationUploadRequestMsgBody msgBody
     ) {
         //对校验码进行判断 不一致的话就不进行上传操作
-        if (checkSum.validateCheckSum(metadata.getUnescaped(), metadata.getHeader(), metadata.getCheckSum())) {
+        if (checkSum.validateCheckSum(metadata.getBodyBytes(), metadata.getHeader(), metadata.getCheckSum()))
+        {
                 Producer<KafkaMsgKey, Object> implSync = KafkaProducerStatic.getDataInstance();
                 try {
                     KafkaMsgKey key = new KafkaMsgKey(session.getTerminalId(), Jt808MsgType.CLIENT_LOCATION_INFO_UPLOAD.getMsgId());

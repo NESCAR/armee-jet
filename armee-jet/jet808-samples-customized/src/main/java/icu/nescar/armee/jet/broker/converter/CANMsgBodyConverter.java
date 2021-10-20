@@ -29,7 +29,10 @@ public class CANMsgBodyConverter implements RequestMsgBodyConverter<CANMsgReques
         byte[] bytes = requestMsgMetadata.getBodyBytes();
         CANMsgRequestMsgBody body=new CANMsgRequestMsgBody();
 //        body.setMsgItem(intFromBytes(bytes,0,2));
-        body.setCanTime(new Date());
+        //转换成rfc时间格式
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        String timeStr = simpleDateFormat.format(new Date());
+        body.setCanTime(timeStr);
         body.setCanID(intFromBytes(bytes,0,4));
         byte[] canData=Arrays.copyOfRange(bytes,4,12);
         switch (body.getCanID()){

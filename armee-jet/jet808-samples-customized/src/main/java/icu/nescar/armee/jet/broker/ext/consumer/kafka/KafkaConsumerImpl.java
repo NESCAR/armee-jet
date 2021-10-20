@@ -75,6 +75,7 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, KafkaMsgKeyDeserializer.class.getName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ByteArrayDeserializer.class.getName());
         props.put(ConsumerConfig.CLIENT_ID_CONFIG, CgName + broker + consumerId);
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG,"300");
 
         consumer = new KafkaConsumer<>(props);
         this.topic = topic;
@@ -89,7 +90,7 @@ public class KafkaConsumerImpl<T extends ConsumerRecord<MsgKey, byte[]>> impleme
         }
         log.info(String.format("KafkaConsumerImpl : [%s   %s   %s]", topic, CgName, consumerId));
 //        consumer.assign(tpList);
-        // 如果宕机，则需要恢复到offset
+////         如果宕机，则需要恢复到offset
 //        resetConsumer();
     }
 
