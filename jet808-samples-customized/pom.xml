@@ -85,7 +85,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.59</version>
+            <version>1.2.83</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.github.hylexus.jt/jt-808-server-support -->
         <dependency>
